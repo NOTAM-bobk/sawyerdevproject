@@ -29,11 +29,11 @@ const assistants = [
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      // The admin panel and the client dashboards are private: no crawling
-      // them, and no indexing them.
-      { userAgent: "*", allow: "/", disallow: ["/admin", "/dashboard"] },
-      { userAgent: "Googlebot", allow: "/", disallow: ["/admin", "/dashboard"] },
-      { userAgent: "bingbot", allow: "/", disallow: ["/admin", "/dashboard"] },
+      // The admin panel, client dashboards, and invoices are private:
+      // no crawling them, and no indexing them.
+      { userAgent: "*", allow: "/", disallow: ["/admin", "/dashboard", "/invoice"] },
+      { userAgent: "Googlebot", allow: "/", disallow: ["/admin", "/dashboard", "/invoice"] },
+      { userAgent: "bingbot", allow: "/", disallow: ["/admin", "/dashboard", "/invoice"] },
       { userAgent: "Google-Extended", allow: "/" },
       { userAgent: "CCBot", allow: "/" },
       { userAgent: assistants, allow: "/" },

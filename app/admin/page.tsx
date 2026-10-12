@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
 import { AdminClients } from "@/components/admin-clients";
+import { AdminInvoices } from "@/components/admin-invoices";
 import { AdminLogin } from "@/components/admin-login";
 import { AdminSubmissions } from "@/components/admin-submissions";
 import { Container } from "@/components/ui";
 import { isAdminConfigured, isSignedIn } from "@/lib/admin";
+import { listInvoices } from "@/lib/invoices";
+import type { Invoice } from "@/lib/invoice-types";
 import { listProjects, type Project } from "@/lib/projects";
 import { isStorageConfigured, listSubmissions, type Submission } from "@/lib/submissions";
 
@@ -33,17 +36,22 @@ export default async function AdminPage() {
   // A database outage should say so, not throw a stack trace at you.
   let submissions: Submission[] = [];
   let projects: Project[] = [];
+  let invoices: Invoice[] = [];
   let storageError = "";
   if (storageReady) {
     try {
-      [submissions, projects] = await Promise.all([listSubmissions(), listProjects()]);
+      [submissions, projects, invoices] = await Promise.all([
+        listSubmissions(),
+        listProjects(),
+        listInvoices(),
+      ]);
     } catch (error) {
       storageError = error instanceof Error ? error.message : "Could not reach storage.";
     }
   }
 
   return (
-    <Container className="py-16 md:py-20">
+    <Container className="py-16 md:py-20 space-y-12">
       <AdminSubmissions
         submissions={submissions}
         storageReady={storageReady}
@@ -51,6 +59,8 @@ export default async function AdminPage() {
       />
 
       {storageReady && !storageError ? <AdminClients projects={projects} /> : null}
+
+      {storageReady && !storageError ? <AdminInvoices initialInvoices={invoices} /> : null}
     </Container>
   );
 }
