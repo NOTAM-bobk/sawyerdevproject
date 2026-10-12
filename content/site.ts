@@ -294,6 +294,42 @@ export const dashboard = {
     "Sign in with the code you are given the moment you send your enquiry. There is no account to create and nothing to install.",
 } as const;
 
+/**
+ * The case for having a site at all, aimed at a small business rather than a
+ * developer. Deliberately free of invented statistics — every claim here is
+ * something the buyer already knows from their own week.
+ */
+export const whyASite = {
+  eyebrow: "Why it pays off",
+  title: "What a site actually does for a business.",
+  intro:
+    "A website isn't decoration. For a small business it does four jobs every day, whether or not anyone is watching — and none of them need a big site.",
+  reasons: [
+    {
+      title: "People check you out before they call",
+      body: "Almost every first contact starts with a search or with a link somebody forwarded. If all that turns up is an old social page, the decision gets made without you in the room.",
+      payoff: "One link that says what you do, where you work and how to reach you.",
+    },
+    {
+      title: "It answers the questions you keep repeating",
+      body: "Hours, prices, service area, whether you take that kind of job, how far you travel. Written down once, in the place people actually look for it.",
+      payoff: "Fewer quick-question calls, and more of the calls that are ready to book.",
+    },
+    {
+      title: "It makes a one-person operation look established",
+      body: "A clean site that loads quickly reads the same whether you're one person or ten. A half-finished page reads like a hobby — and customers price accordingly.",
+      payoff: "You get compared on your work instead of on your web presence.",
+    },
+    {
+      title: "It works when you're not",
+      body: "The enquiry form takes the details at 11pm on a Sunday, while you're on a job or asleep. You read them in the morning with everything you need to reply.",
+      payoff: "Every enquiry gets written down — nothing lost in a DM or a missed call.",
+    },
+  ],
+  note:
+    "That's the whole case for a small site: be findable, look established, stop repeating yourself, and catch the enquiries that arrive while you're busy. One page that loads fast does most of it — which is why the build is $299 once, not a monthly retainer.",
+} as const;
+
 export const pricing = {
   eyebrow: "Pricing",
   title: "One site. $299.",

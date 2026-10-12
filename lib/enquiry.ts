@@ -15,6 +15,7 @@ export const REQUIRED_ANSWER_NAMES = [
   "email",
   "projectType",
   "goal",
+  "audience",
   "designStyles",
   "pages",
   "timeframe",

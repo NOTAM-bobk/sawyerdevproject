@@ -15,7 +15,7 @@ import {
   SectionHeading,
   Tag,
 } from "@/components/ui";
-import { about, dashboard, pillars, pricing, projects, site, stack, stats } from "@/content/site";
+import { about, dashboard, pillars, pricing, projects, site, stack, stats, whyASite } from "@/content/site";
 
 /** The two projects worth leading with, picked by name from the content file. */
 const SHOWCASE = ["Ben Launches — Boring Internet", "base31.org"];
@@ -182,6 +182,57 @@ export default function HomePage() {
               </Reveal>
             ))}
           </div>
+        </Container>
+      </Section>
+
+      {/* ---------------------------------------------------------- Why a site */}
+      <Section>
+        <Container>
+          <Reveal>
+            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+              <SectionHeading
+                eyebrow={whyASite.eyebrow}
+                title={
+                  <>
+                    What a site does for a business like <Scribbled delay={300}>yours</Scribbled>.
+                  </>
+                }
+                description={whyASite.intro}
+              />
+              <ButtonLink href="/start" variant="secondary" className="shrink-0">
+                Start a project
+                <ArrowUpRight className="h-4 w-4" />
+              </ButtonLink>
+            </div>
+          </Reveal>
+
+          <div className="mt-12 grid gap-5 sm:grid-cols-2">
+            {whyASite.reasons.map((reason, index) => (
+              <Reveal key={reason.title} delay={index * 80} className="h-full">
+                <div className="surface surface-lift flex h-full flex-col p-7">
+                  <span className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="mt-4 text-base font-medium tracking-[-0.02em]">{reason.title}</h3>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-muted text-pretty">
+                    {reason.body}
+                  </p>
+                  <p className="mt-5 border-t border-line pt-4 text-sm leading-relaxed text-ink-soft text-pretty">
+                    {reason.payoff}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal delay={120}>
+            <div className="mt-8 flex flex-col gap-3 rounded-2xl border border-line bg-mist px-6 py-5 sm:flex-row sm:items-center sm:gap-6">
+              <span className="font-mono text-[11px] tracking-[0.18em] whitespace-nowrap text-muted uppercase">
+                In short
+              </span>
+              <p className="text-sm leading-relaxed text-ink-soft text-pretty">{whyASite.note}</p>
+            </div>
+          </Reveal>
         </Container>
       </Section>
 

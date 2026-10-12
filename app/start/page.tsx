@@ -13,12 +13,12 @@ import { breadcrumbSchema, contactPageSchema } from "@/lib/seo";
 export const metadata: Metadata = {
   title: "Start a project",
   description:
-    "Tell me about your project: what you need built, your design style, the pages you want, what it should connect to, and when you need it live. Fixed price, $299 for a full site, with no upfront cost.",
+    "Tell me about your project and your business: what you need built, who it is for, your design style, the pages you want, what it connects to, your domain, and when you need it live. Fixed price, $299 for a full site, with no upfront cost.",
   alternates: { canonical: "/start" },
   openGraph: {
     title: "Start a project — Sawyer Schulz",
     description:
-      "Answer a few questions about your project — design style, pages, integrations, timeline — and get a plan, a fixed price and a timeline back within a day.",
+      "Answer a few questions about your project and business — who it is for, design style, pages, integrations, domain and timeline — and get a plan, a fixed price and a timeline back within a day.",
     url: "/start",
   },
 };
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 const nextSteps = [
   {
     title: "You send this",
-    body: "Three short steps. Rough answers are fine — the useful detail usually comes out in the reply.",
+    body: "Four short steps. Rough answers are fine — the useful detail usually comes out in the reply.",
   },
   {
     title: "I reply within a day",

@@ -52,7 +52,33 @@ export function SiteHeader() {
 
       <header className="sticky top-0 z-50 border-b border-line bg-paper/85 shadow-[0_1px_0_rgba(255,255,255,0.7)_inset,0_6px_18px_-16px_rgba(10,10,10,0.5)] backdrop-blur-md">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-6">
-          <div className="flex items-center gap-1">
+          {/* The identity block sits on the left, avatar outermost. */}
+          <Link
+            href="/"
+            className="group flex min-w-0 items-center gap-2.5"
+            aria-label={`${site.company} — home`}
+          >
+            <span className="chip3d relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-line-strong bg-paper transition-colors duration-300 group-hover:border-ink">
+              <Image
+                src={avatarUrl({ size: 128, format: "png" })}
+                alt=""
+                width={36}
+                height={36}
+                preload
+                className="h-full w-full scale-[1.08] object-cover transition-transform duration-300 group-hover:scale-[1.16]"
+              />
+            </span>
+            <span className="flex min-w-0 flex-col">
+              <span className="text-xs leading-tight font-medium tracking-tight text-balance sm:text-sm">
+                {site.company}
+              </span>
+              <span className="hidden text-[11px] leading-tight text-muted lg:block">
+                {site.role}
+              </span>
+            </span>
+          </Link>
+
+          <div className="flex items-center gap-2">
             <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
               {nav.map((item) => (
                 <Link
@@ -71,6 +97,14 @@ export function SiteHeader() {
               ))}
             </nav>
 
+            <Link
+              href="/start"
+              className="btn3d btn3d-dark hidden items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-medium text-paper sm:inline-flex"
+            >
+              Start a project
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </Link>
+
             <button
               type="button"
               onClick={() => setOpen((value) => !value)}
@@ -81,42 +115,6 @@ export function SiteHeader() {
             >
               {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Link
-              href="/start"
-              className="btn3d btn3d-dark hidden items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-medium text-paper sm:inline-flex"
-            >
-              Start a project
-              <ArrowUpRight className="h-3.5 w-3.5" />
-            </Link>
-
-            {/* The identity block sits on the right, company name outermost. */}
-            <Link
-              href="/"
-              className="group flex flex-row-reverse items-center gap-2.5 text-right"
-              aria-label={`${site.company} — home`}
-            >
-              <span className="chip3d relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl border border-line-strong bg-paper transition-colors duration-300 group-hover:border-ink">
-                <Image
-                  src={avatarUrl({ size: 128, format: "png" })}
-                  alt=""
-                  width={36}
-                  height={36}
-                  preload
-                  className="h-full w-full scale-[1.08] object-cover transition-transform duration-300 group-hover:scale-[1.16]"
-                />
-              </span>
-              <span className="flex min-w-0 flex-col">
-                <span className="text-xs leading-tight font-medium tracking-tight text-balance sm:text-sm">
-                  {site.company}
-                </span>
-                <span className="hidden text-[11px] leading-tight text-muted lg:block">
-                  {site.role}
-                </span>
-              </span>
-            </Link>
           </div>
         </div>
 
