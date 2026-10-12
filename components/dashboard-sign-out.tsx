@@ -26,7 +26,9 @@ export function DashboardSignOut({ label = "Sign out" }: { label?: string }) {
       className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-ink disabled:opacity-60"
     >
       {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <LogOut className="h-3.5 w-3.5" />}
-      {label}
+      {/* The icon carries it on a phone, where the bar has no room to spare. */}
+      <span className="hidden sm:inline">{label}</span>
+      <span className="sr-only sm:hidden">{label}</span>
     </button>
   );
 }

@@ -53,7 +53,7 @@ export function LegalPage({
             >
               {site.email}
             </a>{" "}
-            or call {site.phone}.
+            or message {site.phone} — I don&apos;t take phone calls.
           </p>
         </Container>
       </Section>

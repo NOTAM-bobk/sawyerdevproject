@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { LayoutDashboard } from "lucide-react";
 import { SketchFlourish } from "@/components/doodles";
 import { Container } from "@/components/ui";
 import { nav, site } from "@/content/site";
@@ -57,7 +58,11 @@ export function SiteFooter() {
               </li>
             ))}
             <li>
-              <Link href="/dashboard" className="transition-colors hover:text-ink">
+              <Link
+                href="/dashboard"
+                className="chip3d inline-flex items-center gap-1.5 rounded-full border border-ink bg-paper px-3 py-1.5 text-ink transition-colors hover:bg-ink hover:text-paper"
+              >
+                <LayoutDashboard className="h-3 w-3" />
                 Dashboard
               </Link>
             </li>

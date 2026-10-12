@@ -14,7 +14,7 @@ export function GET() {
 
 > ${site.role}, based in ${site.location}. Designs and builds websites for people and small businesses at one fixed price of ${option.price}.
 
-${site.name} is a web designer and developer in ${site.location}, reachable at ${site.email} or ${site.phone}.
+${site.name} is a web designer and developer in ${site.location}, reachable by email or text message at ${site.email} or ${site.phone} (Sawyer does not take phone calls).
 
 ## Pages
 
@@ -50,7 +50,7 @@ ${about.toolbox.map((group) => `- ${group.group}: ${group.items.join(", ")}`).jo
 ## Contact
 
 - Email: ${site.email}
-- Phone: ${site.phone}
+- Phone (text messages only — no calls): ${site.phone}
 - Based in: ${site.location}
 `;
 

@@ -4,13 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowUpRight, LayoutDashboard, Menu, X } from "lucide-react";
+import { useHasStarted } from "@/components/project-cta";
 import { nav, site } from "@/content/site";
 import { avatarUrl } from "@/lib/dicebear";
 
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  // Someone who has already sent an enquiry wants their dashboard, not the
+  // form again — the same swap the rest of the site's buttons make.
+  const started = useHasStarted();
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
@@ -34,6 +38,10 @@ export function SiteHeader() {
       document.body.style.overflow = previousOverflow;
     };
   }, [open]);
+
+  // The dashboard is its own surface: it renders its own slim bar, so the
+  // marketing header and its menu stay out of the way.
+  if (pathname === "/dashboard" || pathname.startsWith("/dashboard/")) return null;
 
   return (
     <>
@@ -98,11 +106,12 @@ export function SiteHeader() {
             </nav>
 
             <Link
-              href="/start"
+              href={started ? "/dashboard" : "/start"}
               className="btn3d btn3d-dark hidden items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-medium text-paper sm:inline-flex"
             >
-              Start a project
-              <ArrowUpRight className="h-3.5 w-3.5" />
+              {started ? <LayoutDashboard className="h-3.5 w-3.5" /> : null}
+              {started ? "Open dashboard" : "Start a project"}
+              {started ? null : <ArrowUpRight className="h-3.5 w-3.5" />}
             </Link>
 
             <button
@@ -134,12 +143,13 @@ export function SiteHeader() {
                 </Link>
               ))}
               <Link
-                href="/start"
+                href={started ? "/dashboard" : "/start"}
                 onClick={closeMenu}
                 className="btn3d btn3d-dark mt-4 inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-medium text-paper"
               >
-                Start a project
-                <ArrowUpRight className="h-3.5 w-3.5" />
+                {started ? <LayoutDashboard className="h-3.5 w-3.5" /> : null}
+                {started ? "Open dashboard" : "Start a project"}
+                {started ? null : <ArrowUpRight className="h-3.5 w-3.5" />}
               </Link>
             </nav>
           </div>

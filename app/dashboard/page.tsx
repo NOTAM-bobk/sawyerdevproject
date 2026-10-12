@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ClientDashboard } from "@/components/client-dashboard";
+import { DashboardBar } from "@/components/dashboard-bar";
 import { DashboardLogin } from "@/components/dashboard-login";
 import { DashboardProjects } from "@/components/dashboard-projects";
 import { Container } from "@/components/ui";
@@ -33,13 +34,19 @@ export default async function DashboardPage() {
       storageError = error instanceof Error ? error.message : "Could not reach storage.";
     }
     return (
-      <Container className="py-14 md:py-20">
-        <DashboardProjects
-          projects={projects}
-          storageReady={storageReady}
-          storageError={storageError}
+      <>
+        <DashboardBar
+          label="Your dashboards"
+          links={[{ href: "/admin", label: "Enquiries" }]}
         />
-      </Container>
+        <Container className="pt-10 pb-16 md:pt-14 md:pb-20">
+          <DashboardProjects
+            projects={projects}
+            storageReady={storageReady}
+            storageError={storageError}
+          />
+        </Container>
+      </>
     );
   }
 
@@ -55,8 +62,11 @@ export default async function DashboardPage() {
   }
 
   return (
-    <Container className="flex min-h-[70vh] flex-col justify-center py-20">
-      <DashboardLogin ready={isAdminConfigured() || storageReady} />
-    </Container>
+    <>
+      <DashboardBar label="Client dashboard" signedIn={false} />
+      <Container className="flex min-h-[70vh] flex-col justify-center py-20">
+        <DashboardLogin ready={isAdminConfigured() || storageReady} />
+      </Container>
+    </>
   );
 }

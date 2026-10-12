@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { ArrowUpRight } from "lucide-react";
 import { CtaBand } from "@/components/cta-band";
 import { PageHero } from "@/components/page-hero";
+import { ProjectCta } from "@/components/project-cta";
 import { Reveal } from "@/components/reveal";
 import { JsonLd } from "@/components/json-ld";
 import { ButtonLink, Container, MetaRow, Section, SectionHeading, Tag } from "@/components/ui";
@@ -31,10 +31,7 @@ export default function ExperiencePage() {
         description={experience.intro}
       >
         <div className="flex flex-wrap items-center gap-3">
-          <ButtonLink href="/start" className="px-6 py-3">
-            Start a project
-            <ArrowUpRight className="h-4 w-4" />
-          </ButtonLink>
+          <ProjectCta className="px-6 py-3" />
           <ButtonLink href="/projects" variant="secondary" className="px-6 py-3">
             See the work
           </ButtonLink>

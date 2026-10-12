@@ -95,7 +95,7 @@ const AGAIN = "I'll update this page as it moves.";
 function defaultChecklist(): ProjectItem[] {
   return [
     ["Enquiry received", true],
-    ["Kick-off call", false],
+    ["Kick-off chat", false],
     ["Content collected", false],
     ["First design look", false],
     ["Build", false],

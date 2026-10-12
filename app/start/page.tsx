@@ -82,7 +82,7 @@ export default function StartPage() {
                 </div>
                 <h3 className="mt-4 text-sm font-semibold text-ink">24-Hour Review</h3>
                 <p className="mt-1.5 text-xs leading-relaxed text-muted">
-                  I review every brief personally and reply within a day with an exact plan, timeline, and suggestions.
+                  I review every brief personally and reply by email or text within a day — never a call — with an exact plan, timeline, and suggestions.
                 </p>
               </div>
 
@@ -116,14 +116,13 @@ export default function StartPage() {
                 <Mail className="h-3.5 w-3.5 text-warm" />
                 {site.email}
               </a>
-              <a
-                href={site.phoneHref}
-                className="inline-flex items-center gap-2 text-ink-soft hover:text-ink transition-colors"
-              >
+              {/* Not a tel: link — the number is for texts, and the site never
+                  asks anyone to expect a call. */}
+              <span className="inline-flex items-center gap-2 text-ink-soft">
                 <Phone className="h-3.5 w-3.5 text-warm" />
-                {site.phone}
-              </a>
-              <span>{site.location} · {site.timezone}</span>
+                {site.phone} (texts only)
+              </span>
+              <span>{site.location} · {site.timezone} · I never call</span>
             </div>
           </div>
         </div>

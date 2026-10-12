@@ -346,17 +346,18 @@ export const projectForm: {
           name: "phone",
           label: "Phone Number",
           placeholder: "(555) 000-0000",
-          hint: "Optional — handy for quick SMS or call updates.",
+          hint: "Optional — I only ever use this to text you.",
           half: true,
         },
         {
           type: "radio",
           name: "contactPreference",
           label: "How do you prefer I send your project quote & plan?",
+          hint: "I never call — replies come by email or text message, your pick.",
           options: [
             { value: "email", label: "Email (detailed breakdown with links)" },
             { value: "text", label: "Text message (quick heads-up with link)" },
-            { value: "phone", label: "Phone call (brief 10-minute walk-through)" },
+            { value: "either", label: "Either is fine" },
           ],
         },
         {

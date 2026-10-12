@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { ArrowUpRight, CalendarClock, ListChecks, MessagesSquare, Radio } from "lucide-react";
+import { ArrowUpRight, CalendarClock, LayoutDashboard, ListChecks, MessagesSquare, Radio } from "lucide-react";
 import { CtaBand } from "@/components/cta-band";
 import { SketchHighlight, SketchSparkle } from "@/components/doodles";
 import { PricingCard } from "@/components/pricing-card";
+import { ProjectCta } from "@/components/project-cta";
 import { ProjectCard } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
 import { Reviews } from "@/components/reviews";
@@ -199,10 +200,7 @@ export default function HomePage() {
                 }
                 description={whyASite.intro}
               />
-              <ButtonLink href="/start" variant="secondary" className="shrink-0">
-                Start a project
-                <ArrowUpRight className="h-4 w-4" />
-              </ButtonLink>
+              <ProjectCta variant="secondary" className="shrink-0" />
             </div>
           </Reveal>
 
@@ -251,9 +249,9 @@ export default function HomePage() {
                 }
                 description={dashboard.intro}
               />
-              <ButtonLink href="/start" variant="secondary" className="shrink-0">
-                Start a project
-                <ArrowUpRight className="h-4 w-4" />
+              <ButtonLink href="/dashboard" variant="secondary" className="shrink-0">
+                <LayoutDashboard className="h-4 w-4" />
+                Open your dashboard
               </ButtonLink>
             </div>
           </Reveal>
@@ -325,10 +323,7 @@ export default function HomePage() {
               ))}
             </dl>
             <div className="mt-8 flex flex-wrap gap-3">
-              <ButtonLink href="/start" className="px-6 py-3">
-                Start a project
-                <ArrowUpRight className="h-4 w-4" />
-              </ButtonLink>
+              <ProjectCta className="px-6 py-3" />
               <ButtonLink href="/experience" variant="secondary" className="px-6 py-3">
                 More about me
               </ButtonLink>

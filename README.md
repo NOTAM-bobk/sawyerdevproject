@@ -1,4 +1,4 @@
-# Sawyer Schulz — personal site r
+# Sawyer Schulz — personal site
 
 A Vercel-styled personal site with hand-drawn accents, plus the backend behind it:
 the enquiry form, a password-protected admin panel, and a private dashboard for each client.
@@ -30,6 +30,11 @@ What happens when someone sends an enquiry:
 4. The record appears at **`/admin`**, which is where you read enquiries. There is no
    email step — the database is the only copy, so `MONGODB_URI` is the one variable
    that really matters.
+
+That visitor's browser remembers one thing: that they have a dashboard. From then on the
+header button, the section calls to action and the closing band say **Open dashboard**
+instead of **Start a project**. It is a `localStorage` flag and nothing more — the access
+code itself is never written to the browser.
 
 ---
 
@@ -87,6 +92,7 @@ and Preview), and in `.env.local` for local work. `.env*` files are gitignored.
 | `ADMIN_PASSWORD` | **yes** | The password for `/admin` and for your own view of `/dashboard`. It also signs the session cookies, so changing it signs out every device. |
 | `MONGODB_URI` | **yes** | Where enquiries and client dashboards are stored — the only delivery path, since there is no email service. Without it the form can only offer a pre-filled email and `/admin` has nothing to show. |
 | `NEXT_PUBLIC_SITE_URL` | no | Your canonical domain, e.g. `https://yourdomain.com`. Used for canonical URLs, Open Graph tags, the sitemap and the JSON-LD. On Vercel this is worked out for you from the project's production domain, so you only need it if you want to force a particular one. |
+| `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_R2_ACCESS_KEY_ID`, `CLOUDFLARE_R2_SECRET_ACCESS_KEY`, `CLOUDFLARE_R2_BUCKET`, `CLOUDFLARE_R2_PUBLIC_URL` | no | Where the files clients upload to their dashboard are stored (Cloudflare R2, S3-compatible, no egress fees). Leave them empty and uploads are kept in MongoDB instead — smaller, but nothing else changes. |
 
 After changing an env var on Vercel, **redeploy** — variables are read at build/run time.
 
@@ -227,6 +233,11 @@ A visitor fills it in, and on submit:
 
 A hidden honeypot field catches bots: if it is filled, the request is silently dropped.
 
+The form asks how to reply and offers exactly two answers — **email** or a **text
+message**. Nothing on the site promises a phone call, so nothing in it should ever send
+one: the reply options and the phone field's hint live in
+[`content/form.ts`](./content/form.ts), and the number is described as text-only.
+
 ### Your admin panel — `/admin`
 Linked from the footer. Sign in with `ADMIN_PASSWORD`.
 
@@ -246,6 +257,18 @@ One sign-in for two kinds of visitor:
 - **A client** types their code and sees only their own page: whether you took the job,
   your note, current stats, what you are working on with a progress bar, dated updates,
   the checklist, project links, a live deadline countdown, and a chat thread with you.
+
+The dashboard is deliberately unlike the rest of the site: the marketing header is out of
+the way, replaced by its own bar carrying a **Main site** button and **Sign out**. Under
+the project's title sits a sticky section nav — Overview, Updates, Chat, Assets,
+Checklist and, once there are any, Links — so a long page is always one click from any
+part of it. The site's footer stays, so legal links and your contact details are still
+reachable.
+
+The **Assets** section is the client's own uploader: logos, high-resolution pictures and
+brand documents land there and appear in the admin editor. It works with or without the
+optional R2 variables — without them the files are stored in MongoDB, which is fine for
+small ones.
 
 Access codes are the shape `XXXX-XXXX-XXXX` (case and dashes are forgiving) and are
 stored **hashed**, so they cannot be read back out — issue a new one if a client loses

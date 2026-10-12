@@ -35,6 +35,7 @@ export function ProjectChat({
   otherName,
   initialMessages,
   readOnly = false,
+  showTitle = true,
 }: {
   endpoint: string;
   /** Who is reading: decides which side of the thread belongs to them. */
@@ -44,6 +45,8 @@ export function ProjectChat({
   initialMessages: ProjectMessage[];
   /** True in the admin's preview of a client page: nothing here can post. */
   readOnly?: boolean;
+  /** False when the page around it already provides the section heading. */
+  showTitle?: boolean;
 }) {
   const [messages, setMessages] = useState<ProjectMessage[]>(initialMessages);
   const [draft, setDraft] = useState("");
@@ -157,20 +160,26 @@ export function ProjectChat({
 
   return (
     <section className="surface mt-6 p-6 md:p-7" aria-labelledby="project-chat-heading">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h2
-            id="project-chat-heading"
-            className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase"
-          >
-            Live chat
+      <div className={`flex flex-wrap items-center gap-4 ${showTitle ? "justify-between" : "justify-end"}`}>
+        {showTitle ? (
+          <div>
+            <h2
+              id="project-chat-heading"
+              className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase"
+            >
+              Live chat
+            </h2>
+            <p className="mt-2 text-xs text-muted">
+              {role === "admin"
+                ? `Messages here land on ${otherName}'s dashboard while they are on the page.`
+                : "Message me here and my reply shows up in this thread."}
+            </p>
+          </div>
+        ) : (
+          <h2 id="project-chat-heading" className="sr-only">
+            Chat
           </h2>
-          <p className="mt-2 text-xs text-muted">
-            {role === "admin"
-              ? `Messages here land on ${otherName}'s dashboard while they are on the page.`
-              : "Message me here and my reply shows up in this thread — no email needed."}
-          </p>
-        </div>
+        )}
         {readOnly ? (
           <span className="chip3d inline-flex items-center rounded-full border border-line bg-paper px-3 py-1.5 font-mono text-[10px] tracking-[0.14em] text-muted uppercase">
             Preview — read only

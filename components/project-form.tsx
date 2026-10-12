@@ -16,6 +16,7 @@ import {
 import { SketchCheck, SketchSparkle } from "@/components/doodles";
 import { projectForm, type Field } from "@/content/form";
 import { site } from "@/content/site";
+import { rememberProject } from "@/lib/client-flags";
 import { enquiryText, isValidEmail, type Answer } from "@/lib/enquiry";
 
 type Values = Record<string, string | string[]>;
@@ -135,6 +136,9 @@ export function ProjectForm() {
         | null;
 
       if (response.ok && data?.ok) {
+        // This browser now has a dashboard, so the site's call to action turns
+        // into "Open dashboard" from here on.
+        rememberProject();
         setAccessCode(typeof data.accessCode === "string" ? data.accessCode : "");
         setStatus("sent");
         return;

@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import { SketchSquiggle } from "@/components/doodles";
+import { ProjectCta } from "@/components/project-cta";
 import { Reveal } from "@/components/reveal";
 import { ButtonLink, Container, Eyebrow, Section } from "@/components/ui";
 import { site } from "@/content/site";
@@ -34,10 +35,7 @@ export function CtaBand({
               <ButtonLink href={site.phoneHref} variant="secondary" className="px-6 py-3">
                 {site.phone}
               </ButtonLink>
-              <ButtonLink href="/start" variant="secondary" className="px-6 py-3">
-                Start a project
-                <ArrowUpRight className="h-4 w-4" />
-              </ButtonLink>
+              <ProjectCta variant="secondary" className="px-6 py-3" />
             </div>
             <SketchSquiggle className="h-3 w-48 text-line-strong" delay={400} />
             <p className="font-mono text-[11px] tracking-wide text-muted uppercase">
