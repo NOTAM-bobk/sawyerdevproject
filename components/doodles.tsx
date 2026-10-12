@@ -5,6 +5,12 @@ type DoodleProps = SVGProps<SVGSVGElement> & {
   delay?: number;
 };
 
+/*
+ * Sizing note: these are inline SVGs, so any that is absolutely positioned with
+ * an auto width or height falls back to its intrinsic 300x120 ratio and ignores
+ * its insets. When a doodle should stretch, give it both dimensions — the
+ * `inset-0 h-full w-full` combination used by Circled and the stat circles.
+ */
 function drawStyle(delay: number): CSSProperties {
   return delay ? { animationDelay: `${delay}ms` } : {};
 }

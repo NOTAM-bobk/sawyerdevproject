@@ -25,7 +25,7 @@ export function ProjectCard({
       href={project.href ?? "#"}
       target={project.href?.startsWith("http") ? "_blank" : undefined}
       rel={project.href?.startsWith("http") ? "noreferrer" : undefined}
-      className={`group relative flex flex-col justify-between rounded-xl border border-line bg-paper p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-ink/30 hover:shadow-[0_1px_2px_rgba(0,0,0,0.04),0_16px_40px_-24px_rgba(0,0,0,0.35)] ${className}`}
+      className={`surface surface-lift group relative flex flex-col justify-between p-6 ${className}`}
     >
       <div>
         <div className="flex items-start justify-between">
@@ -38,8 +38,10 @@ export function ProjectCard({
         <p className="mt-2 text-sm leading-relaxed text-muted text-pretty">{project.summary}</p>
       </div>
       <div className="mt-7 flex flex-wrap gap-2">
-        {project.tags.map((tag) => (
-          <Tag key={tag}>{tag}</Tag>
+        {project.tags.map((tag, tagIndex) => (
+          <Tag key={tag} tone={tagIndex === 0 ? "warm" : "neutral"}>
+            {tag}
+          </Tag>
         ))}
       </div>
       <p className="mt-5 border-t border-line pt-4 font-mono text-[11px] tracking-wide text-muted uppercase">

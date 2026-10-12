@@ -9,7 +9,7 @@ import { site } from "@/content/site";
 import { personSchema, websiteSchema } from "@/lib/seo";
 import "./globals.css";
 
-const title = `${site.name} — ${site.role} in ${site.location.split(",")[0]}`;
+const title = `${site.name} — ${site.role}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),

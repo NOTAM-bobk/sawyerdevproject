@@ -30,8 +30,8 @@ export function Section({
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-2 font-mono text-xs tracking-[0.18em] text-muted uppercase">
-      <SketchSparkle className="h-2.5 w-2.5 text-ink" delay={120} />
+    <span className="inline-flex items-center gap-2 font-mono text-xs tracking-[0.14em] text-muted uppercase">
+      <SketchSparkle className="h-2.5 w-2.5 text-warm" delay={120} />
       {children}
     </span>
   );
@@ -105,7 +105,7 @@ export function Circled({
         fill="none"
         preserveAspectRatio="none"
         aria-hidden="true"
-        className="doodle-draw absolute -inset-x-[0.3em] -top-[0.12em] h-[1.15em] text-ink"
+        className="doodle-draw absolute inset-0 h-full w-full text-ink"
       >
         <path
           d="M168 10C96 4 24 26 21 59c-3 33 67 55 139 53 58-2 122-20 124-51 2-26-53-46-118-49-25-1-49 0-71 3"
@@ -121,9 +121,32 @@ export function Circled({
   );
 }
 
-export function Tag({ children }: { children: ReactNode }) {
+const tagTones = {
+  neutral: "text-muted",
+  warm: "text-warm-deep",
+  plum: "text-plum",
+  mint: "text-mint",
+} as const;
+
+export function Tag({
+  children,
+  tone = "neutral",
+}: {
+  children: ReactNode;
+  tone?: keyof typeof tagTones;
+}) {
   return (
-    <span className="rounded-full border border-line bg-mist px-2.5 py-1 font-mono text-[11px] tracking-wide text-muted uppercase">
+    <span
+      className={`chip3d inline-flex items-center gap-1.5 rounded-full border border-line bg-paper px-2.5 py-1 font-mono text-[11px] tracking-wide uppercase ${tagTones[tone]}`}
+    >
+      {tone !== "neutral" ? (
+        <span
+          aria-hidden="true"
+          className={`h-1.5 w-1.5 rounded-full ${
+            tone === "warm" ? "bg-warm" : tone === "plum" ? "bg-plum" : "bg-mint"
+          }`}
+        />
+      ) : null}
       {children}
     </span>
   );
@@ -142,14 +165,14 @@ export function ButtonLink({
   ...props
 }: ButtonLinkProps) {
   const base =
-    "group inline-flex items-center justify-center gap-2 rounded-full font-medium transition-colors duration-200 whitespace-nowrap";
+    "btn3d group inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap";
   const sizes = {
     md: "px-5 py-2.5 text-sm",
     sm: "px-4 py-2 text-[13px]",
   };
   const variants = {
-    primary: "bg-ink text-paper hover:bg-ink-soft",
-    secondary: "border border-line-strong bg-paper text-ink hover:border-ink hover:bg-mist",
+    primary: "btn3d-dark text-paper",
+    secondary: "btn3d-light border border-line-strong text-ink",
     ghost: "text-muted hover:text-ink",
   };
   return (

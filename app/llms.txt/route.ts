@@ -12,7 +12,7 @@ export function GET() {
 
   const body = `# ${site.name}
 
-> ${site.role} based in ${site.location}. Designs and builds fast, clean websites for people and small businesses, at one fixed price of ${option.price}.
+> ${site.role}, based in ${site.location}. Designs and builds websites for people and small businesses at one fixed price of ${option.price}.
 
 ${site.name} is a student developer and distance runner in ${site.location}, reachable at ${site.email} or ${site.phone}.
 

@@ -1,24 +1,23 @@
 import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
 import { CtaBand } from "@/components/cta-band";
-import { SketchSparkle } from "@/components/doodles";
 import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
 import { JsonLd } from "@/components/json-ld";
 import { Timeline } from "@/components/timeline";
-import { ButtonLink, Container, Section, SectionHeading, Tag } from "@/components/ui";
-import { about, experience, site } from "@/content/site";
+import { ButtonLink, Container, MetaRow, Section, SectionHeading, Tag } from "@/components/ui";
+import { about, experience } from "@/content/site";
 import { breadcrumbSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Experience",
   description:
-    "Sawyer Schulz's work history — roles, responsibilities and results across product teams, client work and freelance projects.",
+    "Sawyer Schulz's work: a site for an 800m runner, client websites in Minneapolis, and 71 public repositories on GitHub.",
   alternates: { canonical: "/experience" },
   openGraph: {
     title: "Experience — Sawyer Schulz",
     description:
-      "Roles, responsibilities and results across product teams, client work and freelance projects.",
+      "A runner's site, client websites in Minneapolis, and 71 public repositories on GitHub.",
     url: "/experience",
   },
 };
@@ -33,11 +32,11 @@ export default function ExperiencePage() {
         description={experience.intro}
       >
         <div className="flex flex-wrap items-center gap-3">
-          <ButtonLink href={`mailto:${site.email}?subject=${encodeURIComponent("Résumé request")}`}>
-            Request full résumé
+          <ButtonLink href="/start" className="px-6 py-3">
+            Start a project
             <ArrowUpRight className="h-4 w-4" />
           </ButtonLink>
-          <ButtonLink href="/projects" variant="secondary">
+          <ButtonLink href="/projects" variant="secondary" className="px-6 py-3">
             See the work
           </ButtonLink>
         </div>
@@ -55,28 +54,12 @@ export default function ExperiencePage() {
       <Section className="bg-mist">
         <Container className="grid gap-14 md:grid-cols-2 md:gap-16">
           <div>
-            <SectionHeading eyebrow="Education" title="Foundations." />
-            <ul className="mt-10 space-y-5">
-              {experience.education.map((item, index) => (
-                <Reveal
-                  as="li"
-                  key={item.title}
-                  delay={index * 90}
-                  className="rounded-xl border border-line bg-paper p-6 transition-colors duration-300 hover:border-line-strong"
-                >
-                  <div className="flex flex-wrap items-baseline justify-between gap-3">
-                    <h3 className="text-base font-medium tracking-[-0.02em]">{item.title}</h3>
-                    <span className="font-mono text-[11px] tracking-wide text-muted uppercase">
-                      {item.period}
-                    </span>
-                  </div>
-                  <p className="mt-1.5 text-sm text-muted">{item.org}</p>
-                  <p className="mt-3 text-sm leading-relaxed text-muted text-pretty">
-                    {item.detail}
-                  </p>
-                </Reveal>
+            <SectionHeading eyebrow="Right now" title="What I'm doing this year." />
+            <dl className="surface mt-10 max-w-md px-6 py-2">
+              {about.currently.map((item) => (
+                <MetaRow key={item.label} label={item.label} value={item.value} />
               ))}
-            </ul>
+            </dl>
           </div>
 
           <div>
@@ -84,29 +67,26 @@ export default function ExperiencePage() {
             <div className="mt-10 space-y-7">
               {about.toolbox.map((group, index) => (
                 <Reveal key={group.group} delay={index * 80}>
-                  <h3 className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase">
+                  <h3 className="font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
                     {group.group}
                   </h3>
                   <div className="mt-3 flex flex-wrap gap-2">
-                    {group.items.map((item) => (
-                      <Tag key={item}>{item}</Tag>
+                    {group.items.map((item, tagIndex) => (
+                      <Tag key={item} tone={tagIndex === 0 ? "warm" : "neutral"}>
+                        {item}
+                      </Tag>
                     ))}
                   </div>
                 </Reveal>
               ))}
             </div>
-            <p className="mt-10 flex items-start gap-2 text-sm leading-relaxed text-muted text-pretty">
-              <SketchSparkle className="mt-1 h-3 w-3 shrink-0 text-ink" delay={200} />
-              Learning something new is part of the job — these are just the tools I can pick up
-              without reading the docs twice.
-            </p>
           </div>
         </Container>
       </Section>
 
       <CtaBand
-        title="Need someone who's done this before?"
-        description="I've joined teams mid-flight, inherited half-finished platforms and shipped on deadlines someone else set. Bring me the messy version of the problem."
+        title="Want to see the code?"
+        description="Every project here is public. If you want to know how something was built, ask and I'll walk you through it."
       />
     </>
   );

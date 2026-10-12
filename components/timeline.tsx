@@ -30,7 +30,7 @@ export function Timeline({ roles }: { roles: readonly Role[] }) {
           />
           <span
             aria-hidden="true"
-            className="absolute top-[22px] left-0 h-3.5 w-3.5 rounded-full border border-line-strong bg-paper md:left-[208px]"
+            className="absolute top-[22px] left-0 h-3.5 w-3.5 rounded-full border-2 border-paper bg-warm shadow-[0_0_0_1px_rgba(255,106,31,0.4)] md:left-[208px]"
           />
 
           <div className="pl-8 md:pl-0 md:pr-8 md:text-right">
@@ -47,14 +47,16 @@ export function Timeline({ roles }: { roles: readonly Role[] }) {
             <ul className="mt-4 space-y-2">
               {role.highlights.map((highlight) => (
                 <li key={highlight} className="flex gap-3 text-sm text-ink-soft">
-                  <span aria-hidden="true" className="mt-2 h-1 w-1 shrink-0 rounded-full bg-ink" />
+                  <span aria-hidden="true" className="mt-2 h-1 w-1 shrink-0 rounded-full bg-warm" />
                   <span>{highlight}</span>
                 </li>
               ))}
             </ul>
             <div className="mt-5 flex flex-wrap gap-2">
-              {role.tags.map((tag) => (
-                <Tag key={tag}>{tag}</Tag>
+              {role.tags.map((tag, tagIndex) => (
+                <Tag key={tag} tone={tagIndex === 0 ? "warm" : "neutral"}>
+                  {tag}
+                </Tag>
               ))}
             </div>
           </article>

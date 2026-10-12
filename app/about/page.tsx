@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { ArrowUpRight, Mail } from "lucide-react";
 import { CtaBand } from "@/components/cta-band";
-import { SketchCorners, SketchSparkle } from "@/components/doodles";
+import { SketchCorners } from "@/components/doodles";
 import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
 import {
@@ -18,7 +18,7 @@ import { about, site } from "@/content/site";
 import { breadcrumbSchema } from "@/lib/seo";
 import { avatarUrl } from "@/lib/dicebear";
 
-const SCRIBBLE_PHRASE = "fewer dependencies, fewer abstractions";
+const SCRIBBLE_PHRASE = "I write the design and the code myself";
 
 /** Renders a paragraph with one hand-drawn-underlined phrase inside it. */
 function highlight(paragraph: string, phrase: string) {
@@ -36,12 +36,12 @@ function highlight(paragraph: string, phrase: string) {
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Sawyer Schulz is a student developer in Minneapolis, Minnesota building fast, clean web products — plus the toolbox and the story behind the work.",
+    "Sawyer Schulz designs and builds websites in Minneapolis, Minnesota — what he works with, and what he does away from the keyboard.",
   alternates: { canonical: "/about" },
   openGraph: {
     title: "About Sawyer Schulz",
     description:
-      "A student developer in Minneapolis, Minnesota — how he works, what he works with, and what he does away from the keyboard.",
+      "A web designer and developer in Minneapolis, Minnesota: what he works with, and what he does away from the keyboard.",
     url: "/about",
   },
 };
@@ -52,7 +52,7 @@ export default function AboutPage() {
       <JsonLd data={breadcrumbSchema([{ name: "About", path: "/about" }])} />
       <PageHero
         eyebrow="About"
-        title="Engineer, tinkerer, relentless simplifier."
+        title={about.title}
         description={about.intro}
       />
 
@@ -60,7 +60,7 @@ export default function AboutPage() {
         <Container className="grid gap-14 md:grid-cols-[260px_1fr] md:gap-16">
           {/* Portrait / monogram card */}
           <div className="md:sticky md:top-24 md:self-start">
-            <div className="relative rounded-2xl border border-line bg-mist p-6">
+            <div className="surface relative p-6">
               <SketchCorners className="pointer-events-none absolute -inset-2 h-[calc(100%+1rem)] w-[calc(100%+1rem)] text-line-strong" />
               <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-xl border border-line-strong bg-paper">
                 <Image
@@ -73,8 +73,9 @@ export default function AboutPage() {
               </div>
               <div className="mt-6">
                 <p className="text-base font-medium tracking-[-0.02em]">{site.name}</p>
-                <p className="mt-1 text-sm text-muted">
-                  {site.role} · {site.location}
+                <p className="mt-1 text-sm text-muted">{site.location}</p>
+                <p className="mt-2 font-mono text-[10px] tracking-[0.1em] text-muted uppercase">
+                  Design · Backend · Frontend
                 </p>
               </div>
               <div className="mt-6 flex flex-col gap-2">
@@ -93,10 +94,8 @@ export default function AboutPage() {
           {/* Bio */}
           <div>
             <Reveal className="max-w-2xl space-y-5 text-base leading-relaxed text-ink-soft text-pretty">
-              {about.paragraphs.map((paragraph, index) => (
-                <p key={paragraph.slice(0, 24)}>
-                  {index === 0 ? highlight(paragraph, SCRIBBLE_PHRASE) : paragraph}
-                </p>
+              {about.paragraphs.map((paragraph) => (
+                <p key={paragraph.slice(0, 24)}>{highlight(paragraph, SCRIBBLE_PHRASE)}</p>
               ))}
             </Reveal>
 
@@ -108,46 +107,6 @@ export default function AboutPage() {
               </dl>
             </Reveal>
 
-            <div className="mt-14">
-              <h2 className="text-2xl font-semibold tracking-[-0.03em]">
-                How I like to work
-              </h2>
-              <ul className="mt-6 grid gap-4 sm:grid-cols-2">
-                {[
-                  {
-                    title: "Small, reviewable steps",
-                    body: "Short-lived branches and focused pull requests — you always know what changed and why.",
-                  },
-                  {
-                    title: "Writing before building",
-                    body: "A one-page plan catches more problems than a week of prototyping ever will.",
-                  },
-                  {
-                    title: "Boring where it counts",
-                    body: "Proven tools on the critical path. Novelty is for side projects, not billing systems.",
-                  },
-                  {
-                    title: "Own the outcome",
-                    body: "If it's slow, confusing or off-brand, that's my problem to fix — not yours to report.",
-                  },
-                ].map((item, index) => (
-                  <Reveal
-                    as="li"
-                    key={item.title}
-                    delay={index * 80}
-                    className="rounded-xl border border-line bg-paper p-5 transition-colors duration-300 hover:border-line-strong"
-                  >
-                    <h3 className="flex items-start gap-2 text-sm font-medium tracking-[-0.01em]">
-                      <SketchSparkle className="mt-1 h-3 w-3 shrink-0 text-ink" delay={200} />
-                      {item.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-relaxed text-muted text-pretty">
-                      {item.body}
-                    </p>
-                  </Reveal>
-                ))}
-              </ul>
-            </div>
           </div>
         </Container>
       </Section>
@@ -158,12 +117,12 @@ export default function AboutPage() {
           <SectionHeading
             eyebrow="Toolbox"
             title="The tools I reach for."
-            description="Not a laundry list — these are the ones I've used in production and would happily use again."
+            description="The tools I reach for most days."
           />
-          <div className="mt-12 grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {about.toolbox.map((group, index) => (
-              <Reveal key={group.group} delay={index * 80} className="bg-paper p-6">
-                <h3 className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase">
+              <Reveal key={group.group} delay={index * 80} className="surface surface-lift p-6">
+                <h3 className="font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
                   {group.group}
                 </h3>
                 <div className="mt-4 space-y-2">
@@ -191,9 +150,9 @@ export default function AboutPage() {
               <Reveal
                 key={item.title}
                 delay={index * 90}
-                className="relative rounded-xl border border-line bg-paper p-6 transition-colors duration-300 hover:border-line-strong"
+                className="surface surface-lift relative p-6"
               >
-                <span className="font-mono text-xs text-muted">
+                <span className="font-mono text-xs text-warm">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <h3 className="mt-4 text-base font-medium tracking-[-0.02em]">{item.title}</h3>
@@ -201,16 +160,6 @@ export default function AboutPage() {
               </Reveal>
             ))}
           </div>
-          <p className="mt-10 max-w-2xl text-sm text-muted">
-            Want the full résumé, project references or a walkthrough of any of this?{" "}
-            <a
-              href={`mailto:${site.email}`}
-              className="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
-            >
-              Just ask
-            </a>{" "}
-            — I&apos;m happy to share more than fits on a page.
-          </p>
         </Container>
       </Section>
 

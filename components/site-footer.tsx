@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
 import { SketchFlourish } from "@/components/doodles";
 import { Container } from "@/components/ui";
 import { nav, site } from "@/content/site";
@@ -20,10 +19,10 @@ export function SiteFooter() {
               />
             </p>
             <p className="mt-8 max-w-xs text-sm leading-relaxed text-muted text-pretty">
-              {site.role} in {site.location}. Building clean, dependable web products — usually with
-              Next.js and a strong opinion about whitespace.
+              Websites for people and small businesses in {site.location}. Designed, built and
+              launched by one person.
             </p>
-            <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-line bg-paper px-3 py-1.5 font-mono text-[11px] tracking-wide text-muted uppercase">
+            <p className="chip3d mt-6 inline-flex items-center gap-2 rounded-full border border-line bg-paper px-3 py-1.5 font-mono text-[11px] tracking-wide text-muted uppercase">
               <span className="h-1.5 w-1.5 rounded-full bg-ink" />
               {site.availability}
             </p>
@@ -52,25 +51,20 @@ export function SiteFooter() {
             <FooterLink href={site.phoneHref}>{site.phone}</FooterLink>
             <li className="pt-1 text-sm text-muted">{site.location}</li>
             <li className="text-sm text-muted">{site.timezone}</li>
-            <li className="pt-3">
-              <Link
-                href="/start"
-                className="inline-flex items-center gap-1.5 text-sm text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
-              >
-                Start a project
-                <ArrowUpRight className="h-3.5 w-3.5" />
-              </Link>
-            </li>
           </FooterColumn>
         </div>
 
         <div className="mt-14 flex flex-col gap-4 border-t border-line pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-mono">
-            © {year} {site.name}. All rights reserved.
-          </p>
-          <p className="font-mono">
-            Built with Next.js &amp; Tailwind — pencil marks included.
-          </p>
+          <p className="font-mono">© {year} {site.name}</p>
+          <ul className="flex items-center gap-5 font-mono">
+            {site.legal.map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="transition-colors hover:text-ink">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </Container>
     </footer>

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { CtaBand } from "@/components/cta-band";
-import { SketchArrow, SketchCircle, SketchHighlight, SketchSparkle } from "@/components/doodles";
+import { SketchCircle, SketchHighlight, SketchSparkle } from "@/components/doodles";
+import { GithubPanel } from "@/components/github-panel";
 import { PricingCard } from "@/components/pricing-card";
 import { ProjectCard } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
@@ -15,7 +16,7 @@ import {
   SectionHeading,
   Tag,
 } from "@/components/ui";
-import { about, experience, pillars, pricing, projects, site, stack, stats } from "@/content/site";
+import { about, pillars, pricing, projects, site, stack, stats } from "@/content/site";
 
 export default function HomePage() {
   const selected = projects.items.slice(0, 2);
@@ -31,12 +32,12 @@ export default function HomePage() {
           <div className="anim-blob-slow absolute -right-48 -bottom-64 h-[500px] w-[660px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,76,209,0.38),rgba(190,79,255,0.20)_48%,transparent_76%)] blur-2xl md:-right-64 md:-bottom-80 md:h-[640px] md:w-[820px]" />
 
           <div className="absolute inset-0 bg-grid bg-grid-fade anim-grid-pan" />
-          <div className="anim-blob-slow absolute top-40 left-1/2 h-72 w-[620px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(10,10,10,0.05),transparent)]" />
+          <div className="anim-blob-slow absolute top-40 left-1/2 h-72 w-[620px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(109,85,255,0.07),transparent)]" />
           <span className="anim-float absolute top-28 left-[9%] hidden md:block">
-            <SketchSparkle className="h-4 w-4 text-line-strong" />
+            <SketchSparkle className="h-4 w-4 text-warm/60" />
           </span>
           <span className="anim-drift absolute top-1/2 right-[10%] hidden md:block">
-            <SketchSparkle className="h-3 w-3 text-line-strong" delay={300} />
+            <SketchSparkle className="h-3 w-3 text-plum/50" delay={300} />
           </span>
           <span className="anim-float absolute bottom-24 left-[18%] hidden lg:block">
             <SketchSparkle className="h-5 w-5 text-line-strong" delay={600} />
@@ -45,7 +46,7 @@ export default function HomePage() {
 
         <Container className="relative py-20 md:py-32">
           <div className="mx-auto max-w-3xl text-center">
-            <span className="animate-rise inline-flex items-center gap-2 rounded-full border border-line bg-paper/80 px-3 py-1.5 font-mono text-[11px] tracking-[0.14em] text-muted uppercase backdrop-blur">
+            <span className="chip3d animate-rise inline-flex items-center gap-2 rounded-full border border-line bg-paper/80 px-3 py-1.5 font-mono text-[11px] tracking-[0.14em] text-muted uppercase backdrop-blur">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
@@ -59,45 +60,38 @@ export default function HomePage() {
               className="animate-rise mt-8 text-4xl leading-[1.05] font-semibold tracking-[-0.045em] text-balance sm:text-6xl md:text-7xl"
               style={{ animationDelay: "80ms" }}
             >
-              I design and build <Scribbled>fast, clean</Scribbled> web products.
+              Websites that <Scribbled>load fast</Scribbled> and look right.
             </h1>
 
             <p
               className="animate-rise mx-auto mt-8 max-w-xl text-base leading-relaxed text-muted text-pretty md:text-lg"
               style={{ animationDelay: "160ms" }}
             >
-              I&apos;m {site.name} — a developer and distance runner in {site.location} who ships
-              crisp interfaces, dependable backends, and the small details that make software feel
-              effortless.
+              I&apos;m {site.name}. I design the site, write the code and get it live on your domain
+              — fixed price, one person to talk to.
             </p>
 
             <div
-              className="animate-rise mt-10 flex flex-wrap items-center justify-center gap-x-4 gap-y-3"
+              className="animate-rise mt-10 flex flex-wrap items-center justify-center gap-3"
               style={{ animationDelay: "240ms" }}
             >
-              <ButtonLink href="/projects">
-                See selected work
+              <ButtonLink href="/projects" className="px-6 py-3">
+                See my work
                 <ArrowUpRight className="h-4 w-4" />
               </ButtonLink>
-              <ButtonLink href="/pricing" variant="secondary">
-                View pricing
+              <ButtonLink href="/pricing" variant="secondary" className="px-6 py-3">
+                One site, $299
               </ButtonLink>
-              <span className="hidden items-center gap-1.5 sm:inline-flex">
-                <SketchArrow className="h-9 w-9 -scale-x-100 rotate-12 text-muted" delay={900} />
-                <span className="font-mono text-[11px] tracking-wide text-muted uppercase">
-                  fixed prices
-                </span>
-              </span>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* --------------------------------------------------------------- Stack */}
+      {/* ------------------------------------------------------------- Toolbox */}
       <div className="border-y border-line bg-mist">
         <Container className="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:gap-8">
-          <span className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase">
-            Daily toolbox
+          <span className="font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
+            Toolbox
           </span>
           <ul className="flex flex-wrap items-center gap-x-3 gap-y-2">
             {stack.map((item, index) => (
@@ -112,7 +106,7 @@ export default function HomePage() {
         </Container>
       </div>
 
-      {/* ----------------------------------------------------------- Selected */}
+      {/* ------------------------------------------------------------ Selected */}
       <Section>
         <Container>
           <Reveal>
@@ -123,16 +117,16 @@ export default function HomePage() {
                   <>
                     Projects with real users and{" "}
                     <span className="relative inline-block">
-                      real constraints
+                      real deadlines
                       <SketchHighlight
                         delay={400}
-                        className="absolute -inset-x-[0.03em] top-[0.16em] h-[0.75em] text-ink"
+                        className="absolute inset-x-0 top-[0.1em] h-[0.82em] w-full text-warm/30"
                       />
                     </span>
                     .
                   </>
                 }
-                description="Both of these are live and maintained by me — an athlete site and my own portfolio."
+                description="Both of these are live right now. I designed them, built them, and I keep them updated."
               />
               <ButtonLink href="/projects" variant="secondary" className="shrink-0">
                 All projects
@@ -151,53 +145,29 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* --------------------------------------------------------------- Stats */}
-      <Section className="relative overflow-hidden bg-mist">
-        <div
-          aria-hidden="true"
-          className="anim-dots-drift absolute inset-0 bg-dots opacity-50"
-        />
-        <Container className="relative">
-          <dl className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-4">
-            {stats.map((stat, index) => (
-              <Reveal key={stat.label} delay={index * 80}>
-                <div className="text-center">
-                  <dd className="relative inline-block px-6 text-4xl font-semibold tracking-[-0.04em] md:text-5xl">
-                    <SketchCircle
-                      className="absolute -inset-x-1 -inset-y-3 text-line-strong"
-                      delay={400}
-                    />
-                    <span className="relative">{stat.value}</span>
-                  </dd>
-                  <dt className="mt-5 text-xs leading-relaxed text-muted">{stat.label}</dt>
-                </div>
-              </Reveal>
-            ))}
-          </dl>
-        </Container>
-      </Section>
-
       {/* ------------------------------------------------------------- Pillars */}
-      <Section>
+      <Section className="bg-mist">
         <Container>
           <Reveal>
             <SectionHeading
               eyebrow="What I do"
-              title="One person, the whole slice."
-              description="I'd rather own a feature from sketch to production than hand it across three desks. Here's what I'm hired for most."
+              title="Design, backend, frontend."
+              description="The whole site, not a slice of it. You get one person for the design, the code and the launch."
             />
           </Reveal>
-          <div className="mt-12 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-3">
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
             {pillars.map((pillar, index) => (
-              <Reveal key={pillar.title} delay={index * 90} className="bg-paper">
-                <div className="flex h-full flex-col bg-paper p-7">
+              <Reveal key={pillar.title} delay={index * 90} className="h-full">
+                <div className="surface surface-lift flex h-full flex-col p-7">
                   <h3 className="text-base font-medium tracking-[-0.02em]">{pillar.title}</h3>
                   <p className="mt-3 flex-1 text-sm leading-relaxed text-muted text-pretty">
                     {pillar.body}
                   </p>
                   <div className="mt-6 flex flex-wrap gap-2">
-                    {pillar.tags.map((tag) => (
-                      <Tag key={tag}>{tag}</Tag>
+                    {pillar.tags.map((tag, tagIndex) => (
+                      <Tag key={tag} tone={tagIndex === 0 ? "warm" : "neutral"}>
+                        {tag}
+                      </Tag>
                     ))}
                   </div>
                 </div>
@@ -207,66 +177,67 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* ---------------------------------------------------- Experience strip */}
-      <Section className="bg-mist">
-        <Container className="grid gap-12 md:grid-cols-[1fr_1.1fr] md:items-start">
+      {/* -------------------------------------------------------------- GitHub */}
+      <GithubPanel />
+
+      {/* --------------------------------------------------------------- Offer */}
+      <Section>
+        <Container className="grid gap-14 md:grid-cols-[1fr_1.05fr] md:items-center md:gap-16">
           <Reveal variant="left">
             <SectionHeading
-              eyebrow="Experience"
+              eyebrow="The offer"
               title={
                 <>
-                  A <Circled delay={600}>decade</Circled> of shipping.
+                  One site, <Circled delay={600}>$299</Circled>, done.
                 </>
               }
-              description="From a bike-shop spreadsheet to platform teams — the short version is below, the long version lives on the experience page."
+              description="A complete site for $299. Design, build, domain and launch, with the source code handed over at the end."
             />
-            <div className="mt-8 flex flex-wrap gap-3">
-              <ButtonLink href="/experience">Full experience</ButtonLink>
-              <ButtonLink href="/about" variant="secondary">
-                More about me
-              </ButtonLink>
-            </div>
-            <dl className="mt-12 max-w-md">
+            <dl className="mt-10 max-w-md">
               {about.currently.map((item) => (
                 <MetaRow key={item.label} label={item.label} value={item.value} />
               ))}
             </dl>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <ButtonLink href="/start" className="px-6 py-3">
+                Start a project
+                <ArrowUpRight className="h-4 w-4" />
+              </ButtonLink>
+              <ButtonLink href="/experience" variant="secondary" className="px-6 py-3">
+                More about me
+              </ButtonLink>
+            </div>
           </Reveal>
 
-          <ol className="space-y-6">
-            {experience.roles.slice(0, 3).map((role, index) => (
-              <Reveal key={`${role.company}-${role.period}`} variant="right" delay={index * 90}>
-                <li className="rounded-xl border border-line bg-paper p-6 transition-colors duration-300 hover:border-line-strong">
-                  <div className="flex flex-wrap items-baseline justify-between gap-3">
-                    <h3 className="text-base font-medium tracking-[-0.02em]">
-                      {role.role} <span className="text-muted">· {role.company}</span>
-                    </h3>
-                    <span className="font-mono text-[11px] tracking-wide text-muted uppercase">
-                      {role.period}
-                    </span>
-                  </div>
-                  <p className="mt-2 text-sm leading-relaxed text-muted text-pretty">
-                    {role.summary}
-                  </p>
-                </li>
-              </Reveal>
-            ))}
-          </ol>
+          <Reveal variant="right" delay={90}>
+            <dl className="grid grid-cols-2 gap-5">
+              {stats.map((stat) => (
+                <div key={stat.label} className="surface surface-lift p-6">
+                  <dd className="relative inline-block px-4 py-1.5 text-3xl font-semibold tracking-[-0.04em]">
+                    <SketchCircle className="absolute inset-0 h-full w-full text-warm/60" delay={400} />
+                    <span className="relative">{stat.value}</span>
+                  </dd>
+                  <dt className="mt-4 text-xs leading-relaxed text-muted">{stat.label}</dt>
+                </div>
+              ))}
+            </dl>
+          </Reveal>
         </Container>
       </Section>
 
       {/* -------------------------------------------------------------- Pricing */}
-      <Section>
-        <Container>
+      <Section className="relative overflow-hidden bg-mist">
+        <div aria-hidden="true" className="absolute inset-0 tint-plum" />
+        <Container className="relative">
           <Reveal>
             <SectionHeading
               align="center"
               eyebrow="Pricing"
-              title="One package, one price."
-              description="A complete site — designed, built and launched — for $299. Fixed scope, agreed before anything is built."
+              title="One price. Nothing to add."
+              description="Half to start, half at launch. If your project does not fit the package, I say so before you pay anything."
             />
           </Reveal>
-          <Reveal delay={100} className="mx-auto mt-14 max-w-sm">
+          <Reveal delay={100} className="mx-auto mt-14 max-w-md">
             <PricingCard option={pricing.options[0]} />
           </Reveal>
           <Reveal delay={120}>
@@ -275,7 +246,7 @@ export default function HomePage() {
                 href="/pricing"
                 className="inline-flex items-center gap-1.5 text-sm text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
               >
-                See what&apos;s included, add-ons and FAQs
+                What&apos;s included
                 <ArrowUpRight className="h-3.5 w-3.5" />
               </Link>
             </div>

@@ -12,8 +12,8 @@ export const site = {
     style: "notionists",
     seed: "Sawyer Schulz",
   },
-  role: "Student developer",
-  tagline: "I design and build fast, clean web products.",
+  role: "Web designer, backend engineer, frontend master",
+  tagline: "Websites that load fast and look right.",
   location: "Minneapolis, Minnesota",
   timezone: "CT (UTC−6)",
   phone: "(612) 444-3853",
@@ -21,18 +21,22 @@ export const site = {
   availability: "Available for new projects",
   availabilityDetail: "2 slots open — Q1 2027",
   email: "hello@sawyerschulz.dev",
+  /** Public GitHub account — the stats panel and social links read from here. */
+  github: "NOTAM-bobk",
   url:
     process.env.NEXT_PUBLIC_SITE_URL ??
     (process.env.VERCEL_PROJECT_PRODUCTION_URL
       ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
       : "https://sawyerschulz.dev"),
   description:
-    "Sawyer Schulz is a student developer in Minneapolis, Minnesota who designs and builds fast, clean websites — one fixed price, $299 for a full site.",
+    "Sawyer Schulz designs and builds websites in Minneapolis, Minnesota. One complete site for $299, designed, built and launched.",
   socials: [
-    { label: "GitHub", href: "https://github.com/" },
-    { label: "LinkedIn", href: "https://linkedin.com/in/" },
-    { label: "X", href: "https://x.com/" },
+    { label: "GitHub", href: "https://github.com/NOTAM-bobk" },
     { label: "Email", href: "mailto:hello@sawyerschulz.dev" },
+  ],
+  legal: [
+    { label: "Privacy", href: "/privacy" },
+    { label: "Terms", href: "/terms" },
   ],
 } as const;
 
@@ -44,144 +48,119 @@ export const nav = [
 ] as const;
 
 export const stats = [
-  { value: "8+", label: "Years shipping software" },
-  { value: "40+", label: "Projects delivered" },
-  { value: "99.9%", label: "Uptime across my apps" },
-  { value: "6", label: "Teams I've embedded with" },
+  { value: "5", label: "Pages in the package" },
+  { value: "1–2 wks", label: "Typical build time" },
+  { value: "30 days", label: "Of fixes after launch" },
+  { value: "2", label: "Project slots this quarter" },
 ] as const;
 
 export const stack = [
+  "HTML",
+  "CSS",
+  "JavaScript",
   "TypeScript",
   "React",
   "Next.js",
   "Node.js",
-  "PostgreSQL",
   "Tailwind CSS",
-  "Prisma",
-  "AWS",
+  "Cloudflare",
   "Vercel",
-  "Playwright",
 ] as const;
 
 export const pillars = [
   {
-    title: "Product interfaces",
-    body: "Interfaces that stay out of the way. Tight spacing, sensible states, real accessibility — designed in code, not handed off in a screenshot.",
-    tags: ["Design systems", "Accessibility", "Motion"],
+    title: "Web design",
+    body: "Layout, type and colour that fit what you actually do. Laid out for a phone first, because that is where the link gets opened.",
+    tags: ["Layout", "Responsive", "Accessibility"],
   },
   {
-    title: "Backends & APIs",
-    body: "Data models that hold up, APIs that are a pleasure to consume, and jobs that quietly do their work at 3am without waking anyone up.",
-    tags: ["REST & tRPC", "Postgres", "Queues"],
+    title: "Backend engineering",
+    body: "Forms that land in your inbox, files that stay where they belong, and APIs that hold up on a busy day.",
+    tags: ["Node.js", "APIs", "Databases"],
   },
   {
-    title: "Shipping & scale",
-    body: "CI that fails fast, previews for every branch, observability you can actually read. I'd rather ship weekly than plan quarterly.",
-    tags: ["CI/CD", "Performance", "Observability"],
+    title: "Frontend",
+    body: "Pages that load quickly, buttons that do what they look like, and no layout jumping around as it loads.",
+    tags: ["React", "Next.js", "Performance"],
   },
 ] as const;
 
 export const about = {
   eyebrow: "About",
-  title: "Engineer, tinkerer, relentless simplifier.",
+  title: "I build websites, start to finish.",
   intro:
-    "I'm Sawyer — a software engineer who cares about the last 10%: the loading state, the empty state, the keyboard shortcut nobody asked for but everybody uses.",
+    "I design and build sites for people and small businesses. One fixed price, one person to talk to, no handovers.",
   paragraphs: [
-    "I started building for the web in 2018, hacking together a scheduling tool for the bike shop where I worked. It broke constantly and I loved it. Ten years of side projects, contract work and full-time product teams later, I've learned that most of engineering is editing: fewer dependencies, fewer abstractions, fewer places for something to go wrong.",
-    "Today I work with founders and small product teams who need someone who can own a slice of the stack end to end — talk to customers on Monday, sketch an interface on Tuesday, ship it behind a feature flag on Friday. I'm comfortable being the only engineer in the room and equally happy pairing inside a larger platform team.",
-    "Outside of work you'll find me out on a long run around the lakes, over-engineering a coffee routine, or writing notes about the tools I use. I answer email myself, usually within a day.",
+    "I'm Sawyer, a student in Minneapolis. I got into this by building pages for things I cared about — a site for an 800m runner, a place to keep my own race results, small tools when the app I wanted didn't exist. People started asking me to build theirs.",
+    "Now I take on a few sites at a time. I write the design and the code myself, so nothing gets lost between a mockup and what actually ships. Everything I make is meant to be handed over: your domain, your content, your code.",
   ],
   currently: [
-    { label: "Currently", value: "Senior Software Engineer at Northlight" },
-    { label: "Focus", value: "TypeScript, product, developer experience" },
-    { label: "Open to", value: "Contract work & advisory" },
+    { label: "Building", value: "base31.org" },
+    { label: "Also doing", value: "Client sites, one at a time" },
     { label: "Based in", value: "Minneapolis, Minnesota (CT)" },
+    { label: "Reply time", value: "Usually the same day" },
     { label: "Phone", value: "(612) 444-3853" },
   ],
   toolbox: [
-    { group: "Languages", items: ["TypeScript", "JavaScript", "Python", "SQL", "Go"] },
-    { group: "Frontend", items: ["React", "Next.js", "Tailwind CSS", "Radix", "Framer Motion"] },
-    { group: "Backend", items: ["Node.js", "Postgres", "Prisma", "Redis", "tRPC"] },
-    { group: "Platform", items: ["Vercel", "AWS", "Docker", "GitHub Actions", "Terraform"] },
+    { group: "Languages", items: ["HTML", "CSS", "JavaScript", "TypeScript", "Python"] },
+    { group: "Frontend", items: ["React", "Next.js", "Tailwind CSS", "Framer Motion"] },
+    { group: "Backend", items: ["Node.js", "REST APIs", "Supabase", "Postgres"] },
+    { group: "Ship it", items: ["Vercel", "Cloudflare", "Git & GitHub", "Figma"] },
   ],
   beyondCode: [
-    { title: "Gravel cycling", body: "Long, dusty rides through the Front Range. No power meter, no plan." },
-    { title: "Writing", body: "Notes on tooling, batteries-included setups and the small wins of shipping." },
-    { title: "Coffee", body: "A slightly unreasonable pour-over habit. Ask me about water chemistry." },
+    { title: "Running", body: "Middle distance, mostly 800m. The reason half my projects are training tools." },
+    { title: "Music", body: "I build music players when I should be doing something else. Sproti.30 started that way." },
+    { title: "Small tools", body: "If an app annoys me twice, I build a worse version of it that does exactly what I need." },
   ],
 } as const;
 
 export const experience = {
   eyebrow: "Experience",
-  title: "A decade of building things that stay built.",
+  title: "What I've built, and where.",
   intro:
-    "From a bike shop spreadsheet to platform teams — here's where I've spent my working hours. Full history available on request.",
+    "Client sites, my own projects, and the code behind them. All of it is live and can be checked.",
   roles: [
     {
-      role: "Senior Software Engineer",
-      company: "Northlight",
-      location: "Denver, CO",
-      period: "2023 — Present",
-      summary:
-        "Product engineering on a B2B analytics platform serving 40k weekly active users.",
-      highlights: [
-        "Led the rebuild of the reporting surface in Next.js, cutting p75 time-to-interactive from 4.1s to 1.2s.",
-        "Introduced a typed API layer (tRPC + Zod) that removed an entire class of client/server drift bugs.",
-        "Mentored three engineers and started the internal design-system guild.",
-      ],
-      tags: ["Next.js", "TypeScript", "tRPC", "Postgres"],
-    },
-    {
-      role: "Student developer",
-      company: "Cedar & Pine",
+      role: "Founder & developer",
+      company: "Base31",
       location: "Remote",
-      period: "2021 — 2023",
-      summary: "Full-stack work on commerce tooling for independent retailers.",
+      period: "2025 — Present",
+      summary:
+        "The name I build under. Two public sites so far, both designed, written and shipped by me.",
       highlights: [
-        "Shipped an inventory sync service handling 2M+ SKU updates a day with zero data-loss incidents.",
-        "Designed the checkout rewrite that lifted mobile conversion by 18%.",
-        "Owned the migration from REST to a typed GraphQL gateway across two teams.",
+        "nikoschultz.base31.org — a results-first site for an 800m runner, with every personal best linked to its source race.",
+        "sawyerschulz.base31.org — my own portfolio, phone-first so it opens fast on a bad connection.",
+        "I run the whole thing: design, code, deploy, and the content updates after launch.",
       ],
-      tags: ["Node.js", "GraphQL", "Redis", "AWS"],
+      tags: ["Next.js", "TypeScript", "Design", "Vercel"],
     },
     {
-      role: "Product Engineer",
-      company: "Fieldnote",
-      location: "Boulder, CO",
-      period: "2019 — 2021",
-      summary: "Early engineer at a research-notes startup (seed → Series A).",
-      highlights: [
-        "Built the real-time collaborative editor used by every account on the platform.",
-        "Set up the first CI/CD pipeline, taking releases from monthly to daily.",
-        "Wrote the onboarding flow that doubled week-one activation.",
-      ],
-      tags: ["React", "WebSockets", "Postgres", "Docker"],
-    },
-    {
-      role: "Frontend Developer",
+      role: "Web designer & developer",
       company: "Freelance",
-      location: "Self-employed",
-      period: "2018 — 2019",
-      summary: "Websites and small web apps for local businesses and studios.",
+      location: "Minneapolis, MN",
+      period: "2025 — Present",
+      summary:
+        "Fixed-price sites for local people and small businesses, one at a time from first call to launch.",
       highlights: [
-        "Delivered 20+ marketing sites and internal tools across retail, hospitality and design.",
-        "Learned to scope, quote and say no — the most useful skills I own.",
+        "Agree a flat price before any work starts, so the invoice is never a surprise.",
+        "Design, build, domain and launch, then hand over the source and a short doc.",
       ],
-      tags: ["JavaScript", "CSS", "WordPress", "Figma"],
-    },
-  ],
-  education: [
-    {
-      title: "B.S. Computer Science",
-      org: "University of Colorado Boulder",
-      period: "2015 — 2019",
-      detail: "Focus on distributed systems and human–computer interaction.",
+      tags: ["Design", "HTML", "CSS", "JavaScript"],
     },
     {
-      title: "AWS Certified Developer — Associate",
-      org: "Amazon Web Services",
-      period: "2022",
-      detail: "Serverless architecture, IAM, observability.",
+      role: "Independent projects",
+      company: "GitHub",
+      location: "github.com/NOTAM-bobk",
+      period: "2025 — Present",
+      summary:
+        "71 public repositories, mostly web apps built to learn something or to fix an annoyance.",
+      highlights: [
+        "Nimbus. — a weather app with news and a multi-country API. 4 stars.",
+        "Decibel.listenr — measures how loud a room is, live in the browser. 3 stars.",
+        "JamJolt — a music app that stores files in Supabase buckets. 3 stars.",
+        "URL-Save — saves links to Cloudflare so they open on any device. 3 stars.",
+      ],
+      tags: ["JavaScript", "TypeScript", "APIs", "Cloudflare"],
     },
   ],
 } as const;
@@ -205,9 +184,9 @@ export type Project = {
 
 export const projects = {
   eyebrow: "Projects",
-  title: "Things I've built and shipped.",
+  title: "Two sites, both live.",
   intro:
-    "Two sites I designed, built and maintain — both live, both used by real people, both built to feel quick on a phone.",
+    "Both of these are mine end to end — design, code, and the updates after launch.",
   items: [
     {
       name: "Niko Schultz — 800m",
@@ -216,19 +195,19 @@ export const projects = {
       href: "https://nikoschultz.base31.org",
       featured: true,
       summary:
-        "A results-first site for a Puerto Rico-eligible 800m runner: personal bests, race reports, a news timeline and a video hub in one fast page.",
+        "A results-first site for an 800m runner: personal bests, a race timeline and a video hub on one page.",
       detail:
-        "Every performance is traceable — each personal best and achievement links out to the official result or race report behind it. The news timeline follows NCAA and international seasons, so the site stays current through the year.",
+        "Every personal best links to the official result or race report behind it, so nothing on the site has to be taken on trust. The timeline covers the NCAA and international seasons and gets updated as the year goes on.",
       highlights: [
-        "Personal-best and achievement cards, each linked to its source result",
-        "A rolling news timeline across NCAA and international racing",
-        "Video and social hub built around the athlete's own channels",
+        "Personal-best cards, each linked to its source race",
+        "A rolling race timeline across the season",
+        "Video and social hub built around his own channels",
       ],
-      tags: ["Athlete portfolio", "Results & stats", "Timeline", "Video hub"],
+      tags: ["Athlete site", "Results & stats", "Timeline"],
       facts: [
         { label: "Role", value: "Design & build" },
         { label: "Status", value: "Live" },
-        { label: "Type", value: "Independent project" },
+        { label: "Type", value: "Independent" },
       ],
       links: [{ label: "Visit site", href: "https://nikoschultz.base31.org" }],
     },
@@ -238,19 +217,19 @@ export const projects = {
       year: "2026",
       href: "https://sawyerschulz.base31.org",
       summary:
-        "My own corner of the web: the projects I'm building, what I'm learning, race results and how to reach me.",
+        "My own corner of the web: projects, skills, race results and how to reach me, all in one link.",
       detail:
-        "Built phone-first, because the link gets shared at the track more often than at a desk. Projects, technical skills, race results and contact details each get a clear home.",
+        "Built phone-first, because the link gets shared at the track more often than at a desk. It is the page I send when someone asks what I build.",
       highlights: [
-        "Projects, technical skills and race results in one place",
-        "Phone-first layout that loads fast on a bad connection",
-        "A single link to share after a race or a meet",
+        "Projects, skills and race results in one place",
+        "Loads fast on a phone on a bad connection",
+        "One link to share instead of three",
       ],
       tags: ["Portfolio", "Race results", "Responsive"],
       facts: [
         { label: "Role", value: "Design & build" },
         { label: "Status", value: "Live" },
-        { label: "Type", value: "Personal project" },
+        { label: "Type", value: "Personal" },
       ],
       links: [{ label: "Visit site", href: "https://sawyerschulz.base31.org" }],
     },
@@ -264,62 +243,51 @@ export const projects = {
 
 export const pricing = {
   eyebrow: "Pricing",
-  title: "One package, one price.",
+  title: "One site. $299.",
   intro:
-    "A complete site for $299 — designed, built and launched for you. No hourly billing, no add-ons, no surprise line items.",
+    "A complete site, designed, built and launched. No hourly rate and no add-ons to work through.",
   note: "Fixed price in USD. Half to start, half at launch.",
   options: [
     {
-      name: "Full Site",
+      name: "Full site",
       price: "$299",
       priceNote: "one-time, fixed price",
-      for: "A complete site for a person, a small business or a project — designed around your content and ready to launch on your own domain.",
-      turnaround: "Typically 1–2 weeks",
+      for: "A complete site for a person, a small business or a project, designed around your content and live on your own domain.",
+      turnaround: "Usually 1–2 weeks",
       highlight: "Everything included",
       features: [
-        "Custom design, built around your content",
+        "Custom design built around your content",
         "Up to 5 pages",
-        "Responsive and accessible on every screen",
-        "Basic SEO, sitemap and analytics setup",
-        "Contact form or booking link wired to your inbox",
-        "Deployed to your domain",
-        "One round of revisions after your review",
-        "30 days of post-launch fixes",
+        "Works on phone, tablet and desktop",
+        "Contact form wired to your inbox",
+        "SEO basics, sitemap and analytics",
+        "Live on your domain, with the source code",
       ],
       cta: "Start my site",
     },
   ],
   included: [
-    "Direct contact with me — no account managers",
-    "Full source code and design files handed over",
-    "Written updates as the build comes together",
-    "Performance and accessibility checks before launch",
-    "A short handover doc so you can keep it running",
+    "You talk to me, not an account manager",
+    "Source code and design files handed over",
+    "Performance and accessibility checked before launch",
+    "A short handover doc so you can edit it later",
   ],
   faq: [
     {
-      q: "What does $299 actually cover?",
-      a: "One complete site: up to five pages, custom design, the build, the SEO basics and getting it live on your domain. There is no hourly rate and no scope creep — if something falls outside the package I quote it separately before starting.",
+      q: "What does $299 cover?",
+      a: "One complete site: up to five pages, custom design, the build, SEO basics and getting it live on your domain. If something falls outside that, I quote it before starting.",
     },
     {
-      q: "What do you need from me to start?",
-      a: "Your content — text, photos, logo if you have one — and a rough idea of the pages you want. If your content is rough or unwritten, I can help shape it; that's usually the difference between a site that works and one that doesn't.",
+      q: "What do you need from me?",
+      a: "Your text, photos and logo if you have one, plus a rough idea of the pages. If the writing isn't there yet, I can help shape it.",
     },
     {
-      q: "How long will it take?",
-      a: "Most sites take one to two weeks from the point I have your content. If you need it faster, tell me up front and I'll say honestly whether it's possible.",
+      q: "How long does it take?",
+      a: "Usually one to two weeks once I have your content. If you need it faster, ask and I'll tell you honestly whether that is possible.",
     },
     {
-      q: "I already have a website — can you redo it?",
-      a: "Yes. Send me the current URL and I'll tell you whether a rebuild or a cleanup gets you further at this price.",
-    },
-    {
-      q: "What if the scope changes halfway through?",
-      a: "Tell me before I start the change. Small tweaks are free; extra pages or new functionality get quoted separately so nothing shows up as a surprise on the final invoice.",
-    },
-    {
-      q: "Who owns the finished work?",
-      a: "You do. Code, design files and documentation transfer to you on final payment.",
+      q: "What if the scope changes?",
+      a: "Tell me before I start the change. Small tweaks are free; extra pages or new features get quoted separately.",
     },
   ],
 } as const;

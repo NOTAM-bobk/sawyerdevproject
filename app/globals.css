@@ -10,6 +10,14 @@
   --color-line-strong: #d4d4d4;
   --color-accent: #0070f3;
 
+  /* Accents. Used sparingly: doodles, labels, hover glows and the stats panel. */
+  --color-warm: #ff6a1f;
+  --color-warm-deep: #c33d05;
+  --color-warm-tint: #fff6f0;
+  --color-plum: #6d55ff;
+  --color-plum-tint: #f4f3ff;
+  --color-mint: #0b7f61;
+
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
@@ -283,4 +291,122 @@
 [data-reveal="hidden"] .doodle-draw ellipse,
 [data-reveal="hidden"] .doodle-draw line {
   animation-play-state: paused;
+}
+
+/* ---- Soft 3D surfaces ---------------------------------------------------- */
+
+/*
+ * A raised card: a hairline border, a light edge along the top, and two
+ * shadows (a tight one for the edge, a wide one for the lift). Hovering lifts
+ * the card a few pixels and deepens the wide shadow.
+ */
+@layer utilities {
+  .surface {
+    border: 1px solid var(--color-line);
+    background-color: var(--color-paper);
+    border-radius: 1rem;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 1px 1px rgba(10, 10, 10, 0.04),
+      0 2px 6px -2px rgba(10, 10, 10, 0.06),
+      0 16px 32px -18px rgba(10, 10, 10, 0.18);
+    transition:
+      transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 260ms ease;
+  }
+
+  @media (hover: hover) {
+    .surface-lift:hover {
+      transform: translate3d(0, -3px, 0);
+      border-color: var(--color-line-strong);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.95),
+        0 2px 3px rgba(10, 10, 10, 0.05),
+        0 8px 16px -8px rgba(10, 10, 10, 0.1),
+        0 30px 54px -24px rgba(10, 10, 10, 0.26);
+    }
+  }
+
+  /* Small raised objects: tags, pills, the avatar tile. */
+  .chip3d {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      0 1px 2px rgba(10, 10, 10, 0.05),
+      0 4px 10px -6px rgba(10, 10, 10, 0.16);
+  }
+
+  /* Dark button: a soft vertical gradient, a bright top edge and a warm glow on hover. */
+  .btn3d {
+    transition:
+      transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 180ms ease,
+      color 180ms ease;
+  }
+
+  .btn3d:active {
+    transform: translate3d(0, 1px, 0);
+  }
+
+  .btn3d-dark {
+    background-image: linear-gradient(180deg, #303036 0%, #131317 58%, #0a0a0a 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.45),
+      0 1px 1px rgba(10, 10, 10, 0.16),
+      0 8px 18px -8px rgba(10, 10, 10, 0.55);
+  }
+
+  .btn3d-light {
+    background-image: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+    box-shadow:
+      inset 0 1px 0 #ffffff,
+      0 1px 1px rgba(10, 10, 10, 0.05),
+      0 5px 12px -6px rgba(10, 10, 10, 0.16);
+  }
+
+  @media (hover: hover) {
+    .btn3d-dark:hover,
+    .btn3d-dark:focus-visible {
+      transform: translate3d(0, -2px, 0);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.45),
+        0 2px 3px rgba(10, 10, 10, 0.18),
+        0 12px 22px -8px rgba(255, 106, 31, 0.5),
+        0 22px 40px -20px rgba(10, 10, 10, 0.5);
+    }
+
+    .btn3d-light:hover,
+    .btn3d-light:focus-visible {
+      transform: translate3d(0, -2px, 0);
+      border-color: var(--color-ink);
+      box-shadow:
+        inset 0 1px 0 #ffffff,
+        0 2px 3px rgba(10, 10, 10, 0.06),
+        0 12px 24px -12px rgba(10, 10, 10, 0.3);
+    }
+  }
+
+  /* Flat tinted panel — a little colour without a glassy finish. */
+  .tint-warm {
+    background-image: linear-gradient(180deg, var(--color-warm-tint) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+
+  .tint-plum {
+    background-image: linear-gradient(180deg, var(--color-plum-tint) 0%, rgba(255, 255, 255, 0) 100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .surface,
+  .surface-lift:hover,
+  .btn3d,
+  .btn3d-dark:hover,
+  .btn3d-light:hover,
+  .btn3d:active {
+    transition: none;
+    transform: none;
+  }
 }

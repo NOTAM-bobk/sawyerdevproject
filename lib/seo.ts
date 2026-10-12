@@ -21,7 +21,7 @@ export function personSchema() {
     name: site.name,
     givenName: "Sawyer",
     familyName: "Schulz",
-    jobTitle: "Student developer",
+    jobTitle: site.role,
     description: site.description,
     url: site.url,
     email: `mailto:${site.email}`,

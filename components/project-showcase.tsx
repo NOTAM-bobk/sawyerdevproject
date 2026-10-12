@@ -6,7 +6,7 @@ import type { Project } from "@/content/site";
 /** Full-width project card used on the projects page. */
 export function ProjectShowcase({ project, index = 0 }: { project: Project; index?: number }) {
   return (
-    <article className="group relative overflow-hidden rounded-2xl border border-line bg-mist p-7 transition-colors duration-300 hover:border-line-strong md:p-9">
+    <article className="surface group relative overflow-hidden p-7 md:p-9">
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-grid bg-grid-fade opacity-70 anim-grid-pan"
@@ -15,7 +15,7 @@ export function ProjectShowcase({ project, index = 0 }: { project: Project; inde
         <div>
           <div className="flex flex-wrap items-center gap-3">
             {project.featured ? (
-              <span className="rounded-full bg-ink px-2.5 py-1 font-mono text-[10px] tracking-[0.16em] text-paper uppercase">
+              <span className="btn3d-dark rounded-full px-2.5 py-1 font-mono text-[10px] tracking-[0.16em] text-paper uppercase">
                 Featured
               </span>
             ) : null}
@@ -26,7 +26,7 @@ export function ProjectShowcase({ project, index = 0 }: { project: Project; inde
 
           <h2 className="mt-5 flex items-center gap-3 text-2xl font-semibold tracking-[-0.035em] md:text-3xl">
             {project.name}
-            <SketchSparkle className="h-4 w-4 text-ink" delay={200 + index * 120} />
+            <SketchSparkle className="h-4 w-4 text-warm" delay={200 + index * 120} />
           </h2>
 
           <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-soft text-pretty">
@@ -39,15 +39,17 @@ export function ProjectShowcase({ project, index = 0 }: { project: Project; inde
           <ul className="mt-6 max-w-xl space-y-2">
             {project.highlights.map((highlight) => (
               <li key={highlight} className="flex gap-3 text-sm text-ink-soft">
-                <span aria-hidden="true" className="mt-2 h-1 w-1 shrink-0 rounded-full bg-ink" />
+                <span aria-hidden="true" className="mt-2 h-1 w-1 shrink-0 rounded-full bg-warm" />
                 <span>{highlight}</span>
               </li>
             ))}
           </ul>
 
           <div className="mt-6 flex flex-wrap gap-2">
-            {project.tags.map((tag) => (
-              <Tag key={tag}>{tag}</Tag>
+            {project.tags.map((tag, tagIndex) => (
+              <Tag key={tag} tone={tagIndex === 0 ? "warm" : "neutral"}>
+                {tag}
+              </Tag>
             ))}
           </div>
 
@@ -67,7 +69,7 @@ export function ProjectShowcase({ project, index = 0 }: { project: Project; inde
           </div>
         </div>
 
-        <dl className="self-start rounded-xl border border-line bg-paper px-6">
+        <dl className="surface self-start px-6">
           {project.facts.map((fact) => (
             <div key={fact.label} className="border-b border-line py-5 last:border-b-0">
               <dt className="font-mono text-[11px] tracking-[0.14em] text-muted uppercase">

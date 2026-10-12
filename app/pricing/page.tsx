@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { ArrowUpRight } from "lucide-react";
+
 import { CtaBand } from "@/components/cta-band";
 import { SketchCheck, SketchSparkle } from "@/components/doodles";
 import { JsonLd } from "@/components/json-ld";
 import { PageHero } from "@/components/page-hero";
 import { PricingCard } from "@/components/pricing-card";
 import { Reveal } from "@/components/reveal";
-import { ButtonLink, Container, Section, SectionHeading } from "@/components/ui";
+import { Container, Section, SectionHeading } from "@/components/ui";
 import { pricing, site } from "@/content/site";
 import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/seo";
 
@@ -79,7 +79,7 @@ export default function PricingPage() {
           </div>
 
           <div>
-            <SectionHeading eyebrow="How it works" title="Three steps, no meetings you don't need." />
+            <SectionHeading eyebrow="How it works" title="How it works." />
             <ol className="mt-10 space-y-5">
               {[
                 {
@@ -99,9 +99,9 @@ export default function PricingPage() {
                   as="li"
                   key={step.title}
                   delay={index * 90}
-                  className="flex gap-4 rounded-xl border border-line bg-paper p-5 transition-colors duration-300 hover:border-line-strong"
+                  className="surface surface-lift flex gap-4 p-5"
                 >
-                  <span className="font-mono text-xs text-muted">
+                  <span className="font-mono text-xs text-warm">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <div>
@@ -121,8 +121,8 @@ export default function PricingPage() {
         <Container className="grid gap-12 md:grid-cols-[1fr_1.4fr] md:gap-16">
           <SectionHeading
             eyebrow="FAQ"
-            title="Questions I get asked before we start."
-            description="Still unsure? Ask anyway — I'd rather answer a question than quote the wrong thing."
+            title="Questions I get asked."
+            description="If yours isn't here, send it over and I'll answer straight."
           />
           <div className="divide-y divide-line border-y border-line">
             {pricing.faq.map((item, index) => (
@@ -131,7 +131,7 @@ export default function PricingPage() {
                   <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-base font-medium tracking-[-0.01em] [&::-webkit-details-marker]:hidden">
                     <span className="flex items-start gap-2">
                       <SketchSparkle
-                        className="mt-1.5 h-3 w-3 shrink-0 text-muted transition-colors group-open:text-ink"
+                        className="mt-1.5 h-3 w-3 shrink-0 text-warm/70 transition-colors group-open:text-warm"
                         delay={150}
                       />
                       {item.q}
@@ -153,32 +153,9 @@ export default function PricingPage() {
         </Container>
       </Section>
 
-      <Section className="bg-mist">
-        <Container>
-          <Reveal className="mx-auto max-w-2xl rounded-2xl border border-line bg-paper p-8 text-center md:p-12">
-            <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
-              Not sure $299 covers it?
-            </h2>
-            <p className="mt-4 text-sm leading-relaxed text-muted text-pretty md:text-base">
-              Send me a paragraph about the project. I&apos;ll tell you honestly whether the $299
-              package fits, what I&apos;d cut, and how long it would take.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <ButtonLink href={`mailto:${site.email}`} className="px-6 py-3">
-                Email {site.email}
-                <ArrowUpRight className="h-4 w-4" />
-              </ButtonLink>
-              <ButtonLink href="/projects" variant="secondary" className="px-6 py-3">
-                See past work
-              </ButtonLink>
-            </div>
-          </Reveal>
-        </Container>
-      </Section>
-
       <CtaBand
         title="Ready when you are."
-        description="One price, one person to talk to, one site that works. Send me the details and I'll reply within a day."
+        description="One price, one person to talk to. Fill in the form and I'll reply with a plan and a start date."
       />
     </>
   );
