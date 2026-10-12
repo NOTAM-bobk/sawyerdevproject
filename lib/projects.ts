@@ -1,4 +1,5 @@
 import { createHash, randomInt, randomUUID } from "node:crypto";
+import type { UpdateFilter } from "mongodb";
 import type { Answer } from "@/lib/enquiry";
 import { getDb } from "@/lib/mongodb";
 import { ENQUIRIES, valueOf } from "@/lib/submissions";
@@ -440,14 +441,15 @@ export async function appendProjectMedia(
     .updateOne(
       { id },
       {
+        // One entry per file, oldest dropped once there are a hundred.
         $push: {
           media: {
             $each: [mediaItem],
             $slice: -100,
           },
-        } as any,
+        },
         $set: { updatedAt: new Date() },
-      }
+      } satisfies UpdateFilter<ProjectDoc>
     );
 
   return result.matchedCount > 0 ? mediaItem : null;
@@ -470,9 +472,9 @@ export async function deleteProjectMedia(
     .updateOne(
       { id: projectId },
       {
-        $pull: { media: { id: mediaId } } as any,
+        $pull: { media: { id: mediaId } },
         $set: { updatedAt: new Date() },
-      }
+      } satisfies UpdateFilter<ProjectDoc>
     );
 
   return existing;

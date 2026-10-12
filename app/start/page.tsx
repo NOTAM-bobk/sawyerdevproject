@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, Mail, MapPin, Phone, ShieldCheck, Sparkles, Zap } from "lucide-react";
+import { ArrowLeft, Mail, MapPin, Phone, ShieldCheck, Sparkles, Zap } from "lucide-react";
 import { FullscreenShell } from "@/components/fullscreen";
 import { JsonLd } from "@/components/json-ld";
 import { ProjectForm } from "@/components/project-form";

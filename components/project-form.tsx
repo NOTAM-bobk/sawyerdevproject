@@ -13,7 +13,7 @@ import {
   Send,
   Sparkles,
 } from "lucide-react";
-import { SketchCheck, SketchSparkle } from "@/components/doodles";
+import { SketchCheck } from "@/components/doodles";
 import { projectForm, type Field } from "@/content/form";
 import { site } from "@/content/site";
 import { rememberProject } from "@/lib/client-flags";
