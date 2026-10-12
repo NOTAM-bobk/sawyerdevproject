@@ -1,0 +1,12 @@
+/**
+ * Renders structured data. The serialized payload escapes `<` so a stray tag in
+ * the data can never break out of the script element.
+ */
+export function JsonLd({ data }: { data: Record<string, unknown> | Record<string, unknown>[] }) {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, "\\u003c") }}
+    />
+  );
+}

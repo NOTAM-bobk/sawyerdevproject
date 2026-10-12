@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { JsonLd } from "@/components/json-ld";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { site } from "@/content/site";
+import { personSchema, websiteSchema } from "@/lib/seo";
 import "./globals.css";
 
-const title = `${site.name} — ${site.role}`;
+const title = `${site.name} — ${site.role} in ${site.location.split(",")[0]}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -19,28 +21,45 @@ export const metadata: Metadata = {
   applicationName: site.name,
   authors: [{ name: site.name, url: site.url }],
   creator: site.name,
+  publisher: site.name,
+  category: "technology",
+  alternates: { canonical: "/" },
+  formatDetection: { email: false, address: false, telephone: false },
   keywords: [
     "Sawyer Schulz",
-    "software engineer",
-    "freelance developer",
+    "Sawyer Schultz",
+    "student developer",
+    "web developer Minneapolis",
+    "website design Minneapolis",
+    "freelance web developer Minnesota",
     "Next.js developer",
     "React developer",
     "TypeScript",
-    "Minneapolis",
-    "Minnesota",
-    "student developer",
+    "$299 website",
   ],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     type: "website",
     url: site.url,
     siteName: site.name,
     title,
     description: site.description,
+    locale: "en_US",
   },
+  // Title and description intentionally omitted: Twitter/X cards fall back to the
+  // page's Open Graph values, so each page keeps its own wording.
   twitter: {
     card: "summary_large_image",
-    title,
-    description: site.description,
   },
 };
 
@@ -64,6 +83,7 @@ export default function RootLayout({
           </main>
           <SiteFooter />
         </div>
+        <JsonLd data={[personSchema(), websiteSchema()]} />
       </body>
     </html>
   );

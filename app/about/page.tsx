@@ -13,7 +13,9 @@ import {
   Section,
   SectionHeading,
 } from "@/components/ui";
+import { JsonLd } from "@/components/json-ld";
 import { about, site } from "@/content/site";
+import { breadcrumbSchema } from "@/lib/seo";
 import { avatarUrl } from "@/lib/dicebear";
 
 const SCRIBBLE_PHRASE = "fewer dependencies, fewer abstractions";
@@ -35,11 +37,19 @@ export const metadata: Metadata = {
   title: "About",
   description:
     "Sawyer Schulz is a student developer in Minneapolis, Minnesota building fast, clean web products — plus the toolbox and the story behind the work.",
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About Sawyer Schulz",
+    description:
+      "A student developer in Minneapolis, Minnesota — how he works, what he works with, and what he does away from the keyboard.",
+    url: "/about",
+  },
 };
 
 export default function AboutPage() {
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: "About", path: "/about" }])} />
       <PageHero
         eyebrow="About"
         title="Engineer, tinkerer, relentless simplifier."

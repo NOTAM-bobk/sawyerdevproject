@@ -259,17 +259,13 @@ export default function HomePage() {
             <SectionHeading
               align="center"
               eyebrow="Pricing"
-              title="Transparent pricing, no discovery-call gatekeeping."
-              description="Fixed scope and fixed price, agreed before anything is built. Every engagement includes design and engineering."
+              title="One package, one price."
+              description="A complete site — designed, built and launched — for $299. Fixed scope, agreed before anything is built."
             />
           </Reveal>
-          <div className="mt-14 grid gap-6 md:grid-cols-3 md:items-stretch">
-            {pricing.tiers.map((tier, index) => (
-              <Reveal key={tier.name} delay={index * 100} className="h-full">
-                <PricingCard tier={tier} delay={index * 100} />
-              </Reveal>
-            ))}
-          </div>
+          <Reveal delay={100} className="mx-auto mt-14 max-w-sm">
+            <PricingCard option={pricing.options[0]} />
+          </Reveal>
           <Reveal delay={120}>
             <div className="mt-10 text-center">
               <Link

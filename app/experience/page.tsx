@@ -4,19 +4,29 @@ import { CtaBand } from "@/components/cta-band";
 import { SketchSparkle } from "@/components/doodles";
 import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
+import { JsonLd } from "@/components/json-ld";
 import { Timeline } from "@/components/timeline";
 import { ButtonLink, Container, Section, SectionHeading, Tag } from "@/components/ui";
 import { about, experience, site } from "@/content/site";
+import { breadcrumbSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Experience",
   description:
-    "A decade of product engineering — roles, responsibilities and results across startups, agencies and platform teams.",
+    "Sawyer Schulz's work history — roles, responsibilities and results across product teams, client work and freelance projects.",
+  alternates: { canonical: "/experience" },
+  openGraph: {
+    title: "Experience — Sawyer Schulz",
+    description:
+      "Roles, responsibilities and results across product teams, client work and freelance projects.",
+    url: "/experience",
+  },
 };
 
 export default function ExperiencePage() {
   return (
     <>
+      <JsonLd data={breadcrumbSchema([{ name: "Experience", path: "/experience" }])} />
       <PageHero
         eyebrow={experience.eyebrow}
         title={experience.title}

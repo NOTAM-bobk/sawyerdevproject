@@ -1,20 +1,32 @@
 import type { Metadata } from "next";
 import { CtaBand } from "@/components/cta-band";
+import { JsonLd } from "@/components/json-ld";
 import { PageHero } from "@/components/page-hero";
 import { ProjectShowcase } from "@/components/project-showcase";
 import { Reveal } from "@/components/reveal";
 import { Container, Section } from "@/components/ui";
 import { projects, site } from "@/content/site";
+import { breadcrumbSchema, projectsSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Projects",
   description:
     "Projects by Sawyer Schulz, a student developer in Minneapolis — including an athlete site for an NCAA 800m runner and his own portfolio.",
+  alternates: { canonical: "/projects" },
+  openGraph: {
+    title: "Projects — Sawyer Schulz",
+    description:
+      "Live projects by Sawyer Schulz: an athlete site for an NCAA 800m runner, and his own portfolio.",
+    url: "/projects",
+  },
 };
 
 export default function ProjectsPage() {
   return (
     <>
+      <JsonLd
+        data={[projectsSchema(), breadcrumbSchema([{ name: "Projects", path: "/projects" }])]}
+      />
       <PageHero eyebrow={projects.eyebrow} title={projects.title} description={projects.intro} />
 
       <Section>

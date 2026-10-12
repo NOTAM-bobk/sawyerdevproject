@@ -2,53 +2,67 @@ import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
 import { CtaBand } from "@/components/cta-band";
 import { SketchCheck, SketchSparkle } from "@/components/doodles";
+import { JsonLd } from "@/components/json-ld";
 import { PageHero } from "@/components/page-hero";
-import { Reveal } from "@/components/reveal";
 import { PricingCard } from "@/components/pricing-card";
+import { Reveal } from "@/components/reveal";
 import { ButtonLink, Container, Section, SectionHeading } from "@/components/ui";
 import { pricing, site } from "@/content/site";
+import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Pricing",
+  title: "Pricing — one full site for $299",
   description:
-    "Simple, fixed-price pricing for landing pages, full sites and monthly engineering retainers — plus what's included, add-ons and FAQs.",
+    "One fixed-price package: a complete custom website for $299, designed, built and launched by Sawyer Schulz. Includes up to 5 pages, SEO basics, and a contact form.",
+  alternates: { canonical: "/pricing" },
+  openGraph: {
+    title: "Pricing — one full site for $299",
+    description:
+      "A complete custom website for $299, fixed price. Up to 5 pages, custom design, SEO basics, deployed to your domain.",
+    url: "/pricing",
+  },
 };
 
 export default function PricingPage() {
+  const [option] = pricing.options;
+
   return (
     <>
+      <JsonLd
+        data={[
+          serviceSchema(),
+          faqSchema(),
+          breadcrumbSchema([{ name: "Pricing", path: "/pricing" }]),
+        ]}
+      />
       <PageHero eyebrow={pricing.eyebrow} title={pricing.title} description={pricing.intro}>
-        <p className="font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
-          {pricing.note}
-        </p>
+        <p className="font-mono text-[11px] tracking-[0.14em] text-muted uppercase">{pricing.note}</p>
       </PageHero>
 
       <Section>
         <Container>
-          <div className="grid gap-6 md:grid-cols-3 md:items-stretch">
-            {pricing.tiers.map((tier, index) => (
-              <Reveal key={tier.name} delay={index * 100} className="h-full">
-                <PricingCard tier={tier} delay={index * 100} />
-              </Reveal>
-            ))}
-          </div>
-          <p className="mt-8 text-center text-sm text-muted">
-            Larger scope, unusual requirements, or a team that needs a hand?{" "}
-            <a
-              href={`mailto:${site.email}`}
-              className="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
-            >
-              Send me the details
-            </a>{" "}
-            and I&apos;ll quote it.
-          </p>
+          <Reveal className="mx-auto max-w-4xl">
+            <PricingCard option={option} variant="wide" />
+          </Reveal>
+          <Reveal delay={100}>
+            <p className="mx-auto mt-8 max-w-2xl text-center text-sm leading-relaxed text-muted text-pretty">
+              Bigger than a site — an app, a rebuild, or ongoing work? Those are quoted separately.{" "}
+              <a
+                href={`mailto:${site.email}`}
+                className="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
+              >
+                Send me the details
+              </a>{" "}
+              and I&apos;ll come back with a number.
+            </p>
+          </Reveal>
         </Container>
       </Section>
 
       <Section className="bg-mist">
         <Container className="grid gap-14 md:grid-cols-2 md:gap-16">
           <div>
-            <SectionHeading eyebrow="Always included" title="In every project, no exceptions." />
+            <SectionHeading eyebrow="In every project" title="What you always get." />
             <ul className="mt-10 space-y-4">
               {pricing.included.map((item, index) => (
                 <Reveal
@@ -65,25 +79,40 @@ export default function PricingPage() {
           </div>
 
           <div>
-            <SectionHeading eyebrow="Add-ons" title="Extras, priced up front." />
-            <dl className="mt-10 overflow-hidden rounded-xl border border-line bg-paper">
-              {pricing.addons.map((addon, index) => (
+            <SectionHeading eyebrow="How it works" title="Three steps, no meetings you don't need." />
+            <ol className="mt-10 space-y-5">
+              {[
+                {
+                  title: "Tell me what you need",
+                  body: "A message is enough: who it's for, the pages you want, and any content or branding you already have.",
+                },
+                {
+                  title: "I design and build it",
+                  body: "You get a fixed $299 quote up front, then progress updates as the site comes together.",
+                },
+                {
+                  title: "You review, I launch",
+                  body: "One revision round, then it goes live on your domain — with a handover doc for anything you want to change later.",
+                },
+              ].map((step, index) => (
                 <Reveal
-                  key={addon.name}
-                  delay={index * 50}
-                  className="flex items-baseline justify-between gap-6 border-b border-line px-6 py-4 last:border-b-0"
+                  as="li"
+                  key={step.title}
+                  delay={index * 90}
+                  className="flex gap-4 rounded-xl border border-line bg-paper p-5 transition-colors duration-300 hover:border-line-strong"
                 >
-                  <dt className="text-sm text-ink-soft">{addon.name}</dt>
-                  <dd className="font-mono text-xs tracking-wide text-muted whitespace-nowrap">
-                    {addon.price}
-                  </dd>
+                  <span className="font-mono text-xs text-muted">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3 className="text-sm font-medium tracking-[-0.01em]">{step.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted text-pretty">
+                      {step.body}
+                    </p>
+                  </div>
                 </Reveal>
               ))}
-            </dl>
-            <p className="mt-6 text-sm leading-relaxed text-muted text-pretty">
-              Hourly work is available at $120/hour for existing clients, billed in 30-minute
-              increments. Everything is invoiced in USD.
-            </p>
+            </ol>
           </div>
         </Container>
       </Section>
@@ -99,24 +128,24 @@ export default function PricingPage() {
             {pricing.faq.map((item, index) => (
               <Reveal key={item.q} delay={index * 60}>
                 <details className="group py-5">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-base font-medium tracking-[-0.01em] [&::-webkit-details-marker]:hidden">
-                  <span className="flex items-start gap-2">
-                    <SketchSparkle
-                      className="mt-1.5 h-3 w-3 shrink-0 text-muted transition-colors group-open:text-ink"
-                      delay={150}
-                    />
-                    {item.q}
-                  </span>
-                  <span
-                    aria-hidden="true"
-                    className="mt-1 shrink-0 font-mono text-lg leading-none text-muted transition-transform duration-200 group-open:rotate-45"
-                  >
-                    +
-                  </span>
-                </summary>
-                <p className="mt-3 pr-8 pl-5 text-sm leading-relaxed text-muted text-pretty">
-                  {item.a}
-                </p>
+                  <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-base font-medium tracking-[-0.01em] [&::-webkit-details-marker]:hidden">
+                    <span className="flex items-start gap-2">
+                      <SketchSparkle
+                        className="mt-1.5 h-3 w-3 shrink-0 text-muted transition-colors group-open:text-ink"
+                        delay={150}
+                      />
+                      {item.q}
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className="mt-1 shrink-0 font-mono text-lg leading-none text-muted transition-transform duration-200 group-open:rotate-45"
+                    >
+                      +
+                    </span>
+                  </summary>
+                  <p className="mt-3 pr-8 pl-5 text-sm leading-relaxed text-muted text-pretty">
+                    {item.a}
+                  </p>
                 </details>
               </Reveal>
             ))}
@@ -128,11 +157,11 @@ export default function PricingPage() {
         <Container>
           <Reveal className="mx-auto max-w-2xl rounded-2xl border border-line bg-paper p-8 text-center md:p-12">
             <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
-              Not sure which tier fits?
+              Not sure $299 covers it?
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-muted text-pretty md:text-base">
-              Send me a paragraph about the project and a rough budget. I&apos;ll tell you what&apos;s
-              realistic, what I&apos;d cut, and where the timeline honestly lands.
+              Send me a paragraph about the project. I&apos;ll tell you honestly whether the $299
+              package fits, what I&apos;d cut, and how long it would take.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <ButtonLink href={`mailto:${site.email}`} className="px-6 py-3">
@@ -148,8 +177,8 @@ export default function PricingPage() {
       </Section>
 
       <CtaBand
-        title="Two project slots left this quarter."
-        description="Booking now for work starting in the next six weeks. If your timeline is tighter than that, say so — I keep room for emergencies."
+        title="Ready when you are."
+        description="One price, one person to talk to, one site that works. Send me the details and I'll reply within a day."
       />
     </>
   );

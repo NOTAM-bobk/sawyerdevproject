@@ -3,79 +3,101 @@ import { SketchCheck } from "@/components/doodles";
 import { Scribbled } from "@/components/ui";
 import { site } from "@/content/site";
 
-export type PricingTier = {
+export type PricingOption = {
   name: string;
   price: string;
   priceNote: string;
   for: string;
   turnaround: string;
-  popular: boolean;
+  highlight?: string;
   features: readonly string[];
   cta: string;
 };
 
-export function PricingCard({ tier, delay = 0 }: { tier: PricingTier; delay?: number }) {
-  const mailto = `mailto:${site.email}?subject=${encodeURIComponent(`${tier.name} — project enquiry`)}`;
+export function PricingCard({
+  option,
+  delay = 0,
+  variant = "compact",
+}: {
+  option: PricingOption;
+  delay?: number;
+  /** "wide" splits the card into details + feature list for the pricing page. */
+  variant?: "compact" | "wide";
+}) {
+  const mailto = `mailto:${site.email}?subject=${encodeURIComponent(
+    `${option.name} (${option.price}) — project enquiry`,
+  )}`;
+  const wide = variant === "wide";
 
-  return (
-    <div
-      className={`relative flex h-full flex-col rounded-2xl border bg-paper p-7 transition-all duration-300 ${
-        tier.popular
-          ? "border-ink shadow-[0_1px_2px_rgba(0,0,0,0.06),0_24px_60px_-32px_rgba(0,0,0,0.45)] md:-mt-2 md:mb-2"
-          : "border-line hover:border-line-strong"
-      }`}
-    >
-      {tier.popular ? (
-        <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-ink px-3 py-1 font-mono text-[10px] tracking-[0.16em] text-paper uppercase">
-          Most popular
+  const details = (
+    <>
+      {option.highlight ? (
+        <span className="inline-flex w-fit rounded-full bg-ink px-3 py-1 font-mono text-[10px] tracking-[0.16em] text-paper uppercase">
+          {option.highlight}
         </span>
       ) : null}
 
-      <h3 className="text-sm font-medium tracking-tight">{tier.name}</h3>
-      <p className="mt-4 flex items-baseline gap-2">
-        <span className="text-4xl font-semibold tracking-[-0.04em]">
-          {tier.popular ? (
-            <Scribbled delay={delay + 200}>{tier.price}</Scribbled>
-          ) : (
-            tier.price
-          )}
-        </span>
+      <h3 className={`font-mono text-[11px] tracking-[0.18em] text-muted uppercase ${option.highlight ? "mt-6" : ""}`}>
+        {option.name}
+      </h3>
+
+      <p className="mt-3 text-5xl font-semibold tracking-[-0.05em]">
+        <Scribbled delay={delay + 200}>{option.price}</Scribbled>
       </p>
-      <p className="mt-2 font-mono text-[11px] tracking-wide text-muted uppercase">
-        {tier.priceNote}
+      <p className="mt-4 font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
+        {option.priceNote}
       </p>
 
-      <p className="mt-5 border-t border-line pt-5 text-sm leading-relaxed text-muted text-pretty">
-        {tier.for}
+      <p className="mt-6 border-t border-line pt-6 text-sm leading-relaxed text-muted text-pretty">
+        {option.for}
       </p>
 
-      <ul className="mt-5 flex-1 space-y-3">
-        {tier.features.map((feature, index) => (
-          <li key={feature} className="flex gap-3 text-sm text-ink-soft">
-            <SketchCheck
-              className="mt-0.5 h-4 w-4 shrink-0 text-ink"
-              delay={delay + index * 60}
-            />
-            <span>{feature}</span>
-          </li>
-        ))}
-      </ul>
-
-      <div className="mt-8">
+      <div className={wide ? "mt-8 flex flex-wrap items-center gap-3" : "mt-8"}>
         <a
           href={mailto}
-          className={`inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-medium transition-colors ${
-            tier.popular
-              ? "bg-ink text-paper hover:bg-ink-soft"
-              : "border border-line-strong bg-paper text-ink hover:border-ink hover:bg-mist"
-          }`}
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-ink-soft"
         >
-          {tier.cta}
+          {option.cta}
           <ArrowUpRight className="h-3.5 w-3.5" />
         </a>
-        <p className="mt-3 text-center font-mono text-[11px] tracking-wide text-muted">
-          {tier.turnaround}
-        </p>
+        <p className="font-mono text-[11px] tracking-wide text-muted">{option.turnaround}</p>
+      </div>
+    </>
+  );
+
+  const featureList = (
+    <ul className={wide ? "space-y-3.5" : "space-y-3"}>
+      {option.features.map((feature, index) => (
+        <li key={feature} className="flex gap-3 text-sm text-ink-soft">
+          <SketchCheck
+            className="mt-0.5 h-4 w-4 shrink-0 text-ink"
+            delay={delay + index * 60}
+          />
+          <span>{feature}</span>
+        </li>
+      ))}
+    </ul>
+  );
+
+  return (
+    <div className="relative rounded-2xl bg-ink/[0.04] p-px shadow-[0_1px_2px_rgba(0,0,0,0.04),0_24px_60px_-40px_rgba(0,0,0,0.5)]">
+      <div className="flex h-full flex-col rounded-[calc(1rem-1px)] border border-ink/10 bg-paper p-7 md:p-9">
+        {wide ? (
+          <div className="grid gap-10 md:grid-cols-[1.1fr_1fr] md:gap-12">
+            <div className="flex flex-col">{details}</div>
+            <div className="self-start rounded-xl border border-line bg-mist/60 p-6">
+              <p className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase">
+                What&apos;s included
+              </p>
+              <div className="mt-4">{featureList}</div>
+            </div>
+          </div>
+        ) : (
+          <>
+            {details}
+            <div className="mt-7 border-t border-line pt-7">{featureList}</div>
+          </>
+        )}
       </div>
     </div>
   );
