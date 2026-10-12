@@ -63,8 +63,9 @@ export default function HomePage() {
               Websites that <Scribbled>load fast</Scribbled> and look right.
             </h1>
 
+            {/* ink-soft, not muted: this paragraph sits on the aurora glow */}
             <p
-              className="animate-rise mx-auto mt-8 max-w-xl text-base leading-relaxed text-muted text-pretty md:text-lg"
+              className="animate-rise mx-auto mt-8 max-w-xl text-base leading-relaxed text-ink-soft text-pretty md:text-lg"
               style={{ animationDelay: "160ms" }}
             >
               I&apos;m {site.name}. I design the site, write the code and get it live on your domain
