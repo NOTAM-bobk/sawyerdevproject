@@ -32,7 +32,7 @@ export default function HomePage() {
     <>
       {/* ---------------------------------------------------------------- Hero */}
       <section className="relative overflow-hidden">
-        <div aria-hidden="true" className="scroll-dim absolute inset-0">
+        <div aria-hidden="true" className="scroll-dim absolute inset-0 overflow-hidden pointer-events-none">
           {/* Bottom aurora: electric blue through the center, blooming into violet and pink at the corners. */}
           <div className="anim-blob absolute -bottom-72 left-1/2 h-[620px] w-[980px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(57,125,255,0.48),rgba(93,102,255,0.30)_42%,rgba(143,75,255,0.16)_65%,transparent_78%)] blur-2xl md:-bottom-96 md:h-[760px] md:w-[1240px]" />
           <div className="anim-blob-slow absolute -bottom-64 -left-48 h-[480px] w-[620px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(93,141,255,0.32),rgba(121,92,255,0.18)_52%,transparent_76%)] blur-2xl md:-bottom-80 md:-left-64 md:h-[620px] md:w-[760px]" />

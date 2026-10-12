@@ -22,7 +22,7 @@ export function Section({
   children: ReactNode;
 }) {
   return (
-    <section id={id} className={`border-t border-line py-20 md:py-28 ${className}`}>
+    <section id={id} className={`relative overflow-hidden border-t border-line py-20 md:py-28 ${className}`}>
       {children}
     </section>
   );

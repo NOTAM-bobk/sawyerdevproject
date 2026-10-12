@@ -26,6 +26,7 @@ import {
   type ProjectStat,
   type ProjectStatus,
   type ProjectUpdate,
+  type ProjectMedia,
 } from "@/lib/project-types";
 
 /* How a dashboard is stored on an enquiry document. */
@@ -47,6 +48,7 @@ type ProjectDoc = {
   checklist?: ProjectItem[];
   links?: ProjectLink[];
   messages?: ProjectMessage[];
+  media?: ProjectMedia[];
 };
 
 /* --------------------------------------------------------- access codes ---- */
@@ -152,6 +154,7 @@ function toProject(doc: ProjectDoc): Project {
     checklist: doc.checklist ?? [],
     links: doc.links ?? [],
     messages: doc.messages ?? [],
+    media: doc.media ?? [],
     answers,
     hasCode: Boolean(doc.codeHash),
     codeCreatedAt: asIso(doc.codeCreatedAt),
@@ -417,3 +420,60 @@ export async function deleteProject(id: string): Promise<boolean> {
   return result.deletedCount === 1;
 }
 
+
+
+export async function getProjectMedia(id: string): Promise<ProjectMedia[]> {
+  const db = await getDb();
+  const doc = await db
+    .collection<ProjectDoc>(ENQUIRIES)
+    .findOne({ id }, { projection: { media: 1, _id: 0 } });
+  return (doc?.media ?? []) as ProjectMedia[];
+}
+
+export async function appendProjectMedia(
+  id: string,
+  mediaItem: ProjectMedia
+): Promise<ProjectMedia | null> {
+  const db = await getDb();
+  const result = await db
+    .collection<ProjectDoc>(ENQUIRIES)
+    .updateOne(
+      { id },
+      {
+        $push: {
+          media: {
+            $each: [mediaItem],
+            $slice: -100,
+          },
+        } as any,
+        $set: { updatedAt: new Date() },
+      }
+    );
+
+  return result.matchedCount > 0 ? mediaItem : null;
+}
+
+export async function deleteProjectMedia(
+  projectId: string,
+  mediaId: string
+): Promise<ProjectMedia | null> {
+  const db = await getDb();
+  const doc = await db
+    .collection<ProjectDoc>(ENQUIRIES)
+    .findOne({ id: projectId }, { projection: { media: 1, _id: 0 } });
+
+  const existing = doc?.media?.find((item) => item.id === mediaId) ?? null;
+  if (!existing) return null;
+
+  await db
+    .collection<ProjectDoc>(ENQUIRIES)
+    .updateOne(
+      { id: projectId },
+      {
+        $pull: { media: { id: mediaId } } as any,
+        $set: { updatedAt: new Date() },
+      }
+    );
+
+  return existing;
+}

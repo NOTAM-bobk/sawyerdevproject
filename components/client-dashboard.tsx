@@ -4,6 +4,7 @@ import { DashboardSignOut } from "@/components/dashboard-sign-out";
 import { DeadlineCountdown } from "@/components/deadline-countdown";
 import { LiveRefresh } from "@/components/live-refresh";
 import { ProjectChat } from "@/components/project-chat";
+import { DashboardMedia } from "@/components/dashboard-media";
 import { Container } from "@/components/ui";
 import { site } from "@/content/site";
 import { STATUS_LABELS, projectProgress, type Project } from "@/lib/projects";
@@ -211,6 +212,28 @@ export function ClientDashboard({
         initialMessages={project.messages}
         readOnly={preview}
       />
+
+
+      {/* Brand Media & Assets */}
+      <section className="mt-14">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+          <div>
+            <h2 className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase">
+              Brand media & assets
+            </h2>
+            <p className="mt-1 text-sm text-ink-soft">
+              Upload your logos, high-res pictures, and brand documents for Sawyer to use in your build.
+            </p>
+          </div>
+          <span className="chip3d self-start sm:self-auto rounded-full border border-line bg-mist px-3 py-1 font-mono text-[11px] text-muted">
+            {(project.media || []).length} uploaded
+          </span>
+        </div>
+
+        <div className="surface rounded-2xl border border-line bg-paper p-6 sm:p-8 shadow-xs">
+          <DashboardMedia initialMedia={project.media || []} />
+        </div>
+      </section>
 
       {/* Checklist */}
       <section className="mt-14">

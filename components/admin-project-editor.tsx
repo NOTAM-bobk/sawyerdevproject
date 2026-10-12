@@ -26,6 +26,7 @@ import {
   type ProjectStatus,
 } from "@/lib/project-types";
 import { ProjectChat } from "@/components/project-chat";
+import { DashboardMedia } from "@/components/dashboard-media";
 
 type Draft = {
   title: string;
@@ -486,6 +487,15 @@ export function AdminProjectEditor({ project }: { project: Project }) {
         otherName={project.name || "the client"}
         initialMessages={project.messages}
       />
+
+
+      {/* Client Media & Assets */}
+      <section className="surface mt-6 p-6 md:p-7">
+        <h2 className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase mb-4">
+          Client media & assets
+        </h2>
+        <DashboardMedia initialMedia={project.media || []} projectId={project.id} isAdmin={true} />
+      </section>
 
       {/* Links ------------------------------------------------------------- */}
       <section className="surface mt-6 p-6 md:p-7">

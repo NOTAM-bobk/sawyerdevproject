@@ -67,8 +67,8 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
-      <body className="font-sans antialiased">
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} overflow-x-hidden`}>
+      <body className="font-sans antialiased overflow-x-hidden min-h-screen">
         <a
           href="#content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[60] focus:rounded-md focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:text-paper"
@@ -76,7 +76,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <ScrollProgress />
-        <div className="flex min-h-screen flex-col">
+        <div className="flex min-h-screen flex-col overflow-x-hidden w-full">
           <SiteHeader />
           <main id="content" className="flex-1">
             {children}

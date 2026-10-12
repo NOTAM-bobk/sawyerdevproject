@@ -39,6 +39,19 @@ export type ProjectItem = { id: string; label: string; done: boolean };
 export type ProjectLink = { id: string; label: string; href: string };
 export type ProjectStat = { id: string; label: string; value: string };
 
+export type ProjectMedia = {
+  id: string;
+  name: string;
+  size: number;
+  mimeType: string;
+  category: "logo" | "image" | "document" | "other";
+  url: string;
+  uploadedAt: string;
+  uploadedBy: "client" | "sawyer";
+  storage: "r2" | "database";
+  r2Key?: string;
+};
+
 /** Longest message the chat will store, matching the API's own limit. */
 export const MESSAGE_MAX_LENGTH = 1000;
 /** Chat is a conversation, not an archive: only the last few hundred are kept. */
@@ -64,6 +77,7 @@ export type Project = {
   links: ProjectLink[];
   /** The live chat thread, oldest first. */
   messages: ProjectMessage[];
+  media: ProjectMedia[];
   answers: Answer[];
   /** False if no code has ever been issued, so there is nothing to sign in with. */
   hasCode: boolean;

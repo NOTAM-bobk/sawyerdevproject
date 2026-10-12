@@ -11,6 +11,7 @@ import {
   Loader2,
   Mail,
   Send,
+  Sparkles,
 } from "lucide-react";
 import { SketchCheck, SketchSparkle } from "@/components/doodles";
 import { projectForm, type Field } from "@/content/form";
@@ -23,7 +24,7 @@ type Status = "idle" | "submitting" | "sent" | "fallback" | "error";
 const STEPS = projectForm.steps;
 
 const inputClasses =
-  "w-full rounded-lg border border-line bg-paper px-4 py-3 text-sm text-ink transition-colors placeholder:text-muted/60 hover:border-line-strong focus:border-ink focus:outline-none";
+  "w-full rounded-xl border border-line bg-paper px-4 py-3.5 text-sm text-ink transition-all placeholder:text-muted/50 hover:border-line-strong focus:border-ink focus:ring-1 focus:ring-ink focus:outline-none shadow-xs";
 
 export function ProjectForm() {
   const [stepIndex, setStepIndex] = useState(0);
@@ -34,7 +35,7 @@ export function ProjectForm() {
   /** The client's dashboard code — only ever returned once, on this screen. */
   const [accessCode, setAccessCode] = useState("");
   const [copied, setCopied] = useState(false);
-  const [company, setCompany] = useState(""); // honeypot — never shown to a human
+  const [company, setCompany] = useState(""); // honeypot
 
   const step = STEPS[stepIndex];
   const isLast = stepIndex === STEPS.length - 1;
@@ -43,7 +44,6 @@ export function ProjectForm() {
     () =>
       STEPS.flatMap((entry) => entry.fields).map((field) => {
         const raw = values[field.name] ?? (field.type === "checks" ? [] : "");
-        // Choice fields hold option values; show the labels a person actually picked.
         const display = (value: string) =>
           field.type === "radio" || field.type === "checks"
             ? (field.options.find((option) => option.value === value)?.label ?? value)
@@ -83,11 +83,11 @@ export function ProjectForm() {
       const empty = Array.isArray(value) ? value.length === 0 : !value || value.trim() === "";
 
       if (isRequired && empty) {
-        found[field.name] = "This one is needed.";
+        found[field.name] = "This question is required.";
         continue;
       }
       if (field.type === "email" && typeof value === "string" && value.trim() && !isValidEmail(value)) {
-        found[field.name] = "That email doesn't look right.";
+        found[field.name] = "Please enter a valid email address.";
       }
     }
 
@@ -151,8 +151,6 @@ export function ProjectForm() {
     }
   }
 
-  /* ---------------------------------------------------------------- sent ---- */
-
   async function copyCode() {
     try {
       await navigator.clipboard.writeText(accessCode);
@@ -167,55 +165,54 @@ export function ProjectForm() {
     const sent = status === "sent";
 
     return (
-      <div className="rounded-2xl border border-line bg-paper p-8 md:p-10">
+      <div className="surface w-full rounded-2xl border border-line bg-paper p-8 sm:p-12 md:p-14 shadow-xl">
         <span className="inline-flex items-center gap-2 text-ink">
           <SketchCheck className="h-5 w-5" />
           <span className="font-mono text-[11px] tracking-[0.18em] uppercase">
-            {sent ? "Enquiry sent" : "One quick step"}
+            {sent ? "Enquiry Received" : "One quick step"}
           </span>
         </span>
 
-        <h2 className="mt-5 text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
-          {sent ? "Thanks — that landed." : "Send it from your own email"}
+        <h2 className="mt-4 text-2xl font-semibold tracking-[-0.03em] md:text-3xl text-ink">
+          {sent ? "Thanks — your project brief is in." : "Send it from your email"}
         </h2>
-        <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted text-pretty">
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted text-pretty">
           {sent
-            ? `I read every enquiry myself and usually reply within a day. If you need to add anything, just email ${site.email}.`
+            ? `I review every brief myself and will reply within 24 hours. You can track your project status and upload brand media in your new client dashboard below.`
             : "Nothing captured that — this site has no database connected yet. Open the pre-filled email below and hit send; everything you typed is already in it."}
         </p>
 
         {accessCode ? (
-          <div className="mt-7 rounded-xl border border-line bg-mist p-5 md:p-6">
-            <p className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase">
-              Your dashboard code
-            </p>
-            <div className="mt-3 flex flex-wrap items-center gap-3">
-              <code className="chip3d rounded-lg border border-line bg-paper px-4 py-2.5 font-mono text-lg tracking-[0.14em] text-ink">
+          <div className="mt-8 rounded-2xl border border-line bg-mist/60 p-6 sm:p-8">
+            <span className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase">
+              Your Private Dashboard Access Code
+            </span>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <code className="chip3d rounded-xl border border-line bg-paper px-5 py-3 font-mono text-xl tracking-[0.16em] text-ink font-semibold shadow-sm">
                 {accessCode}
               </code>
               <button
                 type="button"
                 onClick={copyCode}
-                className="btn3d btn3d-light inline-flex items-center gap-2 rounded-full border border-line-strong px-3.5 py-2 text-[13px] font-medium text-ink"
+                className="btn3d btn3d-light inline-flex items-center gap-2 rounded-xl border border-line-strong px-4 py-2.5 text-sm font-medium text-ink"
               >
-                {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-                {copied ? "Copied" : "Copy"}
+                {copied ? <Check className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
+                {copied ? "Copied code" : "Copy code"}
               </button>
             </div>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted text-pretty">
-              Keep this somewhere safe. It signs you in at{" "}
-              <span className="text-ink-soft">the client dashboard</span>, where you can follow the
-              build: whether I&apos;ve taken the job on, what I&apos;m working on, the checklist and
-              your launch date. It&apos;s saved with your enquiry in my own records, so I can send it
-              again if you lose it.
+            <p className="mt-4 max-w-2xl text-xs leading-relaxed text-muted text-pretty">
+              Save this code. You can use it to sign in to your dashboard anytime to track build milestones,
+              chat directly with Sawyer, review staging links, and upload your logos and images.
             </p>
-            <Link
-              href="/dashboard"
-              className="btn3d btn3d-dark mt-5 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium text-paper"
-            >
-              <LayoutDashboard className="h-4 w-4" />
-              Open your dashboard
-            </Link>
+            <div className="mt-6 flex flex-wrap gap-4">
+              <Link
+                href="/dashboard"
+                className="btn3d btn3d-dark inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium text-paper"
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                Go to your client dashboard
+              </Link>
+            </div>
           </div>
         ) : null}
 
@@ -229,17 +226,17 @@ export function ProjectForm() {
           </a>
         ) : null}
 
-        <div className="mt-8 border-t border-line pt-6">
+        <div className="mt-10 border-t border-line pt-8">
           <p className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase">
-            What you told me
+            Summary of your answers
           </p>
-          <dl className="mt-4 space-y-3">
+          <dl className="mt-5 divide-y divide-line/60">
             {answers
               .filter((answer) => (Array.isArray(answer.value) ? answer.value.length > 0 : answer.value.trim() !== ""))
               .map((answer) => (
-                <div key={answer.name} className="grid gap-1 sm:grid-cols-[220px_1fr] sm:gap-4">
-                  <dt className="text-xs text-muted">{answer.label}</dt>
-                  <dd className="text-sm text-ink-soft">
+                <div key={answer.name} className="py-3 grid gap-1 sm:grid-cols-[240px_1fr] sm:gap-6">
+                  <dt className="text-xs font-mono text-muted uppercase tracking-wider">{answer.label}</dt>
+                  <dd className="text-sm text-ink-soft font-medium">
                     {Array.isArray(answer.value) ? answer.value.join(", ") : answer.value}
                   </dd>
                 </div>
@@ -263,8 +260,6 @@ export function ProjectForm() {
     );
   }
 
-  /* ---------------------------------------------------------------- form ---- */
-
   return (
     <form
       noValidate
@@ -273,7 +268,7 @@ export function ProjectForm() {
         if (isLast) void submit();
         else goNext();
       }}
-      className="rounded-2xl border border-line bg-paper p-6 md:p-9"
+      className="surface w-full rounded-2xl border border-line bg-paper p-6 sm:p-10 md:p-12 lg:p-14 shadow-xl"
     >
       {/* Honeypot */}
       <div className="hidden" aria-hidden="true">
@@ -288,9 +283,9 @@ export function ProjectForm() {
         />
       </div>
 
-      {/* Progress */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <ol className="flex flex-wrap items-center gap-x-4 gap-y-2">
+      {/* Steps Navigation Bar */}
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between pb-6 border-b border-line">
+        <ol className="flex flex-wrap items-center gap-x-6 gap-y-3">
           {STEPS.map((entry, index) => {
             const done = index < stepIndex;
             const current = index === stepIndex;
@@ -306,16 +301,24 @@ export function ProjectForm() {
                   }}
                   disabled={index > stepIndex}
                   aria-current={current ? "step" : undefined}
-                  className={`flex items-center gap-2 font-mono text-[11px] tracking-[0.14em] uppercase transition-colors ${
-                    current ? "text-ink" : done ? "text-ink-soft hover:text-ink" : "text-muted/60"
+                  className={`flex items-center gap-2.5 font-mono text-xs tracking-[0.14em] uppercase transition-all ${
+                    current
+                      ? "text-ink font-semibold"
+                      : done
+                      ? "text-ink-soft hover:text-ink cursor-pointer"
+                      : "text-muted/50 cursor-not-allowed"
                   }`}
                 >
                   <span
-                    className={`flex h-5 w-5 items-center justify-center rounded-full border text-[10px] ${
-                      current ? "border-ink bg-ink text-paper" : done ? "border-ink text-ink" : "border-line"
+                    className={`flex h-6 w-6 items-center justify-center rounded-full border text-[11px] transition-colors ${
+                      current
+                        ? "border-ink bg-ink text-paper font-bold shadow-xs"
+                        : done
+                        ? "border-ink text-ink font-medium"
+                        : "border-line text-muted/60"
                     }`}
                   >
-                    {String(index + 1).padStart(2, "0")}
+                    {done ? <Check className="h-3 w-3 stroke-[2.5]" /> : String(index + 1).padStart(2, "0")}
                   </span>
                   <span className="hidden sm:inline">{entry.title}</span>
                 </button>
@@ -323,27 +326,36 @@ export function ProjectForm() {
             );
           })}
         </ol>
-        <span className="font-mono text-[11px] tracking-wide whitespace-nowrap text-muted">
+
+        <span className="font-mono text-xs tracking-wider text-muted font-medium">
           Step {stepIndex + 1} of {STEPS.length}
         </span>
       </div>
 
-      <div className="mt-4 h-px w-full bg-line">
+      {/* Progress Bar */}
+      <div className="h-1 w-full bg-mist overflow-hidden rounded-full mt-3">
         <div
-          className="h-full bg-ink transition-all duration-500"
+          className="h-full bg-ink transition-all duration-500 ease-out rounded-full"
           style={{ width: `${((stepIndex + 1) / STEPS.length) * 100}%` }}
         />
       </div>
 
-      {/* Step body */}
+      {/* Step Header */}
       <div className="mt-8">
-        <h2 className="flex items-center gap-2 text-xl font-semibold tracking-[-0.03em] md:text-2xl">
-          <SketchSparkle className="h-4 w-4 text-ink" delay={150} />
-          {step.title}
-        </h2>
-        <p className="mt-2 text-sm leading-relaxed text-muted text-pretty">{step.description}</p>
+        <div className="flex items-center gap-2.5">
+          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-mist border border-line text-warm">
+            <Sparkles className="h-4 w-4" />
+          </span>
+          <h2 className="text-xl font-semibold tracking-[-0.03em] md:text-2xl text-ink">
+            {step.title}
+          </h2>
+        </div>
+        <p className="mt-2 text-sm leading-relaxed text-muted text-pretty max-w-2xl">
+          {step.description}
+        </p>
 
-        <div className="mt-8 space-y-8">
+        {/* Input Fields Grid with generous spacing */}
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-9">
           {step.fields.map((field) => (
             <FieldRenderer
               key={field.name}
@@ -357,41 +369,42 @@ export function ProjectForm() {
         </div>
       </div>
 
-      {/* Footer actions */}
-      <div className="mt-10 flex flex-col gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+      {/* Footer Navigation */}
+      <div className="mt-12 flex flex-col gap-4 border-t border-line pt-8 sm:flex-row sm:items-center sm:justify-between">
         <button
           type="button"
           onClick={goBack}
           disabled={stepIndex === 0}
-          className="inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-ink disabled:invisible"
+          className="inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-ink disabled:invisible"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back
+          Previous Step
         </button>
 
         <div className="flex flex-wrap items-center gap-4">
           <p className="font-mono text-[11px] tracking-wide text-muted">
-            <span className="text-red-600">*</span> required
+            <span className="text-red-500">*</span> required question
           </p>
+
           <button
             type="submit"
             disabled={status === "submitting"}
-            className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-ink-soft disabled:opacity-60"
+            className="btn3d btn3d-dark inline-flex items-center gap-2.5 rounded-full px-7 py-3 text-sm font-medium text-paper shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60"
           >
             {status === "submitting" ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Sending…
+                Sending your brief…
               </>
             ) : isLast ? (
               <>
-                Send enquiry
-                <Send className="h-3.5 w-3.5" />
+                Submit Brief
+                <Send className="h-4 w-4 ml-1" />
               </>
             ) : (
               <>
-                Next
-                <ArrowRight className="h-4 w-4" />
+                Continue
+                <ArrowRight className="h-4 w-4 ml-1" />
               </>
             )}
           </button>
@@ -430,13 +443,21 @@ function FieldRenderer({
   onChange: (name: string, value: string | string[]) => void;
   onToggle: (name: string, option: string) => void;
 }) {
-  if (field.type === "radio" || field.type === "checks") {
-    return <ChoiceField field={field} value={value} error={error} onChange={onChange} onToggle={onToggle} />;
-  }
-  return <EntryFieldControl field={field} value={value} error={error} onChange={onChange} />;
+  const isHalf = "half" in field && field.half === true;
+  const colSpanClass = isHalf ? "col-span-1" : "col-span-1 md:col-span-2";
+
+  return (
+    <div className={colSpanClass}>
+      {field.type === "radio" || field.type === "checks" ? (
+        <ChoiceField field={field} value={value} error={error} onChange={onChange} onToggle={onToggle} />
+      ) : (
+        <EntryFieldControl field={field} value={value} error={error} onChange={onChange} />
+      )}
+    </div>
+  );
 }
 
-/** Radio and checkbox chips. */
+/** Radio and checkbox chips with clear selected states and hints */
 function ChoiceField({
   field,
   value,
@@ -451,27 +472,26 @@ function ChoiceField({
   onToggle: (name: string, option: string) => void;
 }) {
   const selected = Array.isArray(value) ? value : value ? [value] : [];
-  const hasHints = field.options.some((option) => option.hint);
   const describedBy =
     [field.hint ? `hint-${field.name}` : "", error ? `error-${field.name}` : ""].filter(Boolean).join(" ") ||
     undefined;
 
   return (
-    <fieldset id={`field-${field.name}`} aria-describedby={describedBy}>
-      <legend className="mb-3">
+    <fieldset id={`field-${field.name}`} aria-describedby={describedBy} className="space-y-3">
+      <legend>
         <FieldLabel field={field} />
       </legend>
 
-      <div className={hasHints ? "grid gap-3 sm:grid-cols-2" : "flex flex-wrap gap-2"}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-1">
         {field.options.map((option) => {
           const isSelected = selected.includes(option.value);
           return (
             <label
               key={option.value}
-              className={`cursor-pointer rounded-xl border px-4 py-3 transition-all duration-200 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ink ${
+              className={`group relative flex flex-col justify-between cursor-pointer rounded-xl border p-4 transition-all duration-200 ${
                 isSelected
-                  ? "border-ink bg-ink text-paper shadow-[0_6px_20px_-12px_rgba(0,0,0,0.6)]"
-                  : "border-line bg-paper hover:border-line-strong"
+                  ? "border-ink bg-ink text-paper shadow-md scale-[1.01]"
+                  : "border-line bg-paper hover:border-line-strong hover:bg-mist/50"
               }`}
             >
               <input
@@ -486,9 +506,24 @@ function ChoiceField({
                 }
                 className="sr-only"
               />
-              <span className="block text-sm font-medium">{option.label}</span>
+
+              <div className="flex items-start justify-between gap-2">
+                <span className={`text-sm font-medium ${isSelected ? "text-paper" : "text-ink"}`}>
+                  {option.label}
+                </span>
+                <span
+                  className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-md border text-[10px] transition-colors ${
+                    isSelected
+                      ? "border-paper bg-paper text-ink"
+                      : "border-line-strong text-transparent group-hover:border-ink/40"
+                  }`}
+                >
+                  <Check className="h-3 w-3 stroke-[2.5]" />
+                </span>
+              </div>
+
               {option.hint ? (
-                <span className={`mt-1 block text-xs ${isSelected ? "text-paper/70" : "text-muted"}`}>
+                <span className={`mt-2 block text-xs leading-relaxed ${isSelected ? "text-paper/75" : "text-muted"}`}>
                   {option.hint}
                 </span>
               ) : null}
@@ -498,12 +533,12 @@ function ChoiceField({
       </div>
 
       {field.hint ? (
-        <p id={`hint-${field.name}`} className="mt-3 text-xs text-muted">
+        <p id={`hint-${field.name}`} className="text-xs text-muted pt-1">
           {field.hint}
         </p>
       ) : null}
       {error ? (
-        <p id={`error-${field.name}`} role="alert" className="mt-2 text-xs text-red-600">
+        <p id={`error-${field.name}`} role="alert" className="text-xs font-medium text-red-600 pt-1">
           {error}
         </p>
       ) : null}
@@ -511,7 +546,7 @@ function ChoiceField({
   );
 }
 
-/** Single-line inputs and textareas. */
+/** Single-line inputs and textareas */
 function EntryFieldControl({
   field,
   value,
@@ -527,11 +562,10 @@ function EntryFieldControl({
   const describedBy =
     [field.hint ? `hint-${field.name}` : "", error ? `error-${field.name}` : ""].filter(Boolean).join(" ") ||
     undefined;
-  const isHalf = "half" in field && field.half === true;
 
   return (
-    <div className={isHalf ? "sm:inline-block sm:w-[calc(50%-0.75rem)] sm:align-top" : ""}>
-      <label htmlFor={`field-${field.name}`} className="mb-3 block">
+    <div className="space-y-2">
+      <label htmlFor={`field-${field.name}`} className="block">
         <FieldLabel field={field} />
       </label>
 
@@ -539,14 +573,14 @@ function EntryFieldControl({
         <textarea
           id={`field-${field.name}`}
           name={field.name}
-          rows={field.rows ?? 4}
+          rows={field.rows ?? 3}
           value={text}
           placeholder={field.placeholder}
           aria-required={field.required === true}
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy}
           onChange={(event) => onChange(field.name, event.target.value)}
-          className={`${inputClasses} resize-y`}
+          className={`${inputClasses} resize-y min-h-[96px]`}
         />
       ) : (
         <input
@@ -564,12 +598,12 @@ function EntryFieldControl({
       )}
 
       {field.hint ? (
-        <p id={`hint-${field.name}`} className="mt-2 text-xs text-muted">
+        <p id={`hint-${field.name}`} className="text-xs text-muted">
           {field.hint}
         </p>
       ) : null}
       {error ? (
-        <p id={`error-${field.name}`} role="alert" className="mt-2 text-xs text-red-600">
+        <p id={`error-${field.name}`} role="alert" className="text-xs font-medium text-red-600">
           {error}
         </p>
       ) : null}
@@ -579,15 +613,12 @@ function EntryFieldControl({
 
 function FieldLabel({ field }: { field: Field }) {
   return (
-    <span className="flex items-baseline gap-2 font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
+    <span className="flex items-baseline gap-2 font-mono text-xs tracking-[0.14em] text-muted uppercase font-medium">
       {field.label}
       {field.required === true ? (
-        <>
-          <span aria-hidden="true" className="text-red-600">
-            *
-          </span>
-          <span className="sr-only">(required)</span>
-        </>
+        <span aria-hidden="true" className="text-red-500">
+          *
+        </span>
       ) : null}
     </span>
   );

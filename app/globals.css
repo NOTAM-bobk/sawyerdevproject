@@ -33,11 +33,17 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 
   body {
     background-color: var(--color-paper);
     color: var(--color-ink);
+    overflow-x: hidden;
+    max-width: 100vw;
+    position: relative;
+    width: 100%;
   }
 
   ::selection {
@@ -153,20 +159,18 @@
 }
 
 [data-reveal="hidden"][data-variant="left"] {
-  transform: translate3d(-28px, 0, 0);
+  transform: translate3d(-16px, 0, 0);
 }
 
 [data-reveal="hidden"][data-variant="right"] {
-  transform: translate3d(28px, 0, 0);
+  transform: translate3d(16px, 0, 0);
 }
 
 /*
- * On phones most revealed blocks are full width, so a sideways offset would
- * push them past the container and widen the document (a sideways scrollbar
- * on every swipe). Reveal vertically there and keep the sideways slide for
- * wider screens, where the offset stays inside the layout.
+ * On phones and tablets, sideways offsets push full-width blocks past the viewport
+ * causing unwanted horizontal scrolling and wobble. Animate vertically instead.
  */
-@media (max-width: 639px) {
+@media (max-width: 1024px) {
   [data-reveal="hidden"][data-variant="left"],
   [data-reveal="hidden"][data-variant="right"] {
     transform: translate3d(0, 24px, 0);
