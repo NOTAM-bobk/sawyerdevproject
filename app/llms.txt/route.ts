@@ -1,4 +1,4 @@
-import { experience, pricing, projects, site } from "@/content/site";
+import { about, dashboard, pricing, projects, site } from "@/content/site";
 
 export const dynamic = "force-static";
 
@@ -23,6 +23,7 @@ ${site.name} is a web designer and developer in ${site.location}, reachable at $
 - [Experience](${site.url}/experience): Work history and skills.
 - [Projects](${site.url}/projects): Live projects, with what each one does.
 - [Pricing](${site.url}/pricing): The ${option.name} package — ${option.price}, ${option.priceNote}.
+- [Dashboard](${site.url}/dashboard): The private client dashboard, sign-in only.
 
 ## Services
 
@@ -31,13 +32,20 @@ ${site.name} is a web designer and developer in ${site.location}, reachable at $
 - Payment: no upfront cost. The ${option.price} is due once the site is built and the client has seen it.
 - Service area: ${site.location}, plus remote work.
 
+## The client dashboard
+
+Every project includes a private dashboard the client signs in to with a code issued
+automatically when they send an enquiry. There is no account to create. It shows:
+
+${dashboard.features.map((feature) => `- ${feature.title}: ${feature.body}`).join("\n")}
+
 ## Projects
 
 ${projects.items.map((project) => `- [${project.name}](${project.href}): ${project.summary}`).join("\n")}
 
-## Experience
+## Skills
 
-${experience.roles.map((role) => `- ${role.role}, ${role.company} (${role.period}): ${role.summary}`).join("\n")}
+${about.toolbox.map((group) => `- ${group.group}: ${group.items.join(", ")}`).join("\n")}
 
 ## Contact
 

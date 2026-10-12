@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, CalendarClock, ListChecks, MessagesSquare, Radio } from "lucide-react";
 import { CtaBand } from "@/components/cta-band";
 import { SketchHighlight, SketchSparkle } from "@/components/doodles";
-import { GithubPanel } from "@/components/github-panel";
 import { PricingCard } from "@/components/pricing-card";
 import { ProjectCard } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
@@ -16,10 +15,18 @@ import {
   SectionHeading,
   Tag,
 } from "@/components/ui";
-import { about, pillars, pricing, projects, site, stack, stats } from "@/content/site";
+import { about, dashboard, pillars, pricing, projects, site, stack, stats } from "@/content/site";
+
+/** The two projects worth leading with, picked by name from the content file. */
+const SHOWCASE = ["Ben Launches — Boring Internet", "base31.org"];
+
+/** One icon per dashboard feature, in the same order as content/site.ts. */
+const dashboardIcons = [Radio, ListChecks, MessagesSquare, CalendarClock];
 
 export default function HomePage() {
-  const selected = projects.items.slice(0, 2);
+  const selected = SHOWCASE.flatMap((name) =>
+    projects.items.filter((project) => project.name === name),
+  );
 
   return (
     <>
@@ -127,7 +134,7 @@ export default function HomePage() {
                     .
                   </>
                 }
-                description="Two of the twelve. Both live right now, both designed, built and maintained by me."
+                description="Ben Launches and base31.org — two of the four. Both live right now, both designed, built and maintained by me."
               />
               <ButtonLink href="/projects" variant="secondary" className="shrink-0">
                 All projects
@@ -178,8 +185,67 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* -------------------------------------------------------------- GitHub */}
-      <GithubPanel />
+      {/* ------------------------------------------------------- Your dashboard */}
+      <Section className="relative overflow-hidden bg-mist">
+        <div aria-hidden="true" className="absolute inset-0 tint-plum" />
+        <Container className="relative">
+          <Reveal>
+            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+              <SectionHeading
+                eyebrow={dashboard.eyebrow}
+                title={
+                  <>
+                    You watch it happen, <Scribbled delay={300}>live</Scribbled>.
+                  </>
+                }
+                description={dashboard.intro}
+              />
+              <ButtonLink href="/start" variant="secondary" className="shrink-0">
+                Start a project
+                <ArrowUpRight className="h-4 w-4" />
+              </ButtonLink>
+            </div>
+          </Reveal>
+
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {dashboard.features.map((feature, index) => {
+              const Icon = dashboardIcons[index] ?? Radio;
+              return (
+                <Reveal key={feature.title} delay={index * 80} className="h-full">
+                  <div className="surface surface-lift flex h-full flex-col p-6">
+                    <span className="flex items-center justify-between gap-3">
+                      <span className="chip3d inline-flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-paper">
+                        <Icon className="h-4 w-4 text-warm" />
+                      </span>
+                      {feature.badge ? (
+                        <span className="chip3d inline-flex items-center gap-1.5 rounded-full border border-line bg-paper px-2.5 py-1 font-mono text-[10px] tracking-[0.14em] text-muted uppercase">
+                          <span className="relative flex h-1.5 w-1.5">
+                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                          </span>
+                          {feature.badge}
+                        </span>
+                      ) : null}
+                    </span>
+                    <h3 className="mt-5 text-base font-medium tracking-[-0.02em]">
+                      {feature.title}
+                    </h3>
+                    <p className="mt-3 flex-1 text-sm leading-relaxed text-muted text-pretty">
+                      {feature.body}
+                    </p>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+
+          <Reveal delay={140}>
+            <p className="mt-8 max-w-2xl text-sm leading-relaxed text-muted text-pretty">
+              {dashboard.note}
+            </p>
+          </Reveal>
+        </Container>
+      </Section>
 
       {/* --------------------------------------------------------------- Offer */}
       <Section>

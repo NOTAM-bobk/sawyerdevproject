@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
+import { CLIENT_COOKIE, createClientToken } from "@/lib/client-auth";
+import { isSameOrigin, sessionCookie } from "@/lib/admin";
 import { isValidEmail, REQUIRED_ANSWER_NAMES, type Answer } from "@/lib/enquiry";
 import { sendProjectEnquiry } from "@/lib/notify";
+import { startProject } from "@/lib/projects";
+import { isStorageConfigured, saveSubmission } from "@/lib/submissions";
 
 /** Enquiries are delivered by email, so this route always runs on demand. */
 export const dynamic = "force-dynamic";
@@ -68,14 +72,55 @@ export async function POST(request: Request) {
     );
   }
 
-  const result = await sendProjectEnquiry(answers, email);
+  // Store first, email second: a mail outage (or a missing key) must not lose it.
+  const saved = isStorageConfigured()
+    ? await saveSubmission(answers)
+    : { ok: false as const, error: "Storage is not configured." };
+
+  // Every stored enquiry also becomes a client dashboard, which is what the
+  // access code below signs in to. A hiccup here must not lose the enquiry.
+  let accessCode = "";
+  let projectId = "";
+  if (saved.ok) {
+    try {
+      const started = await startProject(saved.id, answers);
+      if (started) {
+        accessCode = started.code;
+        projectId = saved.id;
+      }
+    } catch {
+      accessCode = "";
+    }
+  }
+
+  /**
+   * Whoever just created a dashboard is signed into it, so the button on the
+   * confirmation actually opens their page instead of asking for the code they
+   * were handed one line earlier. Only for same-origin posts: a cross-site
+   * form submission must not be able to plant a session cookie.
+   */
+  const respond = (body: Record<string, unknown>, status = 200) => {
+    const response = NextResponse.json(body, { status });
+    if (projectId && isSameOrigin(request)) {
+      const { token, expires } = createClientToken(projectId);
+      response.cookies.set(CLIENT_COOKIE, token, sessionCookie(expires));
+    }
+    return response;
+  };
+
+  const result = await sendProjectEnquiry(answers, email, accessCode);
 
   if (result.ok) {
-    return NextResponse.json({ ok: true });
+    return respond({ ok: true, stored: saved.ok, emailed: true, accessCode });
+  }
+
+  if (saved.ok) {
+    // Nothing is lost even though the email did not go out.
+    return respond({ ok: true, stored: true, emailed: false, accessCode });
   }
 
   if (!result.configured) {
-    // No email provider connected yet — the client offers a pre-filled email instead.
+    // Nothing captured it at all — the client offers a pre-filled email instead.
     return NextResponse.json({ ok: false, configured: false }, { status: 503 });
   }
 

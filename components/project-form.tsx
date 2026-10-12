@@ -1,7 +1,17 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Loader2, Mail, Send } from "lucide-react";
+import Link from "next/link";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  Copy,
+  LayoutDashboard,
+  Loader2,
+  Mail,
+  Send,
+} from "lucide-react";
 import { SketchCheck, SketchSparkle } from "@/components/doodles";
 import { projectForm, type Field } from "@/content/form";
 import { site } from "@/content/site";
@@ -21,6 +31,11 @@ export function ProjectForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>("idle");
   const [serverError, setServerError] = useState("");
+  /** False when the enquiry was stored but no email went out. */
+  const [emailed, setEmailed] = useState(true);
+  /** The client's dashboard code — only ever returned once, on this screen. */
+  const [accessCode, setAccessCode] = useState("");
+  const [copied, setCopied] = useState(false);
   const [company, setCompany] = useState(""); // honeypot — never shown to a human
 
   const step = STEPS[stepIndex];
@@ -113,10 +128,18 @@ export function ProjectForm() {
         body: JSON.stringify({ answers, company }),
       });
       const data = (await response.json().catch(() => null)) as
-        | { ok?: boolean; configured?: boolean; error?: string }
+        | {
+            ok?: boolean;
+            configured?: boolean;
+            emailed?: boolean;
+            accessCode?: string;
+            error?: string;
+          }
         | null;
 
       if (response.ok && data?.ok) {
+        setEmailed(data.emailed !== false);
+        setAccessCode(typeof data.accessCode === "string" ? data.accessCode : "");
         setStatus("sent");
         return;
       }
@@ -133,6 +156,16 @@ export function ProjectForm() {
   }
 
   /* ---------------------------------------------------------------- sent ---- */
+
+  async function copyCode() {
+    try {
+      await navigator.clipboard.writeText(accessCode);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  }
 
   if (status === "sent" || status === "fallback") {
     const sent = status === "sent";
@@ -151,9 +184,46 @@ export function ProjectForm() {
         </h2>
         <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted text-pretty">
           {sent
-            ? `I read every enquiry myself and usually reply within a day. If you need to add anything, just reply to ${site.email}.`
-            : "Email delivery isn't switched on for this site yet, so nothing was submitted. Open the pre-filled email below and hit send — everything you typed is already in it."}
+            ? emailed
+              ? `I read every enquiry myself and usually reply within a day. If you need to add anything, just reply to ${site.email}.`
+              : `Your answers are saved in my own list, so nothing is lost — I read every one myself and usually reply within a day. (Email delivery isn't switched on for this site yet, so there's no copy in your sent folder.)`
+            : "Nothing captured that — email delivery isn't switched on for this site yet. Open the pre-filled email below and hit send; everything you typed is already in it."}
         </p>
+
+        {accessCode ? (
+          <div className="mt-7 rounded-xl border border-line bg-mist p-5 md:p-6">
+            <p className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase">
+              Your dashboard code
+            </p>
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <code className="chip3d rounded-lg border border-line bg-paper px-4 py-2.5 font-mono text-lg tracking-[0.14em] text-ink">
+                {accessCode}
+              </code>
+              <button
+                type="button"
+                onClick={copyCode}
+                className="btn3d btn3d-light inline-flex items-center gap-2 rounded-full border border-line-strong px-3.5 py-2 text-[13px] font-medium text-ink"
+              >
+                {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+                {copied ? "Copied" : "Copy"}
+              </button>
+            </div>
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted text-pretty">
+              Keep this somewhere safe. It signs you in at{" "}
+              <span className="text-ink-soft">the client dashboard</span>, where you can follow the
+              build: whether I&apos;ve taken the job on, what I&apos;m working on, the checklist and
+              your launch date. It&apos;s also in the copy of this enquiry I get, so I can resend it
+              if you lose it.
+            </p>
+            <Link
+              href="/dashboard"
+              className="btn3d btn3d-dark mt-5 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium text-paper"
+            >
+              <LayoutDashboard className="h-4 w-4" />
+              Open your dashboard
+            </Link>
+          </div>
+        ) : null}
 
         {!sent ? (
           <a
@@ -189,6 +259,7 @@ export function ProjectForm() {
             setValues({});
             setStepIndex(0);
             setStatus("idle");
+            setAccessCode("");
           }}
           className="mt-8 text-sm text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
         >

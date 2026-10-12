@@ -24,7 +24,11 @@ function escapeHtml(value: string) {
   );
 }
 
-export async function sendProjectEnquiry(answers: Answer[], replyTo?: string): Promise<SendResult> {
+export async function sendProjectEnquiry(
+  answers: Answer[],
+  replyTo?: string,
+  accessCode?: string,
+): Promise<SendResult> {
   const key = process.env.PLUNK_SECRET_KEY;
   if (!key) return { ok: false, configured: false };
 
@@ -39,6 +43,14 @@ export async function sendProjectEnquiry(answers: Answer[], replyTo?: string): P
       )}</td><td style="padding:6px 0;vertical-align:top">${escapeHtml(value)}</td></tr>`;
     })
     .join("");
+
+  // The client's dashboard code is shown to them on screen as well; keeping a
+  // copy here means it is never lost if they close the tab.
+  const codeRow = accessCode
+    ? `<tr><td style="padding:6px 16px 6px 0;vertical-align:top;color:#666;white-space:nowrap;font-weight:600">Dashboard code</td><td style="padding:6px 0;vertical-align:top;font-family:ui-monospace,monospace;font-weight:700;letter-spacing:0.06em">${escapeHtml(
+        accessCode,
+      )}</td></tr>`
+    : "";
 
   const name = answers.find((answer) => answer.name === "name")?.value;
   const subjectName = typeof name === "string" && name.trim() !== "" ? name : "website project";
@@ -57,7 +69,7 @@ export async function sendProjectEnquiry(answers: Answer[], replyTo?: string): P
         to: process.env.CONTACT_TO_EMAIL ?? site.email,
         from: process.env.CONTACT_FROM_EMAIL ?? site.email,
         subject: `New project enquiry — ${subjectName}`,
-        body: `<h2 style="font-family:sans-serif">New project enquiry</h2><table style="font-family:sans-serif;font-size:14px;border-collapse:collapse">${rows}</table><p style="font-family:sans-serif;font-size:12px;color:#666">Sent from ${site.url}/start</p>`,
+        body: `<h2 style="font-family:sans-serif">New project enquiry</h2><table style="font-family:sans-serif;font-size:14px;border-collapse:collapse">${rows}${codeRow}</table><p style="font-family:sans-serif;font-size:12px;color:#666">Sent from ${site.url}/start</p>`,
         ...(replyTo ? { reply: replyTo } : {}),
       }),
       signal: controller.signal,

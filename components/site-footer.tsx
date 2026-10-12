@@ -9,7 +9,7 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-line bg-mist">
       <Container className="py-14 md:py-20">
-        <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <p className="relative inline-block text-2xl font-semibold tracking-[-0.03em]">
               {site.name}
@@ -38,14 +38,6 @@ export function SiteFooter() {
             <FooterLink href="/start">Start a project</FooterLink>
           </FooterColumn>
 
-          <FooterColumn title="Elsewhere">
-            {site.socials.map((social) => (
-              <FooterLink key={social.label} href={social.href} external>
-                {social.label}
-              </FooterLink>
-            ))}
-          </FooterColumn>
-
           <FooterColumn title="Get in touch">
             <FooterLink href={`mailto:${site.email}`}>{site.email}</FooterLink>
             <FooterLink href={site.phoneHref}>{site.phone}</FooterLink>
@@ -64,6 +56,16 @@ export function SiteFooter() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link href="/dashboard" className="transition-colors hover:text-ink">
+                Dashboard
+              </Link>
+            </li>
+            <li>
+              <Link href="/admin" className="transition-colors hover:text-ink">
+                Admin
+              </Link>
+            </li>
           </ul>
         </div>
       </Container>

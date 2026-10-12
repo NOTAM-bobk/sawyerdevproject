@@ -4,7 +4,6 @@ import { CtaBand } from "@/components/cta-band";
 import { PageHero } from "@/components/page-hero";
 import { Reveal } from "@/components/reveal";
 import { JsonLd } from "@/components/json-ld";
-import { Timeline } from "@/components/timeline";
 import { ButtonLink, Container, MetaRow, Section, SectionHeading, Tag } from "@/components/ui";
 import { about, experience } from "@/content/site";
 import { breadcrumbSchema } from "@/lib/seo";
@@ -12,12 +11,12 @@ import { breadcrumbSchema } from "@/lib/seo";
 export const metadata: Metadata = {
   title: "Experience",
   description:
-    "Sawyer Schulz's work: five years of websites, client sites in Minneapolis, and 71 public repositories on GitHub.",
+    "What Sawyer Schulz works with and what he is building now: five years of websites and client sites in Minneapolis.",
   alternates: { canonical: "/experience" },
   openGraph: {
     title: "Experience — Sawyer Schulz",
     description:
-      "Five years of websites, client work in Minneapolis, and 71 public repositories on GitHub.",
+      "What Sawyer Schulz works with now: five years of websites and client work in Minneapolis.",
     url: "/experience",
   },
 };
@@ -41,15 +40,6 @@ export default function ExperiencePage() {
           </ButtonLink>
         </div>
       </PageHero>
-
-      <Section>
-        <Container>
-          <SectionHeading eyebrow="Work history" title="Where I've spent my hours." />
-          <div className="mt-14">
-            <Timeline roles={experience.roles} />
-          </div>
-        </Container>
-      </Section>
 
       <Section className="bg-mist">
         <Container className="grid gap-14 md:grid-cols-2 md:gap-16">
@@ -85,8 +75,8 @@ export default function ExperiencePage() {
       </Section>
 
       <CtaBand
-        title="Want to see the code?"
-        description="Every project here is public. If you want to know how something was built, ask and I'll walk you through it."
+        title="Want to see it before you decide?"
+        description="Send your brief and you get a private dashboard the same day — status, updates and a live chat, so you are not guessing while I build."
       />
     </>
   );

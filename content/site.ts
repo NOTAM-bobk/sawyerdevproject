@@ -3,10 +3,33 @@
  * Edit this file to update the site — no component changes required.
  */
 
+/**
+ * Canonical site origin, resolved once at build time.
+ *
+ * Order: an explicit NEXT_PUBLIC_SITE_URL, then the production domain Vercel
+ * reports for this project (the shortest custom domain, or the vercel.app one),
+ * then the fallback below.
+ */
+function resolveSiteUrl() {
+  const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (configured) return trimSlash(configured);
+
+  const vercelDomain = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
+  if (vercelDomain) return trimSlash(`https://${vercelDomain}`);
+
+  return "https://sawyerschulz.dev";
+}
+
+function trimSlash(url: string) {
+  return url.replace(/\/+$/, "");
+}
+
 export const site = {
   name: "Sawyer Schulz",
   shortName: "Sawyer",
   initials: "SS",
+  /** Trading name shown in the header. */
+  company: "Elephants Foot development team",
   /** DiceBear avatar used as the logo mark in the header. */
   avatar: {
     style: "notionists",
@@ -20,20 +43,15 @@ export const site = {
   phoneHref: "tel:+16124443853",
   availability: "Available for new projects",
   availabilityDetail: "2 slots open — Q1 2027",
-  email: "hello@sawyerschulz.dev",
-  /** Public GitHub account — the stats panel and social links read from here. */
-  github: "NOTAM-bobk",
-  url:
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    (process.env.VERCEL_PROJECT_PRODUCTION_URL
-      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-      : "https://sawyerschulz.dev"),
+  email: "035665@mtka.org",
+  /**
+   * Canonical origin, no trailing slash. An env var set to an empty string
+   * counts as unset — Vercel will happily store `NEXT_PUBLIC_SITE_URL=` and a
+   * blank origin would poison every canonical URL and the sitemap.
+   */
+  url: resolveSiteUrl(),
   description:
     "Sawyer Schulz designs and builds websites in Minneapolis, Minnesota. One complete site for $299, designed, built and launched.",
-  socials: [
-    { label: "GitHub", href: "https://github.com/NOTAM-bobk" },
-    { label: "Email", href: "mailto:hello@sawyerschulz.dev" },
-  ],
   legal: [
     { label: "Privacy", href: "/privacy" },
     { label: "Terms", href: "/terms" },
@@ -49,7 +67,7 @@ export const nav = [
 
 export const stats = [
   { value: "5 yrs", label: "Building websites" },
-  { value: "12", label: "Projects shipped" },
+  { value: "4", label: "Projects, all live" },
   { value: "$299", label: "Flat price, whole site" },
   { value: "1–2 wks", label: "Typical build time" },
 ] as const;
@@ -105,65 +123,20 @@ export const about = {
     { group: "Languages", items: ["HTML", "CSS", "JavaScript", "TypeScript", "Python"] },
     { group: "Frontend", items: ["React", "Next.js", "Tailwind CSS", "Framer Motion"] },
     { group: "Backend", items: ["Node.js", "REST APIs", "Supabase", "Postgres"] },
-    { group: "Ship it", items: ["Vercel", "Cloudflare", "Git & GitHub", "Figma"] },
+    { group: "Ship it", items: ["Vercel", "Cloudflare", "Git", "Figma"] },
   ],
   beyondCode: [
     { title: "Small tools", body: "If an app annoys me twice, I build a worse version of it that does exactly what I need." },
     { title: "Music", body: "I build music players when I should be doing something else. Sproti.30 started that way." },
-    { title: "Backend tinkering", body: "Most of my repos are half an idea and an API. The good half usually ends up on a client site later." },
+    { title: "Backend tinkering", body: "Most of my side projects are half an idea and an API. The good half usually ends up on a client site later." },
   ],
 } as const;
 
 export const experience = {
   eyebrow: "Experience",
-  title: "What I've built, and where.",
+  title: "What I work with, and what I'm building now.",
   intro:
-    "Five years of client sites, my own projects, and the code behind them. All of it is live and can be checked.",
-  roles: [
-    {
-      role: "Founder & developer",
-      company: "base31.org",
-      location: "Remote",
-      period: "2025 — Present",
-      summary:
-        "My own products, designed, built and shipped by me: a web directory and a launch directory, plus the client sites that live under the same name.",
-      highlights: [
-        "base31.org — a hand-checked directory of 195 sites, with voting, tags and a live map of every pick.",
-        "benlaunches.icu — a directory of newly launched sites, screened for speed and dodgy patterns.",
-        "nikoschultz.base31.org — a results-first site for an 800m runner, with every personal best linked to its source race.",
-        "I run the whole thing: design, code, deploy, and the content updates after launch.",
-      ],
-      tags: ["Next.js", "TypeScript", "Design", "Vercel"],
-    },
-    {
-      role: "Web designer & developer",
-      company: "Freelance",
-      location: "Minneapolis, MN",
-      period: "2021 — Present",
-      summary:
-        "Five years of fixed-price sites for local people and small businesses, one at a time from first call to launch.",
-      highlights: [
-        "Agree a flat price before any work starts, so the invoice is never a surprise.",
-        "Design, build, domain and launch, then hand over the source and a short doc.",
-      ],
-      tags: ["Design", "HTML", "CSS", "JavaScript"],
-    },
-    {
-      role: "Independent projects",
-      company: "GitHub",
-      location: "github.com/NOTAM-bobk",
-      period: "2021 — Present",
-      summary:
-        "71 public repositories, mostly web apps built to learn something or to fix an annoyance.",
-      highlights: [
-        "Nimbus. — a weather app with news and a multi-country API. 4 stars.",
-        "Decibel.listenr — measures how loud a room is, live in the browser. 3 stars.",
-        "JamJolt — a music app that stores files in Supabase buckets. 3 stars.",
-        "URL-Save — saves links to Cloudflare so they open on any device. 3 stars.",
-      ],
-      tags: ["JavaScript", "TypeScript", "APIs", "Cloudflare"],
-    },
-  ],
+    "Five years of client sites and my own products. Everything I make is live and can be checked.",
 } as const;
 
 export type ProjectLink = { label: string; href: string };
@@ -185,9 +158,9 @@ export type Project = {
 
 export const projects = {
   eyebrow: "Projects",
-  title: "Twelve projects, all live.",
+  title: "Four projects, all live.",
   intro:
-    "Four sites I designed and built — two directories, a portfolio and an athlete site — then eight smaller apps from my GitHub. Every one of them is running right now.",
+    "Four sites I designed and built — two directories, a site for an 800m runner and my own portfolio. Every one of them is running right now.",
   items: [
     {
       name: "Niko Schultz — 800m",
@@ -283,81 +256,43 @@ export const projects = {
       links: [{ label: "Visit site", href: "https://benlaunches.icu" }],
     },
   ],
-  /**
-   * The rest of the ten: smaller apps, all public on GitHub, all live.
-   * Star counts are a snapshot — lib/github.ts keeps the live panel current.
-   */
-  more: [
-    {
-      name: "Shinobi.genjustu",
-      description: "Pulls the latest posts from a feed into a single page.",
-      href: "https://github.com/NOTAM-bobk/Shinobi.genjustu",
-      language: "TypeScript",
-      stars: 5,
-    },
-    {
-      name: "Nimbus.",
-      description: "Weather app with news and a multi-country API.",
-      href: "https://github.com/NOTAM-bobk/Nimbus.",
-      language: "HTML",
-      stars: 4,
-    },
-    {
-      name: "Decibel.listenr",
-      description: "Reads the microphone and shows how loud a room is, live.",
-      href: "https://github.com/NOTAM-bobk/Decibel.listenr",
-      language: "JavaScript",
-      stars: 3,
-    },
-    {
-      name: "JamJolt",
-      description: "Music app that stores its files in Supabase buckets.",
-      href: "https://github.com/NOTAM-bobk/JamJolt",
-      language: "JavaScript",
-      stars: 3,
-    },
-    {
-      name: "Sproti.30",
-      description: "A 30-second music player built on the iTunes and Deezer APIs.",
-      href: "https://github.com/NOTAM-bobk/Sproti.30",
-      language: "HTML",
-      stars: 3,
-    },
-    {
-      name: "URL-Save",
-      description: "Saves links to Cloudflare so they open on any device.",
-      href: "https://github.com/NOTAM-bobk/URL-Save",
-      language: "HTML",
-      stars: 3,
-    },
-    {
-      name: "ally",
-      description: "A hydration tracker: log what you drink, watch the day add up.",
-      href: "https://github.com/NOTAM-bobk/ally",
-      language: "JavaScript",
-      stars: 2,
-    },
-    {
-      name: "focus-canvas",
-      description: "Focus timer, stopwatch, pomodoro, notes and draggable widgets.",
-      href: "https://github.com/NOTAM-bobk/focus-canvas",
-      language: "JavaScript",
-      stars: 0,
-    },
-  ],
 } as const satisfies {
   eyebrow: string;
   title: string;
   intro: string;
   items: readonly Project[];
-  more: readonly {
-    name: string;
-    description: string;
-    href: string;
-    language: string;
-    stars: number;
-  }[];
 };
+
+export const dashboard = {
+  eyebrow: "Your dashboard",
+  title: "You watch it happen, live.",
+  intro:
+    "Every project comes with a private dashboard you sign in to. Nothing happens behind a closed door: you can see the work move, step by step, and talk to me inside it.",
+  features: [
+    {
+      title: "Live updates",
+      badge: "",
+      body: "A dated timeline of the build that keeps itself current. Open the page and you are reading where things stand right now, not where they stood last week.",
+    },
+    {
+      title: "Progress checks",
+      badge: "",
+      body: "The checklist I am working through, ticked off as I go, with a progress bar worked out from those same steps — so the number and the list can never disagree.",
+    },
+    {
+      title: "Live chat",
+      badge: "Live now",
+      body: "Message me from inside the dashboard and my reply lands there, usually while you are still on the page. No lost email threads and nothing to screenshot.",
+    },
+    {
+      title: "Launch countdown",
+      badge: "",
+      body: "Your current stats, every project link in one place, and a live countdown to the launch date — ticking down in seconds.",
+    },
+  ],
+  note:
+    "Sign in with the code you are given the moment you send your enquiry. There is no account to create and nothing to install.",
+} as const;
 
 export const pricing = {
   eyebrow: "Pricing",
@@ -380,6 +315,7 @@ export const pricing = {
         "Contact form wired to your inbox",
         "SEO basics, sitemap and analytics",
         "Live on your domain, with the source code",
+        "A private dashboard: live updates, progress and live chat",
         "No upfront cost — you pay after the build",
       ],
       cta: "Start my site",

@@ -12,7 +12,9 @@ export const privacy = {
     {
       heading: "What I collect",
       body: [
-        "Whatever you type into the enquiry form: your name, email, phone number if you give it, and the answers about your project.",
+        "Whatever you type into the enquiry form: your name, email, phone number if you give it, and the answers about your project. Those answers are kept in a database I control so I don't lose them, not just in my inbox.",
+        "If your project goes ahead, that same record holds your dashboard — the status, updates, checklist, project links and launch date you can sign in to read — plus the access code that opens it. The code is stored scrambled, so nobody reading the database can see it.",
+        "Messages you send me through the chat inside that dashboard are stored with it, so I can answer them and you can read the thread back. They stay there until the enquiry is deleted.",
         "Basic, anonymous page analytics — which pages get visited and roughly where from. No advertising trackers and no profiles built across other sites.",
       ],
     },
@@ -26,7 +28,7 @@ export const privacy = {
     {
       heading: "Who else sees it",
       body: [
-        "The email service that delivers the form to my inbox, and the hosting provider that serves this site. Both process it on my behalf.",
+        "The email service that delivers the form to my inbox, the database provider that stores it, and the hosting provider that serves this site. All three process it on my behalf.",
         "Nobody else. I don't sell, rent or trade your details, and I don't send marketing email.",
       ],
     },
@@ -39,7 +41,7 @@ export const privacy = {
     {
       heading: "Your choices",
       body: [
-        "Email hello@sawyerschulz.dev and I'll send you a copy of what I hold, correct it, or delete it.",
+        "Email 035665@mtka.org and I'll send you a copy of what I hold, correct it, or delete it.",
       ],
     },
   ],

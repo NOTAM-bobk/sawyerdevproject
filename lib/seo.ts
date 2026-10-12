@@ -1,13 +1,6 @@
 import { pricing, projects, site } from "@/content/site";
 import { avatarUrl } from "@/lib/dicebear";
 
-/** Site-relative social profiles that are real, usable URLs (placeholders are skipped). */
-function profileLinks() {
-  return site.socials
-    .map((social) => social.href)
-    .filter((href) => /^https?:\/\/[^/]+\/.+/.test(href));
-}
-
 /**
  * Primary entity for the site. `Person` is the right type for a one-person
  * portfolio — `ProfessionalService` is deprecated in schema.org in favour of
@@ -43,7 +36,7 @@ export function personSchema() {
       "Technical SEO",
       "Accessibility",
     ],
-    sameAs: [site.url, ...profileLinks()],
+    sameAs: [site.url],
   };
 }
 
@@ -107,11 +100,6 @@ export function projectsSchema() {
         name: project.name,
         href: project.href,
         description: project.summary,
-      })),
-      ...projects.more.map((project) => ({
-        name: project.name,
-        href: project.href,
-        description: project.description,
       })),
     ].map((project, index) => ({
       "@type": "ListItem",
