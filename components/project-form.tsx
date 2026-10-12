@@ -31,8 +31,6 @@ export function ProjectForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<Status>("idle");
   const [serverError, setServerError] = useState("");
-  /** False when the enquiry was stored but no email went out. */
-  const [emailed, setEmailed] = useState(true);
   /** The client's dashboard code — only ever returned once, on this screen. */
   const [accessCode, setAccessCode] = useState("");
   const [copied, setCopied] = useState(false);
@@ -131,14 +129,12 @@ export function ProjectForm() {
         | {
             ok?: boolean;
             configured?: boolean;
-            emailed?: boolean;
             accessCode?: string;
             error?: string;
           }
         | null;
 
       if (response.ok && data?.ok) {
-        setEmailed(data.emailed !== false);
         setAccessCode(typeof data.accessCode === "string" ? data.accessCode : "");
         setStatus("sent");
         return;
@@ -184,10 +180,8 @@ export function ProjectForm() {
         </h2>
         <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted text-pretty">
           {sent
-            ? emailed
-              ? `I read every enquiry myself and usually reply within a day. If you need to add anything, just reply to ${site.email}.`
-              : `Your answers are saved in my own list, so nothing is lost — I read every one myself and usually reply within a day. (Email delivery isn't switched on for this site yet, so there's no copy in your sent folder.)`
-            : "Nothing captured that — email delivery isn't switched on for this site yet. Open the pre-filled email below and hit send; everything you typed is already in it."}
+            ? `I read every enquiry myself and usually reply within a day. If you need to add anything, just email ${site.email}.`
+            : "Nothing captured that — this site has no database connected yet. Open the pre-filled email below and hit send; everything you typed is already in it."}
         </p>
 
         {accessCode ? (
@@ -212,8 +206,8 @@ export function ProjectForm() {
               Keep this somewhere safe. It signs you in at{" "}
               <span className="text-ink-soft">the client dashboard</span>, where you can follow the
               build: whether I&apos;ve taken the job on, what I&apos;m working on, the checklist and
-              your launch date. It&apos;s also in the copy of this enquiry I get, so I can resend it
-              if you lose it.
+              your launch date. It&apos;s saved with your enquiry in my own records, so I can send it
+              again if you lose it.
             </p>
             <Link
               href="/dashboard"

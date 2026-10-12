@@ -3,8 +3,8 @@ import type { Answer } from "@/lib/enquiry";
 import { getDb, isStorageConfigured } from "@/lib/mongodb";
 
 /**
- * Enquiries are stored here as well as emailed, so a mail outage or a missing
- * email key can never lose a lead. Read back in /admin.
+ * Enquiries are stored here — the only place they live. /admin reads them back,
+ * and a stored enquiry can never be lost to a mail outage.
  */
 export const ENQUIRIES = "enquiries";
 const MAX_LISTED = 300;

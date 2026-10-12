@@ -24,20 +24,29 @@ Point your domain at the Vercel project and the backend moves with it.
 
 What happens when someone sends an enquiry:
 
-1. The answers are **stored in MongoDB** (first, always).
+1. The answers are **stored in MongoDB**.
 2. A **client dashboard** is created for them, with a random access code like `JZKH-5RFH-9PZ6`.
 3. They are **signed straight into it** and shown the code.
-4. If email is configured, you also get the enquiry by email — with the code in it.
-
-Step 1 never depends on step 4. If your mail provider is down or unset, nothing is lost.
+4. The record appears at **`/admin`**, which is where you read enquiries. There is no
+   email step — the database is the only copy, so `MONGODB_URI` is the one variable
+   that really matters.
 
 ---
 
 ## Requirements
 
 - Node.js 20 or newer (built and tested on Node 24)
-- A MongoDB database — the free MongoDB Atlas tier is plenty (see below)
-- Optionally, a [Plunk](https://useplunk.com) account for the enquiry emails
+- A MongoDB database — the free MongoDB Atlas tier is plenty
+  ([section 1](#1-storage--mongodb-atlas-detailed-walkthrough))
+
+## How you hear about an enquiry
+
+There is **no email service**. Every enquiry is written to your database and listed at
+**`/admin`** (newest first, with a search box and a CSV export). So:
+
+- nothing can be lost to a mail outage, and there is no third party in the path;
+- the form only falls back to a pre-filled email if `MONGODB_URI` is not set;
+- if you want an email notification later, that is a small addition — ask.
 
 ## Local development
 
@@ -76,41 +85,101 @@ and Preview), and in `.env.local` for local work. `.env*` files are gitignored.
 | Name | Required | What it is |
 |---|---|---|
 | `ADMIN_PASSWORD` | **yes** | The password for `/admin` and for your own view of `/dashboard`. It also signs the session cookies, so changing it signs out every device. |
-| `MONGODB_URI` | **yes** | Where enquiries and client dashboards are stored. |
+| `MONGODB_URI` | **yes** | Where enquiries and client dashboards are stored — the only delivery path, since there is no email service. Without it the form can only offer a pre-filled email and `/admin` has nothing to show. |
 | `NEXT_PUBLIC_SITE_URL` | no | Your canonical domain, e.g. `https://yourdomain.com`. Used for canonical URLs, Open Graph tags, the sitemap and the JSON-LD. On Vercel this is worked out for you from the project's production domain, so you only need it if you want to force a particular one. |
-| `PLUNK_SECRET_KEY` | no | `sk_...` from Plunk. Without it, enquiries are stored but no email is sent. |
-| `CONTACT_TO_EMAIL` | no | Where enquiry emails go. Defaults to the site email in `content/site.ts`. |
-| `CONTACT_FROM_EMAIL` | no | The `from` address. Its domain must be verified in Plunk. |
 
 After changing an env var on Vercel, **redeploy** — variables are read at build/run time.
 
 ---
 
-## 1. Storage — MongoDB Atlas
+## 1. Storage — MongoDB Atlas (detailed walkthrough)
 
-Free, no schema and no migrations: a record is appended, listed and deleted.
+Free, no schema and no migrations: a record is appended, listed and deleted. This is the
+one service the site needs, and the free **M0** tier is enough for years of enquiries.
 
-1. Create a free **M0** cluster at <https://www.mongodb.com/atlas>.
-2. **Database Access** → add a database user with a password.
-3. **Network Access** → allow `0.0.0.0/0`. Vercel Functions have no fixed IP address,
-   so this is how they reach Atlas.
-4. **Connect → Drivers** → copy the connection string and put your database name on the
-   end, e.g. `mongodb+srv://user:pass@cluster0.abcd.mongodb.net/sawyer`.
-5. Set it as `MONGODB_URI`.
+### 1a. Create the account and cluster
 
-If `MONGODB_URI` is missing or unreachable, nothing crashes: `/admin` says storage could
-not be reached instead of throwing, and the form falls back to email.
+1. Open <https://www.mongodb.com/atlas> and click **Try Free**.
+2. Sign up with Google or an email address. This is a MongoDB account, separate from
+   anything else you use; no card is required for the free tier.
+3. If it asks about an organisation or project, accept the defaults
+   (`Organization 0` / `Project 0` are fine).
+4. Click **Build a database** (sometimes labelled **Create**). Choose the
+   **M0 / Free** tier — the only price shown should be **$0**.
+5. Leave the provider as **AWS** and pick a region near you (for Minneapolis,
+   `us-east-1` N. Virginia or `us-east-2` Ohio). Click **Create Deployment** and wait
+   the minute or two it takes to build.
 
-## 2. Email — Plunk (optional)
+### 1b. Create the database user
 
-1. Create a project at <https://useplunk.com> and verify a sending domain.
-2. **Settings → API Keys** → copy the secret key into `PLUNK_SECRET_KEY`.
-3. Set `CONTACT_TO_EMAIL` (where you receive enquiries) and `CONTACT_FROM_EMAIL` (must
-   be on the verified domain).
+Atlas walks you through this while the cluster builds (later: **Database Access →
+Add New Database User**).
+
+1. **Username**: anything memorable, e.g. `sawyer`.
+2. **Password**: click **Autogenerate Secure Password** and copy it somewhere safe.
+   If you type your own instead, avoid `@ : / ? # & %` — those have to be
+   URL-encoded in the connection string, and getting it wrong is the most common
+   cause of *Authentication failed*.
+3. Role: leave it as **Read and write to any database**. Click **Create Database User**.
+
+### 1c. Allow Vercel to connect
+
+Vercel Functions have no fixed IP address, so Atlas has to accept connections from
+anywhere. The database password is what actually protects the data.
+
+1. **Network Access → Add IP Address** (or the *Where would you like to connect from?*
+   step during setup).
+2. Choose **Allow Access from Anywhere**. This adds `0.0.0.0/0`.
+3. Description: `Vercel`. Confirm, and wait for the entry to show as **Active**.
+
+### 1d. Copy the connection string
+
+1. When the cluster is ready, click **Connect**.
+2. Choose **Drivers**, then **Node.js**.
+3. Copy the string. It looks like:
+
+   ```
+   mongodb+srv://sawyer:<db_password>@cluster0.abcd1.mongodb.net/?retryWrites=true&w=majority
+   ```
+
+4. Replace `<db_password>` with the password from 1b, and put a database name before
+   the `?` — the site creates the database and collection itself, so any name works:
+
+   ```
+   mongodb+srv://sawyer:mypassword@cluster0.abcd1.mongodb.net/sawyer?retryWrites=true&w=majority
+   ```
+
+Note the **whole string** is the value: no quotes, no spaces, all on one line.
+
+### 1e. Put it in Vercel
+
+1. Vercel → your project → **Settings → Environment Variables → Add New**.
+2. Name `MONGODB_URI`, value the string from 1d.
+3. Tick **Production** and **Preview**, then **Save**.
+4. **Deployments → the newest one → ⋯ → Redeploy.** Variables are read when a
+   deployment starts, so the old one keeps using the old settings until you redeploy.
+5. Open `https://your-site/admin`, sign in with `ADMIN_PASSWORD`, and look at the line
+   under the heading: `0 stored. Newest first.` means it is connected. Send a test
+   enquiry from `/start` and it should appear.
+
+### If `/admin` reports a problem
+
+The panel tells you which of these it is, and the raw driver error underneath.
+
+| What it says | What to do |
+|---|---|
+| `Add MONGODB_URI to your environment variables and redeploy` | The running deployment has no `MONGODB_URI`. Set it, then **redeploy** — editing the variable alone does nothing. |
+| `Authentication failed` | The password in the string does not match the database user, or the deployment is still using the old value. Reset the password in **Database Access** and paste the string again. |
+| `Server selection timed out` / `ETIMEDOUT` | Network Access does not include `0.0.0.0/0`, or the cluster is paused. Free clusters pause after long idle periods — open Atlas and click **Resume**. |
+| `Invalid scheme` / `Invalid URL` | The value picked up quotes, a newline or a line break. Paste it again as a single unquoted string. |
+
+If storage is missing or unreachable nothing crashes: `/admin` explains it instead of
+throwing, `/dashboard` says the client side is switched off, and the enquiry form falls
+back to a pre-filled email.
 
 ---
 
-## 3. Deploy to Vercel
+## 2. Deploy to Vercel
 
 1. Push this repository to GitHub.
 2. <https://vercel.com/new> → import the repo. Next.js is detected automatically; leave
@@ -121,7 +190,7 @@ not be reached instead of throwing, and the form falls back to email.
 The API routes are deployed as Vercel Functions in the same project, so they are live on
 the same URL as the site — no extra hosting, no separate backend.
 
-## 4. Put it on your domain
+## 3. Put it on your domain
 
 1. **Vercel → project → Settings → Domains → Add Domain**, and enter your domain.
 2. Vercel shows the exact DNS records to create at your registrar:
@@ -147,14 +216,14 @@ follow the production domain that Vercel reports, and the session cookies are ma
 
 ---
 
-## 5. Using it
+## 4. Using it
 
 ### The enquiry form — `/start`
 A visitor fills it in, and on submit:
 
 - the enquiry is stored, and a client dashboard is created for them;
 - they are signed in and shown their **access code** with a copy button and a link in;
-- you get an email (if Plunk is set) with every answer and the code.
+- nothing is emailed — the stored record is what you read in `/admin`.
 
 A hidden honeypot field catches bots: if it is filled, the request is silently dropped.
 
@@ -212,7 +281,7 @@ legal pages in `content/legal.ts`.
 | Symptom | Cause |
 |---|---|
 | `/admin` says storage could not be reached | `MONGODB_URI` is missing or wrong, or Atlas network access blocks the connection |
-| The form says your enquiry was saved but no email arrived | `PLUNK_SECRET_KEY` is unset, or the sending domain is not verified in Plunk |
-| The form offers a pre-filled email instead of confirming | Neither storage nor email is configured — set at least one |
+| No email arrives when someone enquires | By design — there is no email service. Every enquiry is in `/admin`, newest first |
+| The form offers a pre-filled email instead of confirming | `MONGODB_URI` is missing or unreachable, so nothing could be stored — see [section 1e](#1e-put-it-in-vercel) |
 | Cannot sign in on the live domain | You are on `http://`; the cookies are `Secure`, so use `https://` |
 | A client cannot get in | Their code was rotated, or they are using the old code. Open their dashboard in the admin panel and issue a new one |

@@ -2,11 +2,14 @@ import { NextResponse } from "next/server";
 import { CLIENT_COOKIE, createClientToken } from "@/lib/client-auth";
 import { isSameOrigin, sessionCookie } from "@/lib/admin";
 import { isValidEmail, REQUIRED_ANSWER_NAMES, type Answer } from "@/lib/enquiry";
-import { sendProjectEnquiry } from "@/lib/notify";
 import { startProject } from "@/lib/projects";
 import { isStorageConfigured, saveSubmission } from "@/lib/submissions";
 
-/** Enquiries are delivered by email, so this route always runs on demand. */
+/**
+ * An enquiry is written to the database, which is the only place it lives —
+ * there is no mail provider in the path. /admin is where it is read back, so
+ * this route always runs on demand.
+ */
 export const dynamic = "force-dynamic";
 
 const MAX_FIELD_LENGTH = 2000;
@@ -72,7 +75,6 @@ export async function POST(request: Request) {
     );
   }
 
-  // Store first, email second: a mail outage (or a missing key) must not lose it.
   const saved = isStorageConfigured()
     ? await saveSubmission(answers)
     : { ok: false as const, error: "Storage is not configured." };
@@ -108,21 +110,10 @@ export async function POST(request: Request) {
     return response;
   };
 
-  const result = await sendProjectEnquiry(answers, email, accessCode);
-
-  if (result.ok) {
-    return respond({ ok: true, stored: saved.ok, emailed: true, accessCode });
-  }
-
   if (saved.ok) {
-    // Nothing is lost even though the email did not go out.
-    return respond({ ok: true, stored: true, emailed: false, accessCode });
+    return respond({ ok: true, stored: true, accessCode });
   }
 
-  if (!result.configured) {
-    // Nothing captured it at all — the client offers a pre-filled email instead.
-    return NextResponse.json({ ok: false, configured: false }, { status: 503 });
-  }
-
-  return NextResponse.json({ ok: false, error: result.error }, { status: 502 });
+  // Nothing captured it at all — the client offers a pre-filled email instead.
+  return NextResponse.json({ ok: false, configured: false }, { status: 503 });
 }

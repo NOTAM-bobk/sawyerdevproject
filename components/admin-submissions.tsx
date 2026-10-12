@@ -127,8 +127,8 @@ export function AdminSubmissions({
 
       {storageError ? (
         <p role="alert" className="mt-8 rounded-xl border border-red-200 bg-red-50 p-5 text-sm leading-relaxed text-red-700">
-          The database could not be reached, so nothing is listed here. Enquiries are still being
-          emailed, and anything that arrives while it is down is not stored — check{" "}
+          The database could not be reached, so nothing is listed here, and anything sent while it
+          is down is not stored — the form falls back to the pre-filled email instead. Check{" "}
           <code className="font-mono text-xs">MONGODB_URI</code> and the cluster&apos;s network access
           rules.
           <span className="mt-2 block font-mono text-[11px] break-all opacity-80">{storageError}</span>
