@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { GoogleAnalytics } from "@/components/google-analytics";
 import { JsonLd } from "@/components/json-ld";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { SiteHeader } from "@/components/site-header";
@@ -83,6 +84,7 @@ export default function RootLayout({
           </main>
           <SiteFooter />
         </div>
+        <GoogleAnalytics />
         <JsonLd data={[personSchema(), websiteSchema()]} />
       </body>
     </html>
