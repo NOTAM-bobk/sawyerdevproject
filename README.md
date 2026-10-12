@@ -1,4 +1,4 @@
-# Sawyer Schulz — personal site
+# Sawyer Schulz — personal site r
 
 A Vercel-styled personal site with hand-drawn accents, plus the backend behind it:
 the enquiry form, a password-protected admin panel, and a private dashboard for each client.
