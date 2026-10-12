@@ -2,18 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  Check,
-  Copy,
-  CreditCard,
-  DollarSign,
-  ExternalLink,
-  FilePlus2,
-  FileText,
-  Loader2,
-  Plus,
-  Trash2,
-} from "lucide-react";
+import { Check, Copy, ExternalLink, FilePlus2, FileText, Loader2, Plus, Trash2 } from "lucide-react";
 import type { Invoice } from "@/lib/invoice-types";
 
 function formatCurrency(amount: number) {

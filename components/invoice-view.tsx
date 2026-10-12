@@ -3,17 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  Check,
-  CreditCard,
-  FileCheck2,
-  FileText,
-  Loader2,
-  Lock,
-  Printer,
-  ShieldCheck,
-  Sparkles,
-} from "lucide-react";
+import { Check, FileCheck2, FileText, Loader2, Lock, Printer, ShieldCheck } from "lucide-react";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import type { Invoice } from "@/lib/invoice-types";
 
@@ -77,7 +67,7 @@ export function InvoiceView({
     }
   }
 
-  async function handleApprove(data: { orderID: string; [key: string]: any }) {
+  async function handleApprove(data: { orderID?: string; orderId?: string }) {
     const orderId = data.orderID || data.orderId;
     setProcessing(true);
     setErrorMessage(null);
