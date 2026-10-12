@@ -12,12 +12,12 @@ import { breadcrumbSchema } from "@/lib/seo";
 export const metadata: Metadata = {
   title: "Experience",
   description:
-    "Sawyer Schulz's work: a site for an 800m runner, client websites in Minneapolis, and 71 public repositories on GitHub.",
+    "Sawyer Schulz's work: five years of websites, client sites in Minneapolis, and 71 public repositories on GitHub.",
   alternates: { canonical: "/experience" },
   openGraph: {
     title: "Experience — Sawyer Schulz",
     description:
-      "A runner's site, client websites in Minneapolis, and 71 public repositories on GitHub.",
+      "Five years of websites, client work in Minneapolis, and 71 public repositories on GitHub.",
     url: "/experience",
   },
 };

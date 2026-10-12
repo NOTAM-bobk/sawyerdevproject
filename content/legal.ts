@@ -61,8 +61,8 @@ export const terms = {
     {
       heading: "Payment",
       body: [
-        "Half up front to book the work, half when the site launches. Prices are in US dollars.",
-        "If you cancel: the deposit covers the work already done, and anything finished is handed over to you.",
+        "Nothing up front. The $299 is due once the site is built and you have seen it — so you can look before you pay. Prices are in US dollars.",
+        "If you change your mind before paying, that is fine: you owe nothing, and the code and design files stay with me.",
       ],
     },
     {

@@ -60,7 +60,7 @@ const LANGUAGE_COLORS: Record<string, string> = {
 
 const UNKNOWN_LANGUAGE_COLOR = "#8b8b8b";
 
-function colorFor(language: string) {
+export function languageColor(language: string) {
   return LANGUAGE_COLORS[language] ?? UNKNOWN_LANGUAGE_COLOR;
 }
 
@@ -144,14 +144,14 @@ function build(
     languages: languages.map((item) => ({
       ...item,
       share: Math.round((item.count / languageTotal) * 100),
-      color: colorFor(item.name),
+      color: languageColor(item.name),
     })),
     repos: repos.map((repo) => ({
       name: repo.name,
       description: repo.description,
       stars: repo.stars,
       href: `https://github.com/${site.github}/${repo.name}`,
-      color: repo.language ? colorFor(repo.language) : UNKNOWN_LANGUAGE_COLOR,
+      color: repo.language ? languageColor(repo.language) : UNKNOWN_LANGUAGE_COLOR,
     })),
   };
 }

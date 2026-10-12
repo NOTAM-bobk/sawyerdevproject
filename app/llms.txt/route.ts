@@ -14,7 +14,7 @@ export function GET() {
 
 > ${site.role}, based in ${site.location}. Designs and builds websites for people and small businesses at one fixed price of ${option.price}.
 
-${site.name} is a student developer and distance runner in ${site.location}, reachable at ${site.email} or ${site.phone}.
+${site.name} is a web designer and developer in ${site.location}, reachable at ${site.email} or ${site.phone}.
 
 ## Pages
 
@@ -28,6 +28,7 @@ ${site.name} is a student developer and distance runner in ${site.location}, rea
 
 - ${option.name}: ${option.price} ${option.priceNote}. ${option.for}
 - Typical turnaround: ${option.turnaround}
+- Payment: no upfront cost. The ${option.price} is due once the site is built and the client has seen it.
 - Service area: ${site.location}, plus remote work.
 
 ## Projects

@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { CtaBand } from "@/components/cta-band";
-import { SketchCircle, SketchHighlight, SketchSparkle } from "@/components/doodles";
+import { SketchHighlight, SketchSparkle } from "@/components/doodles";
 import { GithubPanel } from "@/components/github-panel";
 import { PricingCard } from "@/components/pricing-card";
 import { ProjectCard } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
+import { Reviews } from "@/components/reviews";
 import {
   ButtonLink,
-  Circled,
   Container,
   MetaRow,
   Scribbled,
@@ -121,13 +121,13 @@ export default function HomePage() {
                       real deadlines
                       <SketchHighlight
                         delay={400}
-                        className="absolute inset-x-0 top-[0.1em] h-[0.82em] w-full text-warm/30"
+                        className="absolute inset-x-0 top-[0.1em] h-[0.82em] w-full text-warm"
                       />
                     </span>
                     .
                   </>
                 }
-                description="Both of these are live right now. I designed them, built them, and I keep them updated."
+                description="Two of the twelve. Both live right now, both designed, built and maintained by me."
               />
               <ButtonLink href="/projects" variant="secondary" className="shrink-0">
                 All projects
@@ -189,7 +189,15 @@ export default function HomePage() {
               eyebrow="The offer"
               title={
                 <>
-                  One site, <Circled delay={600}>$299</Circled>, done.
+                  One site,{" "}
+                  <span className="relative inline-block px-1">
+                    <SketchHighlight
+                      delay={600}
+                      className="absolute inset-x-[-0.15em] top-[0.06em] h-[0.88em] w-[calc(100%+0.3em)] text-warm"
+                    />
+                    <span className="relative">$299</span>
+                  </span>
+                  , done.
                 </>
               }
               description="A complete site for $299. Design, build, domain and launch, with the source code handed over at the end."
@@ -214,8 +222,11 @@ export default function HomePage() {
             <dl className="grid grid-cols-2 gap-5">
               {stats.map((stat) => (
                 <div key={stat.label} className="surface surface-lift p-6">
-                  <dd className="relative inline-block px-4 py-1.5 text-3xl font-semibold tracking-[-0.04em]">
-                    <SketchCircle className="absolute inset-0 h-full w-full text-warm/60" delay={400} />
+                  <dd className="relative inline-block px-2 py-1 text-3xl font-semibold tracking-[-0.04em]">
+                    <SketchHighlight
+                      className="absolute inset-0 h-full w-full text-warm"
+                      delay={400}
+                    />
                     <span className="relative">{stat.value}</span>
                   </dd>
                   <dt className="mt-4 text-xs leading-relaxed text-muted">{stat.label}</dt>
@@ -226,6 +237,9 @@ export default function HomePage() {
         </Container>
       </Section>
 
+      {/* ------------------------------------------------------------- Reviews */}
+      <Reviews />
+
       {/* -------------------------------------------------------------- Pricing */}
       <Section className="relative overflow-hidden bg-mist">
         <div aria-hidden="true" className="absolute inset-0 tint-plum" />
@@ -235,7 +249,7 @@ export default function HomePage() {
               align="center"
               eyebrow="Pricing"
               title="One price. Nothing to add."
-              description="Half to start, half at launch. If your project does not fit the package, I say so before you pay anything."
+              description="No upfront cost. You see the finished site first, then pay — and if your project does not fit the package I say so before we start."
             />
           </Reveal>
           <Reveal delay={100} className="mx-auto mt-14 max-w-md">

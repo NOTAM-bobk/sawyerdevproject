@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/json-ld";
 import { PageHero } from "@/components/page-hero";
 import { PricingCard } from "@/components/pricing-card";
 import { Reveal } from "@/components/reveal";
+import { Reviews } from "@/components/reviews";
 import { Container, Section, SectionHeading } from "@/components/ui";
 import { pricing, site } from "@/content/site";
 import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/seo";
@@ -13,12 +14,12 @@ import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/seo";
 export const metadata: Metadata = {
   title: "Pricing — one full site for $299",
   description:
-    "One fixed-price package: a complete custom website for $299, designed, built and launched by Sawyer Schulz. Includes up to 5 pages, SEO basics, and a contact form.",
+    "One fixed-price package: a complete custom website for $299, designed, built and launched by Sawyer Schulz. No upfront cost — you pay once the site is built. Includes up to 5 pages, SEO basics and a contact form.",
   alternates: { canonical: "/pricing" },
   openGraph: {
     title: "Pricing — one full site for $299",
     description:
-      "A complete custom website for $299, fixed price. Up to 5 pages, custom design, SEO basics, deployed to your domain.",
+      "A complete custom website for $299, fixed price and no upfront cost — you pay once the site is built. Up to 5 pages, custom design, SEO basics, deployed to your domain.",
     url: "/pricing",
   },
 };
@@ -46,7 +47,8 @@ export default function PricingPage() {
           </Reveal>
           <Reveal delay={100}>
             <p className="mx-auto mt-8 max-w-2xl text-center text-sm leading-relaxed text-muted text-pretty">
-              Bigger than a site — an app, a rebuild, or ongoing work? Those are quoted separately.{" "}
+              <span className="font-medium text-ink">Nothing up front.</span> You see the finished
+              site before you pay, so there is no deposit and no risk in starting. Bigger than a site — an app, a rebuild, or ongoing work? Those are quoted separately.{" "}
               <a
                 href={`mailto:${site.email}`}
                 className="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
@@ -88,11 +90,11 @@ export default function PricingPage() {
                 },
                 {
                   title: "I design and build it",
-                  body: "You get a fixed $299 quote up front, then progress updates as the site comes together.",
+                  body: "You get a fixed $299 quote before any work starts, then progress updates as the site comes together. You haven't paid anything yet.",
                 },
                 {
-                  title: "You review, I launch",
-                  body: "One revision round, then it goes live on your domain — with a handover doc for anything you want to change later.",
+                  title: "You review, then pay",
+                  body: "You look over the finished site and pay the $299 once it's built. One revision round, then it goes live on your domain with a handover doc.",
                 },
               ].map((step, index) => (
                 <Reveal
@@ -152,6 +154,8 @@ export default function PricingPage() {
           </div>
         </Container>
       </Section>
+
+      <Reviews />
 
       <CtaBand
         title="Ready when you are."

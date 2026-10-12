@@ -71,7 +71,7 @@ export function serviceSchema() {
     "@id": `${site.url}#service`,
     name: "Website design and development",
     serviceType: "Website design and development",
-    description: `Custom website design and development for people and small businesses. One fixed price of ${option.price} for a complete site of up to five pages.`,
+    description: `Custom website design and development for people and small businesses. One fixed price of ${option.price} for a complete site of up to five pages, with no upfront cost — payment is due once the site is built.`,
     provider: { "@id": `${site.url}#person` },
     areaServed: [
       { "@type": "City", name: "Minneapolis" },
@@ -84,7 +84,7 @@ export function serviceSchema() {
       price: "299",
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",
-      description: option.for,
+      description: `${option.for} No upfront cost; payment is due once the site is built.`,
       priceSpecification: {
         "@type": "PriceSpecification",
         price: "299",
@@ -102,12 +102,23 @@ export function projectsSchema() {
     "@type": "ItemList",
     "@id": `${site.url}/projects#list`,
     name: "Projects",
-    itemListElement: projects.items.map((project, index) => ({
+    itemListElement: [
+      ...projects.items.map((project) => ({
+        name: project.name,
+        href: project.href,
+        description: project.summary,
+      })),
+      ...projects.more.map((project) => ({
+        name: project.name,
+        href: project.href,
+        description: project.description,
+      })),
+    ].map((project, index) => ({
       "@type": "ListItem",
       position: index + 1,
       name: project.name,
       url: project.href,
-      description: project.summary,
+      description: project.description,
     })),
   };
 }

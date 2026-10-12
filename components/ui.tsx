@@ -87,40 +87,6 @@ export function Scribbled({
   );
 }
 
-/** Word wrapped in a freehand loop. */
-export function Circled({
-  children,
-  className = "",
-  delay = 700,
-}: {
-  children: ReactNode;
-  className?: string;
-  delay?: number;
-}) {
-  return (
-    <span className={`relative inline-block px-3 ${className}`}>
-      <span className="relative z-10">{children}</span>
-      <svg
-        viewBox="0 0 300 120"
-        fill="none"
-        preserveAspectRatio="none"
-        aria-hidden="true"
-        className="doodle-draw absolute inset-0 h-full w-full text-ink"
-      >
-        <path
-          d="M168 10C96 4 24 26 21 59c-3 33 67 55 139 53 58-2 122-20 124-51 2-26-53-46-118-49-25-1-49 0-71 3"
-          pathLength={1}
-          stroke="currentColor"
-          strokeWidth={3}
-          strokeLinecap="round"
-          vectorEffect="non-scaling-stroke"
-          style={{ animationDelay: `${delay}ms` }}
-        />
-      </svg>
-    </span>
-  );
-}
-
 const tagTones = {
   neutral: "text-muted",
   warm: "text-warm-deep",

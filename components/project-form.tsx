@@ -28,11 +28,20 @@ export function ProjectForm() {
 
   const answers = useMemo<Answer[]>(
     () =>
-      STEPS.flatMap((entry) => entry.fields).map((field) => ({
-        name: field.name,
-        label: field.label,
-        value: values[field.name] ?? (field.type === "checks" ? [] : ""),
-      })),
+      STEPS.flatMap((entry) => entry.fields).map((field) => {
+        const raw = values[field.name] ?? (field.type === "checks" ? [] : "");
+        // Choice fields hold option values; show the labels a person actually picked.
+        const display = (value: string) =>
+          field.type === "radio" || field.type === "checks"
+            ? (field.options.find((option) => option.value === value)?.label ?? value)
+            : value;
+
+        return {
+          name: field.name,
+          label: field.label,
+          value: Array.isArray(raw) ? raw.map(display) : display(raw),
+        };
+      }),
     [values],
   );
 
@@ -249,7 +258,7 @@ export function ProjectForm() {
             );
           })}
         </ol>
-        <span className="font-mono text-[11px] tracking-wide text-muted">
+        <span className="font-mono text-[11px] tracking-wide whitespace-nowrap text-muted">
           Step {stepIndex + 1} of {STEPS.length}
         </span>
       </div>
