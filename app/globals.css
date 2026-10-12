@@ -122,3 +122,152 @@
     animation: rise 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 }
+
+/* ---- Scroll reveal ------------------------------------------------------- */
+
+[data-reveal] {
+  transition:
+    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-reveal="visible"] {
+  opacity: 1;
+  transform: none;
+}
+
+[data-reveal="hidden"] {
+  opacity: 0;
+}
+
+[data-reveal="hidden"][data-variant="up"] {
+  transform: translate3d(0, 28px, 0);
+}
+
+[data-reveal="hidden"][data-variant="left"] {
+  transform: translate3d(-28px, 0, 0);
+}
+
+[data-reveal="hidden"][data-variant="right"] {
+  transform: translate3d(28px, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal="hidden"] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---- Ambient background motion ------------------------------------------ */
+
+@keyframes grid-pan {
+  to {
+    background-position:
+      64px 64px,
+      64px 64px;
+  }
+}
+
+@keyframes dots-drift {
+  to {
+    background-position: 18px 18px;
+  }
+}
+
+@keyframes blob-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(3.5%, -4%, 0) scale(1.08);
+  }
+  66% {
+    transform: translate3d(-4%, 3%, 0) scale(0.95);
+  }
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0) rotate(6deg);
+  }
+}
+
+@keyframes drift-x {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(14px, -8px, 0);
+  }
+}
+
+@layer utilities {
+  .anim-grid-pan {
+    animation: grid-pan 24s linear infinite;
+  }
+
+  .anim-dots-drift {
+    animation: dots-drift 18s linear infinite;
+  }
+
+  .anim-blob {
+    animation: blob-drift 22s ease-in-out infinite;
+  }
+
+  .anim-blob-slow {
+    animation: blob-drift 34s ease-in-out infinite reverse;
+  }
+
+  .anim-float {
+    animation: float-soft 9s ease-in-out infinite;
+  }
+
+  .anim-drift {
+    animation: drift-x 14s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-grid-pan,
+  .anim-dots-drift,
+  .anim-blob,
+  .anim-blob-slow,
+  .anim-float,
+  .anim-drift {
+    animation: none;
+  }
+}
+
+/* Scroll-linked ambient fade, where the browser supports scroll timelines. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-dim {
+      animation: scroll-dim linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 80vh;
+    }
+  }
+}
+
+@keyframes scroll-dim {
+  to {
+    opacity: 0.35;
+  }
+}
+
+/* Doodles inside a section that has not scrolled in yet wait their turn. */
+[data-reveal="hidden"] .doodle-draw path,
+[data-reveal="hidden"] .doodle-draw circle,
+[data-reveal="hidden"] .doodle-draw ellipse,
+[data-reveal="hidden"] .doodle-draw line {
+  animation-play-state: paused;
+}

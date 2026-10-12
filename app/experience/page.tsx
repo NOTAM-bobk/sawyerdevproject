@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { CtaBand } from "@/components/cta-band";
 import { SketchSparkle } from "@/components/doodles";
 import { PageHero } from "@/components/page-hero";
+import { Reveal } from "@/components/reveal";
 import { Timeline } from "@/components/timeline";
 import { ButtonLink, Container, Section, SectionHeading, Tag } from "@/components/ui";
 import { about, experience, site } from "@/content/site";
@@ -46,8 +47,13 @@ export default function ExperiencePage() {
           <div>
             <SectionHeading eyebrow="Education" title="Foundations." />
             <ul className="mt-10 space-y-5">
-              {experience.education.map((item) => (
-                <li key={item.title} className="rounded-xl border border-line bg-paper p-6">
+              {experience.education.map((item, index) => (
+                <Reveal
+                  as="li"
+                  key={item.title}
+                  delay={index * 90}
+                  className="rounded-xl border border-line bg-paper p-6 transition-colors duration-300 hover:border-line-strong"
+                >
                   <div className="flex flex-wrap items-baseline justify-between gap-3">
                     <h3 className="text-base font-medium tracking-[-0.02em]">{item.title}</h3>
                     <span className="font-mono text-[11px] tracking-wide text-muted uppercase">
@@ -58,7 +64,7 @@ export default function ExperiencePage() {
                   <p className="mt-3 text-sm leading-relaxed text-muted text-pretty">
                     {item.detail}
                   </p>
-                </li>
+                </Reveal>
               ))}
             </ul>
           </div>
@@ -66,8 +72,8 @@ export default function ExperiencePage() {
           <div>
             <SectionHeading eyebrow="Skills" title="What I'm fluent in." />
             <div className="mt-10 space-y-7">
-              {about.toolbox.map((group) => (
-                <div key={group.group}>
+              {about.toolbox.map((group, index) => (
+                <Reveal key={group.group} delay={index * 80}>
                   <h3 className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase">
                     {group.group}
                   </h3>
@@ -76,7 +82,7 @@ export default function ExperiencePage() {
                       <Tag key={item}>{item}</Tag>
                     ))}
                   </div>
-                </div>
+                </Reveal>
               ))}
             </div>
             <p className="mt-10 flex items-start gap-2 text-sm leading-relaxed text-muted text-pretty">

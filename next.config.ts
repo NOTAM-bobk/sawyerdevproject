@@ -12,6 +12,10 @@ const allowedDevOrigins = (process.env.NEXT_DEV_ALLOWED_ORIGINS ?? "")
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   allowedDevOrigins,
+  images: {
+    // The header avatar comes from the DiceBear HTTP API.
+    remotePatterns: [{ protocol: "https", hostname: "api.dicebear.com", pathname: "/**" }],
+  },
 };
 
 export default nextConfig;

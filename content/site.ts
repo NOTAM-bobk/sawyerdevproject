@@ -7,10 +7,17 @@ export const site = {
   name: "Sawyer Schulz",
   shortName: "Sawyer",
   initials: "SS",
+  /** DiceBear avatar used as the logo mark in the header. */
+  avatar: {
+    style: "notionists",
+    seed: "Sawyer Schulz",
+  },
   role: "Software Engineer",
   tagline: "I design and build fast, clean web products.",
-  location: "Denver, Colorado",
-  timezone: "MST (UTC−7)",
+  location: "Minneapolis, Minnesota",
+  timezone: "CT (UTC−6)",
+  phone: "(612) 444-3853",
+  phoneHref: "tel:+16124443853",
   availability: "Available for new projects",
   availabilityDetail: "2 slots open — Q1 2027",
   email: "hello@sawyerschulz.dev",
@@ -82,13 +89,14 @@ export const about = {
   paragraphs: [
     "I started building for the web in 2018, hacking together a scheduling tool for the bike shop where I worked. It broke constantly and I loved it. Ten years of side projects, contract work and full-time product teams later, I've learned that most of engineering is editing: fewer dependencies, fewer abstractions, fewer places for something to go wrong.",
     "Today I work with founders and small product teams who need someone who can own a slice of the stack end to end — talk to customers on Monday, sketch an interface on Tuesday, ship it behind a feature flag on Friday. I'm comfortable being the only engineer in the room and equally happy pairing inside a larger platform team.",
-    "Outside of work you'll find me on a gravel bike somewhere west of Denver, over-engineering a coffee routine, or writing long-form notes about the tools I use. I answer email myself, usually within a day.",
+    "Outside of work you'll find me out on a long run around the lakes, over-engineering a coffee routine, or writing notes about the tools I use. I answer email myself, usually within a day.",
   ],
   currently: [
     { label: "Currently", value: "Senior Software Engineer at Northlight" },
     { label: "Focus", value: "TypeScript, product, developer experience" },
     { label: "Open to", value: "Contract work & advisory" },
-    { label: "Based in", value: "Denver, Colorado (MST)" },
+    { label: "Based in", value: "Minneapolis, Minnesota (CT)" },
+    { label: "Phone", value: "(612) 444-3853" },
   ],
   toolbox: [
     { group: "Languages", items: ["TypeScript", "JavaScript", "Python", "SQL", "Go"] },
@@ -178,87 +186,81 @@ export const experience = {
   ],
 } as const;
 
+export type ProjectLink = { label: string; href: string };
+export type ProjectFact = { label: string; value: string };
+
+export type Project = {
+  name: string;
+  kind: string;
+  year: string;
+  href: string;
+  summary: string;
+  detail: string;
+  highlights: readonly string[];
+  tags: readonly string[];
+  facts: readonly ProjectFact[];
+  links: readonly ProjectLink[];
+  featured?: boolean;
+};
+
 export const projects = {
   eyebrow: "Projects",
-  title: "Things I've built and still stand behind.",
+  title: "Things I've built and shipped.",
   intro:
-    "A mix of client work, products and open source. Source and live links included wherever they're public.",
-  featured: {
-    name: "Tempo",
-    kind: "Product",
-    year: "2026",
-    summary:
-      "A calm time-tracking app for freelancers. One keystroke to start, one to stop, and reports that actually make sense at invoicing time.",
-    detail:
-      "Built solo: a Next.js app with local-first storage, an offline-friendly sync layer, and a Postgres backend on top of Drizzle. Currently in private beta with 120 users.",
-    tags: ["Next.js", "TypeScript", "Drizzle", "Postgres", "Stripe"],
-    metrics: [
-      { value: "120", label: "Private beta users" },
-      { value: "1.2s", label: "p75 load time" },
-      { value: "0", label: "Paid ads run" },
-    ],
-    links: [
-      { label: "Live site", href: "https://example.com" },
-      { label: "Source", href: "https://github.com/" },
-    ],
-  },
+    "Two sites I designed, built and maintain — both live, both used by real people, both built to feel quick on a phone.",
   items: [
     {
-      name: "Northlight Reporting",
-      kind: "Client work",
-      year: "2025",
+      name: "Niko Schultz — 800m",
+      kind: "Athlete site",
+      year: "2026",
+      href: "https://nikoschultz.base31.org",
+      featured: true,
       summary:
-        "A rebuilt analytics surface for a B2B platform — streaming tables, saved views and a query builder non-technical users can drive.",
-      tags: ["Next.js", "tRPC", "Postgres"],
-      href: "https://example.com",
+        "A results-first site for a Puerto Rico-eligible 800m runner: personal bests, race reports, a news timeline and a video hub in one fast page.",
+      detail:
+        "Every performance is traceable — each personal best and achievement links out to the official result or race report behind it. The news timeline follows NCAA and international seasons, so the site stays current through the year.",
+      highlights: [
+        "Personal-best and achievement cards, each linked to its source result",
+        "A rolling news timeline across NCAA and international racing",
+        "Video and social hub built around the athlete's own channels",
+      ],
+      tags: ["Athlete portfolio", "Results & stats", "Timeline", "Video hub"],
+      facts: [
+        { label: "Role", value: "Design & build" },
+        { label: "Status", value: "Live" },
+        { label: "Type", value: "Independent project" },
+      ],
+      links: [{ label: "Visit site", href: "https://nikoschultz.base31.org" }],
     },
     {
-      name: "Sundial",
-      kind: "Open source",
-      year: "2025",
+      name: "Sawyer Schulz — Portfolio",
+      kind: "Personal site",
+      year: "2026",
+      href: "https://sawyerschulz.base31.org",
       summary:
-        "A tiny cron and background-job runner for Next.js apps. Zero infrastructure, 4kb, works in any serverless runtime.",
-      tags: ["TypeScript", "Serverless"],
-      href: "https://github.com/",
-    },
-    {
-      name: "Cedar Inventory Sync",
-      kind: "Client work",
-      year: "2023",
-      summary:
-        "An inventory sync service moving 2M+ SKU updates a day between warehouses, POS systems and a storefront.",
-      tags: ["Node.js", "Redis", "AWS"],
-      href: "https://example.com",
-    },
-    {
-      name: "Inkwell",
-      kind: "Side project",
-      year: "2024",
-      summary:
-        "A markdown notes app with a hand-drawn feel: sketch annotations, offline vaults and end-to-end encrypted sync.",
-      tags: ["React", "IndexedDB", "CRDT"],
-      href: "https://github.com/",
-    },
-    {
-      name: "Atlas Design System",
-      kind: "Open source",
-      year: "2022",
-      summary:
-        "A headless component library and token pipeline powering four products from a single theme file.",
-      tags: ["React", "Radix", "Style Dictionary"],
-      href: "https://github.com/",
-    },
-    {
-      name: "Ridgeline",
-      kind: "Client work",
-      year: "2022",
-      summary:
-        "Booking and route-planning tooling for a regional outdoor guide company, including an offline-first field app.",
-      tags: ["React", "PWA", "Mapbox"],
-      href: "https://example.com",
+        "My own corner of the web: the projects I'm building, what I'm learning, race results and how to reach me.",
+      detail:
+        "Built phone-first, because the link gets shared at the track more often than at a desk. Projects, technical skills, race results and contact details each get a clear home.",
+      highlights: [
+        "Projects, technical skills and race results in one place",
+        "Phone-first layout that loads fast on a bad connection",
+        "A single link to share after a race or a meet",
+      ],
+      tags: ["Portfolio", "Race results", "Responsive"],
+      facts: [
+        { label: "Role", value: "Design & build" },
+        { label: "Status", value: "Live" },
+        { label: "Type", value: "Personal project" },
+      ],
+      links: [{ label: "Visit site", href: "https://sawyerschulz.base31.org" }],
     },
   ],
-} as const;
+} as const satisfies {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  items: readonly Project[];
+};
 
 export const pricing = {
   eyebrow: "Pricing",

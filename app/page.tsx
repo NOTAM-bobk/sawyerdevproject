@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { CtaBand } from "@/components/cta-band";
-import { SketchArrow, SketchCircle, SketchHighlight } from "@/components/doodles";
+import { SketchArrow, SketchCircle, SketchHighlight, SketchSparkle } from "@/components/doodles";
 import { PricingCard } from "@/components/pricing-card";
 import { ProjectCard } from "@/components/project-card";
+import { Reveal } from "@/components/reveal";
 import {
   ButtonLink,
   Circled,
@@ -17,13 +18,28 @@ import {
 import { about, experience, pillars, pricing, projects, site, stack, stats } from "@/content/site";
 
 export default function HomePage() {
-  const selected = projects.items.slice(0, 3);
+  const selected = projects.items.slice(0, 2);
 
   return (
     <>
       {/* ---------------------------------------------------------------- Hero */}
       <section className="relative overflow-hidden">
-        <div aria-hidden="true" className="absolute inset-0 bg-grid bg-grid-fade" />
+        <div aria-hidden="true" className="scroll-dim absolute inset-0">
+          <div className="absolute inset-0 bg-grid bg-grid-fade anim-grid-pan" />
+          <div className="anim-blob absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(10,10,10,0.07),transparent)]" />
+          <div className="anim-blob-slow absolute top-24 -right-24 h-80 w-80 rounded-full bg-[radial-gradient(closest-side,rgba(10,10,10,0.06),transparent)]" />
+          <div className="anim-blob-slow absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-[radial-gradient(closest-side,rgba(10,10,10,0.05),transparent)]" />
+          <span className="anim-float absolute top-28 left-[9%] hidden md:block">
+            <SketchSparkle className="h-4 w-4 text-line-strong" />
+          </span>
+          <span className="anim-drift absolute top-1/2 right-[10%] hidden md:block">
+            <SketchSparkle className="h-3 w-3 text-line-strong" delay={300} />
+          </span>
+          <span className="anim-float absolute bottom-24 left-[18%] hidden lg:block">
+            <SketchSparkle className="h-5 w-5 text-line-strong" delay={600} />
+          </span>
+        </div>
+
         <Container className="relative py-20 md:py-32">
           <div className="mx-auto max-w-3xl text-center">
             <span className="animate-rise inline-flex items-center gap-2 rounded-full border border-line bg-paper/80 px-3 py-1.5 font-mono text-[11px] tracking-[0.14em] text-muted uppercase backdrop-blur">
@@ -47,8 +63,8 @@ export default function HomePage() {
               className="animate-rise mx-auto mt-8 max-w-xl text-base leading-relaxed text-muted text-pretty md:text-lg"
               style={{ animationDelay: "160ms" }}
             >
-              I&apos;m {site.name} — a {site.role.toLowerCase()} in {site.location} who ships crisp
-              interfaces, dependable backends, and the small details that make software feel
+              I&apos;m {site.name} — a developer and distance runner in {site.location} who ships
+              crisp interfaces, dependable backends, and the small details that make software feel
               effortless.
             </p>
 
@@ -64,10 +80,7 @@ export default function HomePage() {
                 View pricing
               </ButtonLink>
               <span className="hidden items-center gap-1.5 sm:inline-flex">
-                <SketchArrow
-                  className="h-9 w-9 -scale-x-100 rotate-12 text-muted"
-                  delay={900}
-                />
+                <SketchArrow className="h-9 w-9 -scale-x-100 rotate-12 text-muted" delay={900} />
                 <span className="font-mono text-[11px] tracking-wide text-muted uppercase">
                   fixed prices
                 </span>
@@ -99,50 +112,63 @@ export default function HomePage() {
       {/* ----------------------------------------------------------- Selected */}
       <Section>
         <Container>
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <SectionHeading
-              eyebrow="Selected work"
-              title={
-                <>
-                  Projects with real users and{" "}
-                  <span className="relative inline-block">
-                    real constraints
-                    <SketchHighlight
-                      delay={400}
-                      className="absolute -inset-x-[0.03em] top-[0.16em] h-[0.75em] text-ink"
-                    />
-                  </span>
-                  .
-                </>
-              }
-              description="A few things I've shipped recently — products, client platforms and open source."
-            />
-            <ButtonLink href="/projects" variant="secondary" className="shrink-0">
-              All projects
-              <ArrowUpRight className="h-4 w-4" />
-            </ButtonLink>
-          </div>
+          <Reveal>
+            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+              <SectionHeading
+                eyebrow="Selected work"
+                title={
+                  <>
+                    Projects with real users and{" "}
+                    <span className="relative inline-block">
+                      real constraints
+                      <SketchHighlight
+                        delay={400}
+                        className="absolute -inset-x-[0.03em] top-[0.16em] h-[0.75em] text-ink"
+                      />
+                    </span>
+                    .
+                  </>
+                }
+                description="Both of these are live and maintained by me — an athlete site and my own portfolio."
+              />
+              <ButtonLink href="/projects" variant="secondary" className="shrink-0">
+                All projects
+                <ArrowUpRight className="h-4 w-4" />
+              </ButtonLink>
+            </div>
+          </Reveal>
 
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-5 sm:grid-cols-2">
             {selected.map((project, index) => (
-              <ProjectCard key={project.name} project={project} index={index} />
+              <Reveal key={project.name} delay={index * 90} className="h-full">
+                <ProjectCard project={project} index={index} className="h-full" />
+              </Reveal>
             ))}
           </div>
         </Container>
       </Section>
 
       {/* --------------------------------------------------------------- Stats */}
-      <Section className="bg-mist">
-        <Container>
+      <Section className="relative overflow-hidden bg-mist">
+        <div
+          aria-hidden="true"
+          className="anim-dots-drift absolute inset-0 bg-dots opacity-50"
+        />
+        <Container className="relative">
           <dl className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-4">
-            {stats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <dd className="relative inline-block px-6 text-4xl font-semibold tracking-[-0.04em] md:text-5xl">
-                  <SketchCircle className="absolute -inset-x-1 -inset-y-3 text-line-strong" delay={400} />
-                  <span className="relative">{stat.value}</span>
-                </dd>
-                <dt className="mt-5 text-xs leading-relaxed text-muted">{stat.label}</dt>
-              </div>
+            {stats.map((stat, index) => (
+              <Reveal key={stat.label} delay={index * 80}>
+                <div className="text-center">
+                  <dd className="relative inline-block px-6 text-4xl font-semibold tracking-[-0.04em] md:text-5xl">
+                    <SketchCircle
+                      className="absolute -inset-x-1 -inset-y-3 text-line-strong"
+                      delay={400}
+                    />
+                    <span className="relative">{stat.value}</span>
+                  </dd>
+                  <dt className="mt-5 text-xs leading-relaxed text-muted">{stat.label}</dt>
+                </div>
+              </Reveal>
             ))}
           </dl>
         </Container>
@@ -151,24 +177,28 @@ export default function HomePage() {
       {/* ------------------------------------------------------------- Pillars */}
       <Section>
         <Container>
-          <SectionHeading
-            eyebrow="What I do"
-            title="One person, the whole slice."
-            description="I'd rather own a feature from sketch to production than hand it across three desks. Here's what I'm hired for most."
-          />
+          <Reveal>
+            <SectionHeading
+              eyebrow="What I do"
+              title="One person, the whole slice."
+              description="I'd rather own a feature from sketch to production than hand it across three desks. Here's what I'm hired for most."
+            />
+          </Reveal>
           <div className="mt-12 grid gap-px overflow-hidden rounded-xl border border-line bg-line md:grid-cols-3">
-            {pillars.map((pillar) => (
-              <div key={pillar.title} className="flex flex-col bg-paper p-7">
-                <h3 className="text-base font-medium tracking-[-0.02em]">{pillar.title}</h3>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-muted text-pretty">
-                  {pillar.body}
-                </p>
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {pillar.tags.map((tag) => (
-                    <Tag key={tag}>{tag}</Tag>
-                  ))}
+            {pillars.map((pillar, index) => (
+              <Reveal key={pillar.title} delay={index * 90} className="bg-paper">
+                <div className="flex h-full flex-col bg-paper p-7">
+                  <h3 className="text-base font-medium tracking-[-0.02em]">{pillar.title}</h3>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-muted text-pretty">
+                    {pillar.body}
+                  </p>
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {pillar.tags.map((tag) => (
+                      <Tag key={tag}>{tag}</Tag>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </Container>
@@ -177,7 +207,7 @@ export default function HomePage() {
       {/* ---------------------------------------------------- Experience strip */}
       <Section className="bg-mist">
         <Container className="grid gap-12 md:grid-cols-[1fr_1.1fr] md:items-start">
-          <div>
+          <Reveal variant="left">
             <SectionHeading
               eyebrow="Experience"
               title={
@@ -198,24 +228,25 @@ export default function HomePage() {
                 <MetaRow key={item.label} label={item.label} value={item.value} />
               ))}
             </dl>
-          </div>
+          </Reveal>
 
           <ol className="space-y-6">
-            {experience.roles.slice(0, 3).map((role) => (
-              <li
-                key={`${role.company}-${role.period}`}
-                className="rounded-xl border border-line bg-paper p-6"
-              >
-                <div className="flex flex-wrap items-baseline justify-between gap-3">
-                  <h3 className="text-base font-medium tracking-[-0.02em]">
-                    {role.role} <span className="text-muted">· {role.company}</span>
-                  </h3>
-                  <span className="font-mono text-[11px] tracking-wide text-muted uppercase">
-                    {role.period}
-                  </span>
-                </div>
-                <p className="mt-2 text-sm leading-relaxed text-muted text-pretty">{role.summary}</p>
-              </li>
+            {experience.roles.slice(0, 3).map((role, index) => (
+              <Reveal key={`${role.company}-${role.period}`} variant="right" delay={index * 90}>
+                <li className="rounded-xl border border-line bg-paper p-6 transition-colors duration-300 hover:border-line-strong">
+                  <div className="flex flex-wrap items-baseline justify-between gap-3">
+                    <h3 className="text-base font-medium tracking-[-0.02em]">
+                      {role.role} <span className="text-muted">· {role.company}</span>
+                    </h3>
+                    <span className="font-mono text-[11px] tracking-wide text-muted uppercase">
+                      {role.period}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-muted text-pretty">
+                    {role.summary}
+                  </p>
+                </li>
+              </Reveal>
             ))}
           </ol>
         </Container>
@@ -224,26 +255,32 @@ export default function HomePage() {
       {/* -------------------------------------------------------------- Pricing */}
       <Section>
         <Container>
-          <SectionHeading
-            align="center"
-            eyebrow="Pricing"
-            title="Transparent pricing, no discovery-call gatekeeping."
-            description="Fixed scope and fixed price, agreed before anything is built. Every engagement includes design and engineering."
-          />
+          <Reveal>
+            <SectionHeading
+              align="center"
+              eyebrow="Pricing"
+              title="Transparent pricing, no discovery-call gatekeeping."
+              description="Fixed scope and fixed price, agreed before anything is built. Every engagement includes design and engineering."
+            />
+          </Reveal>
           <div className="mt-14 grid gap-6 md:grid-cols-3 md:items-stretch">
             {pricing.tiers.map((tier, index) => (
-              <PricingCard key={tier.name} tier={tier} delay={index * 100} />
+              <Reveal key={tier.name} delay={index * 100} className="h-full">
+                <PricingCard tier={tier} delay={index * 100} />
+              </Reveal>
             ))}
           </div>
-          <div className="mt-10 text-center">
-            <Link
-              href="/pricing"
-              className="inline-flex items-center gap-1.5 text-sm text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
-            >
-              See what&apos;s included, add-ons and FAQs
-              <ArrowUpRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
+          <Reveal delay={120}>
+            <div className="mt-10 text-center">
+              <Link
+                href="/pricing"
+                className="inline-flex items-center gap-1.5 text-sm text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
+              >
+                See what&apos;s included, add-ons and FAQs
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+          </Reveal>
         </Container>
       </Section>
 

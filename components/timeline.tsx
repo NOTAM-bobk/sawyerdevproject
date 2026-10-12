@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/reveal";
 import { Tag } from "@/components/ui";
 
 export type Role = {
@@ -14,7 +15,12 @@ export function Timeline({ roles }: { roles: readonly Role[] }) {
   return (
     <ol className="relative mt-4">
       {roles.map((role, index) => (
-        <li key={`${role.company}-${role.period}`} className="relative md:grid md:grid-cols-[200px_1fr]">
+        <Reveal
+          as="li"
+          key={`${role.company}-${role.period}`}
+          delay={index * 70}
+          className="relative md:grid md:grid-cols-[200px_1fr]"
+        >
           {/* Connector + node */}
           <span
             aria-hidden="true"
@@ -52,7 +58,7 @@ export function Timeline({ roles }: { roles: readonly Role[] }) {
               ))}
             </div>
           </article>
-        </li>
+        </Reveal>
       ))}
     </ol>
   );

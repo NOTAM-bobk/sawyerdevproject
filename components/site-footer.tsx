@@ -48,6 +48,7 @@ export function SiteFooter() {
 
           <FooterColumn title="Get in touch">
             <FooterLink href={`mailto:${site.email}`}>{site.email}</FooterLink>
+            <FooterLink href={site.phoneHref}>{site.phone}</FooterLink>
             <li className="pt-1 text-sm text-muted">{site.location}</li>
             <li className="text-sm text-muted">{site.timezone}</li>
             <li className="pt-3">
@@ -94,7 +95,7 @@ function FooterLink({
   external?: boolean;
 }) {
   const className = "text-sm text-ink-soft transition-colors hover:text-ink";
-  if (external || href.startsWith("mailto:")) {
+  if (external || href.startsWith("mailto:") || href.startsWith("tel:")) {
     return (
       <li>
         <a

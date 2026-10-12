@@ -1,10 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import { nav, site } from "@/content/site";
+import { avatarUrl } from "@/lib/dicebear";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -23,8 +25,15 @@ export function SiteHeader() {
           className="group flex items-center gap-2.5"
           aria-label={`${site.name} — home`}
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-md border border-line-strong font-mono text-[13px] font-medium tracking-tight transition-colors group-hover:border-ink">
-            {site.initials}
+          <span className="relative flex h-8 w-8 items-center justify-center overflow-hidden rounded-md border border-line-strong bg-mist transition-all duration-300 group-hover:border-ink group-hover:shadow-[0_2px_10px_-4px_rgba(0,0,0,0.35)]">
+            <Image
+              src={avatarUrl({ size: 128, format: "png" })}
+              alt=""
+              width={32}
+              height={32}
+              preload
+              className="h-full w-full scale-[1.06] object-cover transition-transform duration-300 group-hover:scale-[1.14]"
+            />
           </span>
           <span className="hidden text-sm font-medium tracking-tight sm:block">{site.name}</span>
         </Link>

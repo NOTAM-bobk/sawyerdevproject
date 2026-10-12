@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { CtaBand } from "@/components/cta-band";
 import { SketchCheck, SketchSparkle } from "@/components/doodles";
 import { PageHero } from "@/components/page-hero";
+import { Reveal } from "@/components/reveal";
 import { PricingCard } from "@/components/pricing-card";
 import { ButtonLink, Container, Section, SectionHeading } from "@/components/ui";
 import { pricing, site } from "@/content/site";
@@ -26,7 +27,9 @@ export default function PricingPage() {
         <Container>
           <div className="grid gap-6 md:grid-cols-3 md:items-stretch">
             {pricing.tiers.map((tier, index) => (
-              <PricingCard key={tier.name} tier={tier} delay={index * 100} />
+              <Reveal key={tier.name} delay={index * 100} className="h-full">
+                <PricingCard tier={tier} delay={index * 100} />
+              </Reveal>
             ))}
           </div>
           <p className="mt-8 text-center text-sm text-muted">
@@ -48,10 +51,15 @@ export default function PricingPage() {
             <SectionHeading eyebrow="Always included" title="In every project, no exceptions." />
             <ul className="mt-10 space-y-4">
               {pricing.included.map((item, index) => (
-                <li key={item} className="flex gap-3 text-sm leading-relaxed text-ink-soft">
+                <Reveal
+                  as="li"
+                  key={item}
+                  delay={index * 70}
+                  className="flex gap-3 text-sm leading-relaxed text-ink-soft"
+                >
                   <SketchCheck className="mt-0.5 h-4 w-4 shrink-0 text-ink" delay={index * 70} />
                   <span>{item}</span>
-                </li>
+                </Reveal>
               ))}
             </ul>
           </div>
@@ -59,16 +67,17 @@ export default function PricingPage() {
           <div>
             <SectionHeading eyebrow="Add-ons" title="Extras, priced up front." />
             <dl className="mt-10 overflow-hidden rounded-xl border border-line bg-paper">
-              {pricing.addons.map((addon) => (
-                <div
+              {pricing.addons.map((addon, index) => (
+                <Reveal
                   key={addon.name}
+                  delay={index * 50}
                   className="flex items-baseline justify-between gap-6 border-b border-line px-6 py-4 last:border-b-0"
                 >
                   <dt className="text-sm text-ink-soft">{addon.name}</dt>
                   <dd className="font-mono text-xs tracking-wide text-muted whitespace-nowrap">
                     {addon.price}
                   </dd>
-                </div>
+                </Reveal>
               ))}
             </dl>
             <p className="mt-6 text-sm leading-relaxed text-muted text-pretty">
@@ -87,8 +96,9 @@ export default function PricingPage() {
             description="Still unsure? Ask anyway — I'd rather answer a question than quote the wrong thing."
           />
           <div className="divide-y divide-line border-y border-line">
-            {pricing.faq.map((item) => (
-              <details key={item.q} className="group py-5">
+            {pricing.faq.map((item, index) => (
+              <Reveal key={item.q} delay={index * 60}>
+                <details className="group py-5">
                 <summary className="flex cursor-pointer list-none items-start justify-between gap-6 text-base font-medium tracking-[-0.01em] [&::-webkit-details-marker]:hidden">
                   <span className="flex items-start gap-2">
                     <SketchSparkle
@@ -107,7 +117,8 @@ export default function PricingPage() {
                 <p className="mt-3 pr-8 pl-5 text-sm leading-relaxed text-muted text-pretty">
                   {item.a}
                 </p>
-              </details>
+                </details>
+              </Reveal>
             ))}
           </div>
         </Container>
@@ -115,7 +126,7 @@ export default function PricingPage() {
 
       <Section className="bg-mist">
         <Container>
-          <div className="mx-auto max-w-2xl rounded-2xl border border-line bg-paper p-8 text-center md:p-12">
+          <Reveal className="mx-auto max-w-2xl rounded-2xl border border-line bg-paper p-8 text-center md:p-12">
             <h2 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">
               Not sure which tier fits?
             </h2>
@@ -132,7 +143,7 @@ export default function PricingPage() {
                 See past work
               </ButtonLink>
             </div>
-          </div>
+          </Reveal>
         </Container>
       </Section>
 

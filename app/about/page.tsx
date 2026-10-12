@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { ArrowUpRight, Mail } from "lucide-react";
 import { CtaBand } from "@/components/cta-band";
 import { SketchCorners, SketchSparkle } from "@/components/doodles";
 import { PageHero } from "@/components/page-hero";
+import { Reveal } from "@/components/reveal";
 import {
   ButtonLink,
   Container,
@@ -12,6 +14,7 @@ import {
   SectionHeading,
 } from "@/components/ui";
 import { about, site } from "@/content/site";
+import { avatarUrl } from "@/lib/dicebear";
 
 const SCRIBBLE_PHRASE = "fewer dependencies, fewer abstractions";
 
@@ -31,7 +34,7 @@ function highlight(paragraph: string, phrase: string) {
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Sawyer Schulz is a software engineer in Denver, Colorado building fast, clean web products — plus the toolbox and the story behind the work.",
+    "Sawyer Schulz is a student developer in Minneapolis, Minnesota building fast, clean web products — plus the toolbox and the story behind the work.",
 };
 
 export default function AboutPage() {
@@ -49,10 +52,14 @@ export default function AboutPage() {
           <div className="md:sticky md:top-24 md:self-start">
             <div className="relative rounded-2xl border border-line bg-mist p-6">
               <SketchCorners className="pointer-events-none absolute -inset-2 h-[calc(100%+1rem)] w-[calc(100%+1rem)] text-line-strong" />
-              <div className="flex aspect-square items-center justify-center rounded-xl border border-dashed border-line-strong bg-paper">
-                <span className="font-mono text-6xl font-medium tracking-tighter text-ink">
-                  {site.initials}
-                </span>
+              <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-xl border border-line-strong bg-paper">
+                <Image
+                  src={avatarUrl({ size: 384, format: "png" })}
+                  alt={`${site.name} avatar`}
+                  width={384}
+                  height={384}
+                  className="h-full w-full object-cover"
+                />
               </div>
               <div className="mt-6">
                 <p className="text-base font-medium tracking-[-0.02em]">{site.name}</p>
@@ -75,19 +82,21 @@ export default function AboutPage() {
 
           {/* Bio */}
           <div>
-            <div className="max-w-2xl space-y-5 text-base leading-relaxed text-ink-soft text-pretty">
+            <Reveal className="max-w-2xl space-y-5 text-base leading-relaxed text-ink-soft text-pretty">
               {about.paragraphs.map((paragraph, index) => (
                 <p key={paragraph.slice(0, 24)}>
                   {index === 0 ? highlight(paragraph, SCRIBBLE_PHRASE) : paragraph}
                 </p>
               ))}
-            </div>
+            </Reveal>
 
-            <dl className="mt-12 max-w-xl">
-              {about.currently.map((item) => (
-                <MetaRow key={item.label} label={item.label} value={item.value} />
-              ))}
-            </dl>
+            <Reveal delay={80}>
+              <dl className="mt-12 max-w-xl">
+                {about.currently.map((item) => (
+                  <MetaRow key={item.label} label={item.label} value={item.value} />
+                ))}
+              </dl>
+            </Reveal>
 
             <div className="mt-14">
               <h2 className="text-2xl font-semibold tracking-[-0.03em]">
@@ -111,8 +120,13 @@ export default function AboutPage() {
                     title: "Own the outcome",
                     body: "If it's slow, confusing or off-brand, that's my problem to fix — not yours to report.",
                   },
-                ].map((item) => (
-                  <li key={item.title} className="rounded-xl border border-line bg-paper p-5">
+                ].map((item, index) => (
+                  <Reveal
+                    as="li"
+                    key={item.title}
+                    delay={index * 80}
+                    className="rounded-xl border border-line bg-paper p-5 transition-colors duration-300 hover:border-line-strong"
+                  >
                     <h3 className="flex items-start gap-2 text-sm font-medium tracking-[-0.01em]">
                       <SketchSparkle className="mt-1 h-3 w-3 shrink-0 text-ink" delay={200} />
                       {item.title}
@@ -120,7 +134,7 @@ export default function AboutPage() {
                     <p className="mt-2 text-sm leading-relaxed text-muted text-pretty">
                       {item.body}
                     </p>
-                  </li>
+                  </Reveal>
                 ))}
               </ul>
             </div>
@@ -137,19 +151,19 @@ export default function AboutPage() {
             description="Not a laundry list — these are the ones I've used in production and would happily use again."
           />
           <div className="mt-12 grid gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-            {about.toolbox.map((group) => (
-              <div key={group.group} className="bg-paper p-6">
+            {about.toolbox.map((group, index) => (
+              <Reveal key={group.group} delay={index * 80} className="bg-paper p-6">
                 <h3 className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase">
                   {group.group}
                 </h3>
-                <ul className="mt-4 space-y-2">
+                <div className="mt-4 space-y-2">
                   {group.items.map((item) => (
-                    <li key={item} className="text-sm text-ink-soft">
+                    <p key={item} className="text-sm text-ink-soft">
                       {item}
-                    </li>
+                    </p>
                   ))}
-                </ul>
-              </div>
+                </div>
+              </Reveal>
             ))}
           </div>
         </Container>
@@ -164,16 +178,17 @@ export default function AboutPage() {
           />
           <div className="mt-12 grid gap-5 md:grid-cols-3">
             {about.beyondCode.map((item, index) => (
-              <div
+              <Reveal
                 key={item.title}
-                className="relative rounded-xl border border-line bg-paper p-6"
+                delay={index * 90}
+                className="relative rounded-xl border border-line bg-paper p-6 transition-colors duration-300 hover:border-line-strong"
               >
                 <span className="font-mono text-xs text-muted">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <h3 className="mt-4 text-base font-medium tracking-[-0.02em]">{item.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted text-pretty">{item.body}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
           <p className="mt-10 max-w-2xl text-sm text-muted">

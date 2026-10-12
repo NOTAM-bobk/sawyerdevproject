@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { ScrollProgress } from "@/components/scroll-progress";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { site } from "@/content/site";
@@ -25,7 +26,9 @@ export const metadata: Metadata = {
     "Next.js developer",
     "React developer",
     "TypeScript",
-    "Denver",
+    "Minneapolis",
+    "Minnesota",
+    "student developer",
   ],
   openGraph: {
     type: "website",
@@ -53,6 +56,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <ScrollProgress />
         <div className="flex min-h-screen flex-col">
           <SiteHeader />
           <main id="content" className="flex-1">
