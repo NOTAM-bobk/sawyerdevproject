@@ -36,6 +36,7 @@ export function SiteFooter() {
                 {item.label}
               </FooterLink>
             ))}
+            <FooterLink href="/start">Start a project</FooterLink>
           </FooterColumn>
 
           <FooterColumn title="Elsewhere">
@@ -53,7 +54,7 @@ export function SiteFooter() {
             <li className="text-sm text-muted">{site.timezone}</li>
             <li className="pt-3">
               <Link
-                href="/pricing"
+                href="/start"
                 className="inline-flex items-center gap-1.5 text-sm text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
               >
                 Start a project

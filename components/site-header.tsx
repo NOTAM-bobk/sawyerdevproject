@@ -58,7 +58,7 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2">
           <Link
-            href="/pricing"
+            href="/start"
             className="hidden items-center gap-1.5 rounded-full bg-ink px-4 py-2 text-[13px] font-medium text-paper transition-colors hover:bg-ink-soft sm:inline-flex"
           >
             Start a project
@@ -93,7 +93,7 @@ export function SiteHeader() {
               </Link>
             ))}
             <Link
-              href="/pricing"
+              href="/start"
               onClick={closeMenu}
               className="mt-4 inline-flex items-center justify-center gap-1.5 rounded-full bg-ink px-4 py-2.5 text-sm font-medium text-paper"
             >

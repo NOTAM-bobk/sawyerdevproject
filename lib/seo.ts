@@ -130,6 +130,21 @@ export function faqSchema() {
   };
 }
 
+/** The enquiry page, with the person who answers it. */
+export function contactPageSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "@id": `${site.url}/start#contact`,
+    url: `${site.url}/start`,
+    name: "Start a project",
+    description:
+      "Project enquiry form: what you need built, your preferred design style, pages, integrations and timeline.",
+    about: { "@id": `${site.url}#person` },
+    isPartOf: { "@id": `${site.url}#website` },
+  };
+}
+
 export function breadcrumbSchema(trail: { name: string; path: string }[]) {
   return {
     "@context": "https://schema.org",

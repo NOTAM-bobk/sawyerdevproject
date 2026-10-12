@@ -13,7 +13,11 @@ export function CtaBand({
 }) {
   return (
     <Section className="relative overflow-hidden">
-      <div aria-hidden="true" className="absolute inset-0 bg-dots opacity-60" />
+      <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 bg-dots opacity-60 anim-dots-drift" />
+        <div className="anim-blob absolute -bottom-32 -left-32 h-[360px] w-[360px] rounded-full bg-[radial-gradient(closest-side,rgba(255,116,52,0.4),rgba(255,116,52,0))]" />
+        <div className="anim-blob-slow absolute -right-32 -bottom-32 h-[380px] w-[380px] rounded-full bg-[radial-gradient(closest-side,rgba(255,178,92,0.36),rgba(255,178,92,0))]" />
+      </div>
       <Container className="relative">
         <Reveal className="mx-auto max-w-2xl text-center">
           <Eyebrow>Next up</Eyebrow>
@@ -29,6 +33,10 @@ export function CtaBand({
               </ButtonLink>
               <ButtonLink href={site.phoneHref} variant="secondary" className="px-6 py-3">
                 {site.phone}
+              </ButtonLink>
+              <ButtonLink href="/start" variant="secondary" className="px-6 py-3">
+                Start a project
+                <ArrowUpRight className="h-4 w-4" />
               </ButtonLink>
             </div>
             <SketchSquiggle className="h-3 w-48 text-line-strong" delay={400} />

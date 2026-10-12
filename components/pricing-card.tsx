@@ -1,7 +1,7 @@
+import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { SketchCheck } from "@/components/doodles";
 import { Scribbled } from "@/components/ui";
-import { site } from "@/content/site";
 
 export type PricingOption = {
   name: string;
@@ -24,9 +24,6 @@ export function PricingCard({
   /** "wide" splits the card into details + feature list for the pricing page. */
   variant?: "compact" | "wide";
 }) {
-  const mailto = `mailto:${site.email}?subject=${encodeURIComponent(
-    `${option.name} (${option.price}) — project enquiry`,
-  )}`;
   const wide = variant === "wide";
 
   const details = (
@@ -53,13 +50,13 @@ export function PricingCard({
       </p>
 
       <div className={wide ? "mt-8 flex flex-wrap items-center gap-3" : "mt-8"}>
-        <a
-          href={mailto}
+        <Link
+          href="/start"
           className="inline-flex items-center justify-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-ink-soft"
         >
           {option.cta}
           <ArrowUpRight className="h-3.5 w-3.5" />
-        </a>
+        </Link>
         <p className="font-mono text-[11px] tracking-wide text-muted">{option.turnaround}</p>
       </div>
     </>

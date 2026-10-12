@@ -25,10 +25,12 @@ export default function HomePage() {
       {/* ---------------------------------------------------------------- Hero */}
       <section className="relative overflow-hidden">
         <div aria-hidden="true" className="scroll-dim absolute inset-0">
+          {/* Warm corner glows — brightest at each corner, fading out well before the middle */}
+          <div className="anim-blob absolute -top-40 -left-40 h-[420px] w-[420px] rounded-full bg-[radial-gradient(closest-side,rgba(255,106,48,0.30),rgba(255,106,48,0.09)_58%,rgba(255,106,48,0))] md:-top-56 md:-left-56 md:h-[620px] md:w-[620px]" />
+          <div className="anim-blob-slow absolute -top-40 -right-40 h-[440px] w-[440px] rounded-full bg-[radial-gradient(closest-side,rgba(255,168,84,0.26),rgba(255,168,84,0.08)_58%,rgba(255,168,84,0))] md:-top-56 md:-right-56 md:h-[640px] md:w-[640px]" />
+
           <div className="absolute inset-0 bg-grid bg-grid-fade anim-grid-pan" />
-          <div className="anim-blob absolute -top-40 left-1/2 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(10,10,10,0.07),transparent)]" />
-          <div className="anim-blob-slow absolute top-24 -right-24 h-80 w-80 rounded-full bg-[radial-gradient(closest-side,rgba(10,10,10,0.06),transparent)]" />
-          <div className="anim-blob-slow absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-[radial-gradient(closest-side,rgba(10,10,10,0.05),transparent)]" />
+          <div className="anim-blob-slow absolute top-40 left-1/2 h-72 w-[620px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(10,10,10,0.05),transparent)]" />
           <span className="anim-float absolute top-28 left-[9%] hidden md:block">
             <SketchSparkle className="h-4 w-4 text-line-strong" />
           </span>

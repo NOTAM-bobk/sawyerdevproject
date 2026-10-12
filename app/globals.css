@@ -152,6 +152,19 @@
   transform: translate3d(28px, 0, 0);
 }
 
+/*
+ * On phones most revealed blocks are full width, so a sideways offset would
+ * push them past the container and widen the document (a sideways scrollbar
+ * on every swipe). Reveal vertically there and keep the sideways slide for
+ * wider screens, where the offset stays inside the layout.
+ */
+@media (max-width: 639px) {
+  [data-reveal="hidden"][data-variant="left"],
+  [data-reveal="hidden"][data-variant="right"] {
+    transform: translate3d(0, 24px, 0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-reveal],
   [data-reveal="hidden"] {
