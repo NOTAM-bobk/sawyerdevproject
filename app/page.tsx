@@ -25,9 +25,10 @@ export default function HomePage() {
       {/* ---------------------------------------------------------------- Hero */}
       <section className="relative overflow-hidden">
         <div aria-hidden="true" className="scroll-dim absolute inset-0">
-          {/* Warm corner glows — brightest at each corner, fading out well before the middle */}
-          <div className="anim-blob absolute -top-40 -left-40 h-[420px] w-[420px] rounded-full bg-[radial-gradient(closest-side,rgba(255,106,48,0.30),rgba(255,106,48,0.09)_58%,rgba(255,106,48,0))] md:-top-56 md:-left-56 md:h-[620px] md:w-[620px]" />
-          <div className="anim-blob-slow absolute -top-40 -right-40 h-[440px] w-[440px] rounded-full bg-[radial-gradient(closest-side,rgba(255,168,84,0.26),rgba(255,168,84,0.08)_58%,rgba(255,168,84,0))] md:-top-56 md:-right-56 md:h-[640px] md:w-[640px]" />
+          {/* Bottom aurora: electric blue through the center, blooming into violet and pink at the corners. */}
+          <div className="anim-blob absolute -bottom-72 left-1/2 h-[620px] w-[980px] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(57,125,255,0.48),rgba(93,102,255,0.30)_42%,rgba(143,75,255,0.16)_65%,transparent_78%)] blur-2xl md:-bottom-96 md:h-[760px] md:w-[1240px]" />
+          <div className="anim-blob-slow absolute -bottom-64 -left-48 h-[480px] w-[620px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(93,141,255,0.32),rgba(121,92,255,0.18)_52%,transparent_76%)] blur-2xl md:-bottom-80 md:-left-64 md:h-[620px] md:w-[760px]" />
+          <div className="anim-blob-slow absolute -right-48 -bottom-64 h-[500px] w-[660px] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,76,209,0.38),rgba(190,79,255,0.20)_48%,transparent_76%)] blur-2xl md:-right-64 md:-bottom-80 md:h-[640px] md:w-[820px]" />
 
           <div className="absolute inset-0 bg-grid bg-grid-fade anim-grid-pan" />
           <div className="anim-blob-slow absolute top-40 left-1/2 h-72 w-[620px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(10,10,10,0.05),transparent)]" />
